@@ -1,4 +1,5 @@
-module mips_cpu_bus( 
+module mips_cpu_bus
+( 
     /* Standard signals */ 
     input  logic        clk, 
     input  logic        reset, 
