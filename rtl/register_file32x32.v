@@ -20,7 +20,7 @@ module register_file(
     input logic[31:0]   write_data_d
 );
 
-    logic[31:0] regs[31:0]
+    logic[31:0] regs[31:0];
     integer i;
 
     assign read_data_a = reset ? 0 : regs[read_addr_a];
@@ -33,13 +33,11 @@ module register_file(
             end
         end
         else if (write_enable_c || write_enable_d) begin
-                if (write_enable_c) begin
-                    assert(write_addr_c != 0);
+                if (write_enable_c && (write_addr_c != 0)) begin
                     regs[write_addr_c] <= write_data_c;
                 end
 
-                if (write_enable_d) begin
-                    assert(write_addr_d != 0);
+                if (write_enable_d && (write_addr_c != 0)) begin
                     regs[write_addr_d] <= write_data_d;
                 end
         end
