@@ -1,6 +1,7 @@
 module register_file(
     input logic clk,
     input logic reset,
+    output logic[31:0] register_v0,
 
     /* 2 read ports and 2 write ports required */
       // read ports a and b
@@ -23,8 +24,12 @@ module register_file(
     logic[31:0] regs[31:0];
     integer i;
 
-    assign read_data_a = reset ? 0 : regs[read_addr_a];
-    assign read_data_b = reset ? 0 : regs[read_addr_b];
+    always_comb begin
+        register_v0 = reset ? 0 : regs[2];
+        
+        read_data_a = reset ? 0 : regs[read_addr_a];
+        read_data_b = reset ? 0 : regs[read_addr_b];
+    end
 
     always_ff @(posedge clk) begin
         if (reset) begin
@@ -42,5 +47,5 @@ module register_file(
                 end
         end
     end
-    
+
 endmodule
