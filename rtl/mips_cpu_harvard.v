@@ -53,7 +53,7 @@ module mips_cpu_harvard
     logic        ctrl_mem_to_reg; 
     logic        ctrl_alu_src; 
     logic [1:0]  ctrl_alu_op; 
-    logic [5:0]  ctrl_control_instr; 
+    logic [5:0]  ctrl_instr_opcode 
 
     // PC definitions
     logic [31:0] pc_out
@@ -67,30 +67,33 @@ module mips_cpu_harvard
 
 
     /* --- Assign relationships --- */
-    // PC add 4
-    assign add_input_1 = pc_out + four;
-
-    // PC mux
-    assign pc_mux = (ctrl_branch && alu_zero) ? add_input_2 : add_input_1; 
-
-    // Reg MUX
-    assign write_reg = (reg_dst) ? instr_readdata[15:11] : instr_readdata[20:16]; 
-
-    // Write data mux
-    assign write_data = (mem_to_reg) ? data_readdata : alu_result; 
-
-    // Control input conditions
-    assign control_instr = instr_readdata[31:26];
-
-    // alu control input
-    assign alu_control = instr_readdata[5:0];
-
-    // alu mux condition
-    assign alu_mux = (alu_src) ? sign_extended : read_data_2;
+    assign add_input_1 = pc_out + four; // PC add 4
+    assign pc_mux = (ctrl_branch && alu_zero) ? add_input_2 : add_input_1; // PC mux
+    assign write_reg = (reg_dst) ? instr_readdata[15:11] : instr_readdata[20:16]; // Reg MUX
+    assign write_data = (mem_to_reg) ? data_readdata : alu_result; // Write data mux
+    assign alu_mux = (alu_src) ? sign_extended : read_data_2; // ALU mux 
+    assign ctrl_instr_opcode = instr_readdata[31:26]; // Control input 
+    assign regfile_read_reg_1 = instr_readdata[25:21]; // Read register 1
+    assign regfile_read_reg_2 = instr_readdata[20:16]; // Read register 2
+    assign sign_extended_in = instr[15:0]; // Sign extended input
+    assign alu_control = instr_readdata[5:0]; // ALU control input
 
 
+    // TODO: Conditional structure to assign depending on type of instruction 
 
     /* --- CPU construction --- */ 
+    always_ff @(posedge clk) 
+    begin
+        if (reset) // Reset logic
+        begin
+            pc <= 0;
+            active <= 1;
+        end
+        else if(clk_enable) 
+        begin
+
+        end
+    end
 
 
 endmodule
