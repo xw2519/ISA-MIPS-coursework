@@ -14,14 +14,15 @@ module mips_cpu_harvard
     output logic [31:0] instr_address,
 
     /* Combinatorial read and single-cycle write access to data */
-    input  logic [31:0] data_readdata
+    input  logic [31:0] data_readdata,
     output logic        data_write,
     output logic        data_read,
     output logic [31:0] data_writedata,
     output logic [31:0] data_address,
 );
 
-    /* --- Signal definitions --- */
+    /* --- Module connection definitions --- */
+
     // ALU definitions
     logic [3:0]  alu_control;
     logic [4:0]  alu_shift_amt;
@@ -39,34 +40,121 @@ module mips_cpu_harvard
     logic [4:0]  write_addr_c;
     logic        write_enable_c;
     logic [31:0] write_data_c;
-    logic [4:0]  write_addr_d;
-    logic        write_enable_d;
-    logic [31:0] write_data_d;
 
-    // Control definitions
-
-    // PC definitions
+    /* --- PC definitions --- */
     logic [31:0] pc_reg;
     logic [31:0] pc_in;
 
-    /* --- CPU connections --- */
-    always_comb begin
-        sign_extended_imm = UNS ? {16'h0000, instr_readdata[15:0]} : {{16{instr_readdata[15]}}, instr_readdata[15:0]}
-        upper_imm = {16'h0000, instr_readdata[15:0]} << 16
+    /* --- IR definitions --- */  // required for delayed branching, not implemented yet
+    logic [31:0] ir_reg;
+    logic        ir_valid;
 
-        read_bytes =
+    /* --- Supported opcodes --- */
+    typedef enum logic[5:0] {
+        R_TYPE = 6'b000000, /* ADDU, AND, JALR, JR, OR, SLL, SLLV, SLT, SLTU, SRA, SRAV, SRL, SRLV, SUBU, XOR */
+        BR_Z   = 6'b000001, /* BGEZ, BGEZAL, BLTZ, BLTZAL */
+        ADDIU  = 6'b001001,
+        ANDI   = 6'b001100,
+        BEQ    = 6'b000100,
+        BGTZ   = 6'b000111,
+        BLEZ   = 6'b000110,
+        BNE    = 6'b000101,
+        J      = 6'b000010,
+        JAL    = 6'b000011,
+        LB     = 6'b100000,
+        LBU    = 6'b100100,
+        LH     = 6'b100001,
+        LHU    = 6'b100101,
+        LUI    = 6'b001111,
+        LW     = 6'b100011,
+        LWL    = 6'b100010,
+        LWR    = 6'b100110,
+        ORI    = 6'b001101,
+        SB     = 6'b101000,
+        SH     = 6'b101001,
+        SLTI   = 6'b001010,
+        SLTIU  = 6'b001011,
+        SW     = 6'b101011,
+        XORI   = 6'b001110
+    } opcode_t;
+
+    /* --- ALU Functions --- */
+    typedef enum logic[5:0] {
+        ADDU = 6'b100001,
+        AND  = 6'b100100,
+        JALR = 6'b001001,
+        JR   = 6'b001000,
+        OR   = 6'b100101,
+        SLL  = 6'b000000,
+        SLLV = 6'b000100,
+        SLT  = 6'b101010,
+        SLTU = 6'b101011,
+        SRA  = 6'b000011,
+        SRAV = 6'b000111,
+        SRL  = 6'b000010,
+        SRLV = 6'b000110,
+        SUBU = 6'b100011,
+        XOR  = 6'b100110
+    } alu_function_t;
+
+    /* --- ALU Opcodes --- */
+    typedef enum logic[3:0] {
+        ADDU = 4'h0,
+        SUBU = 4'h1,
+        AND  = 4'h2,
+        OR   = 4'h3,
+        XOR  = 4'h4,
+        SRL  = 4'h5,
+        SRA  = 4'h6,
+        SLL  = 4'h7,
+        STL  = 4'h8,
+        STLU = 4'h9,
+        PC   = 4'h10,
+        RS   = 4'h11
+    } alu_control_t;
+
+    /* --- CPU connections --- */
+    always_comb
+    begin
+        instr_address = pc_reg;
+        data_address = alu_out;
+
+        write_addr_c = (ir_reg[31:26] == R_TYPE) ? ir_reg[15:11] : ir_reg[20:16];
+        alu_shift_amt = (ir_reg[5:2] == 4'h1) ? read_data_a[4:0] : ir_reg[10:6];
+        sign_extended_immediate = ({ir_reg[31:28], ir_reg[26]} == 5'b00101) ? {16'h0000, ir_reg[15:0]} : {{16{ir_reg[15]}}, ir_reg[15:0]};
+        upper_immediate = {16'h0000, ir_reg[15:0]} << 16;
+
+        if (ir_reg[31:26] == R_TYPE)
+        begin
+            case(instr_readdata[5:0])
+                ADDU    : alu_control = ADDU;
+                AND     : alu_control = AND;
+                JALR    : alu_control = PC;
+                JR      : alu_control = RS;
+                OR      : alu_control = OR;
+                SLL     : alu_control = SLL;
+                SLLV    : alu_control = SLL;
+                SLT     : alu_control = SLT;
+                SLTU    : alu_control = SLTU;
+                SRA     : alu_control = SRA;
+                SRAV    : alu_control = SRA;
+                SRL     : alu_control = SRL;
+                SRLV    : alu_control = SRL;
+                SUBU    : alu_control = SUBU;
+                XOR     : alu_control = XOR;
+                default : alu_control = RS;
+            endcase
+        end
+
+        alu_b = (ir_Reg[31:26] == R_TYPE) ? read_data_b : sign_extended_immediate;
+
         byte_enabled_read = {read_bytes[3] ? data_readdata[31:24] : 8'h00},
             {read_bytes[2] ? data_readdata[23:16] : 8'h00},
             {read_bytes[1] ? data_readdata[15:8] : 8'h00},
             {read_bytes[0] ? data_readdata[7:0] : 8'h00};
+        write_enable_c =
 
-        alu_control =
-        alu_shift_amt = VAR ? read_data_a[4:0] : instr_readdata[10:6];
-        alu_b = IMM ? sign_extended_imm : read_data_b;
-
-        write_addr_c = IMM ? instr_readdata[20:16] : instr_readdata[15:11];
-        write_enable_c = RGW;
-        write_data_c = alu_result : upper_imm : byte_enabled_read;
+        write_data_c = alu_result : upper_immediate : byte_enabled_read;
     end
 
     /* --- CPU states --- */
@@ -74,17 +162,25 @@ module mips_cpu_harvard
     begin
         if (reset) // Reset logic
         begin
-            pc <= 32'hBFC00000;
+            pc_reg <= 32'hBFC00000;
             active <= 1;
+            ir_reg <= 0;
+            ir_valid <= 0;
+        end
+        else if(clk_enable && ir_valid)
+        begin
+            pc_reg <= pc_in;
+            active <= ~(pc == 0);
+            ir_reg <= instr_readdata;
         end
         else if(clk_enable)
         begin
-
+            ir_valid <= 1;
         end
     end
 
     mips_cpu_harvard_alu alu(
-        .alu_control(),
+        .alu_control(alu_control),
         .alu_shift_amt(alu_shift_amt),
         .alu_a(read_data_a),
         .alu_b(alu_b),
@@ -106,13 +202,10 @@ module mips_cpu_harvard
         .read_addr_b(instr_readdata[20:16]),
         .read_data_b(read_data_b),
 
-        /* Write ports */
-        .write_addr_c,
-        .write_enable_c,
-        .write_data_c,
-        .write_addr_d,
-        .write_enable_d,
-        .write_data_d
+        /* Write port */
+        .write_addr_c(write_addr_c),
+        .write_enable_c(write_enable_c),
+        .write_data_c(write_data_c),
     );
 
 endmodule
