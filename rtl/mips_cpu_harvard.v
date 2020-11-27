@@ -45,7 +45,7 @@ module mips_cpu_harvard
     logic [31:0] pc_reg;
     logic [31:0] pc_in;
 
-    /* --- IR definitions --- */  // required for delayed branching, not implemented yet
+    /* --- IR definitions --- */  // required for delayed branching
     logic [31:0] ir_reg;
     logic        ir_valid;
 
@@ -109,9 +109,16 @@ module mips_cpu_harvard
         SLL  = 4'h7,
         STL  = 4'h8,
         STLU = 4'h9,
-        PC   = 4'h10,
-        RS   = 4'h11
+        NONE   = 4'h10,
     } alu_control_t;
+
+    /*
+    --- Values of Rt for zero conditional branches ---
+        BGEZ   = 5'b00001,
+        BGEZAL = 5'b10001,
+        BLTZ   = 5'b00000,
+        BLTZAL = 5'b10000
+    */
 
     /* --- CPU connections --- */
     always_comb
@@ -119,18 +126,30 @@ module mips_cpu_harvard
         instr_address = pc_reg;
         data_address = alu_out;
 
-        write_addr_c = (ir_reg[31:26] == R_TYPE) ? ir_reg[15:11] : ir_reg[20:16];
         alu_shift_amt = (ir_reg[5:2] == 4'h1) ? read_data_a[4:0] : ir_reg[10:6];
+
         sign_extended_immediate = ({ir_reg[31:28], ir_reg[26]} == 5'b00101) ? {16'h0000, ir_reg[15:0]} : {{16{ir_reg[15]}}, ir_reg[15:0]};
         upper_immediate = {16'h0000, ir_reg[15:0]} << 16;
 
         if (ir_reg[31:26] == R_TYPE)
         begin
-            case(instr_readdata[5:0])
+            data_write = 0;
+            data_read = 0;
+            data_writedata = 0;
+
+            alu_b = read_data_b;
+
+            write_addr_c = (ir_reg[5:0] == JALR) ? 5'b11111 : ir_reg[15:11];
+            write_data_c = (ir_reg[5:0] == JALR) ? (pc_reg + 8) : alu_result;
+            write_enable_c = ~(ir_reg[5:0] == JR);
+
+            pc_in = (ir_reg[5:1] == 5'b00100) ? (pc_reg + (read_data_a << 2)) : (pc_reg + 4);
+
+            case(ir_reg[5:0])
                 ADDU    : alu_control = ADDU;
                 AND     : alu_control = AND;
-                JALR    : alu_control = PC;
-                JR      : alu_control = RS;
+                JALR    : alu_control = NONE;
+                JR      : alu_control = NONE;
                 OR      : alu_control = OR;
                 SLL     : alu_control = SLL;
                 SLLV    : alu_control = SLL;
@@ -142,19 +161,43 @@ module mips_cpu_harvard
                 SRLV    : alu_control = SRL;
                 SUBU    : alu_control = SUBU;
                 XOR     : alu_control = XOR;
-                default : alu_control = RS;
+                default : alu_control = NONE;
             endcase
         end
+        else if (ir_reg[31:26] == BR_Z)
+        begin
+            data_write = 0;
+            data_read = 0;
+            data_writedata = 0;
 
-        alu_b = (ir_Reg[31:26] == R_TYPE) ? read_data_b : sign_extended_immediate;
+            alu_control = NONE;
+            alu_b = read_data_b;
 
-        byte_enabled_read = {read_bytes[3] ? data_readdata[31:24] : 8'h00},
-            {read_bytes[2] ? data_readdata[23:16] : 8'h00},
-            {read_bytes[1] ? data_readdata[15:8] : 8'h00},
-            {read_bytes[0] ? data_readdata[7:0] : 8'h00};
-        write_enable_c =
+            write_addr_c = 5'b11111;
+            write_data_c = pc_reg;
+            write_enable_c = ir_reg[20];
 
-        write_data_c = alu_result : upper_immediate : byte_enabled_read;
+            pc_in = (ir_reg[16] ^ negative) ? (pc_reg + (sign_extended_immediate << 2)) : (pc_reg + 4);
+        end
+        else
+        begin
+            byte_enabled_write = read_data_b;
+            byte_enabled_read = data_readdata;
+
+            data_write = (ir_reg[31:26] == SB) || (ir_reg[31:26] == SH) || (ir_reg[31:26] == SW);
+            data_read = (ir_reg[31:26] == LB);
+            data_writedata = byte_enabled_write;
+
+            /* --- Under construction --- */
+            //alu_control = depends...
+            alu_b = sign_extended_immediate;
+
+            write_addr_c = (ir_reg[31:26] == JAL) ? 5'b11111 : ir_reg[20:16];
+            //write_data_c = depends...
+            //write_enable_c = idk...
+
+            //pc_in = depends...
+        end
     end
 
     /* --- CPU states --- */
