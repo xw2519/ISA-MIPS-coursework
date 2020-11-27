@@ -124,14 +124,14 @@ module mips_cpu_harvard
     always_comb
     begin
         instr_address = pc_reg;
-        data_address = alu_out;
-
+        data_address = alu_out;    // data address is always calculated by alu
+        // chooses between Rs and shamt instruction field for shifts
         alu_shift_amt = (ir_reg[5:2] == 4'h1) ? read_data_a[4:0] : ir_reg[10:6];
-
+        // different ways to use the 16-bit immediate, sign extending is disabled if unsigned instruction
         sign_extended_immediate = ({ir_reg[31:28], ir_reg[26]} == 5'b00101) ? {16'h0000, ir_reg[15:0]} : {{16{ir_reg[15]}}, ir_reg[15:0]};
         upper_immediate = {16'h0000, ir_reg[15:0]} << 16;
 
-        if (ir_reg[31:26] == R_TYPE)
+        if (ir_reg[31:26] == R_TYPE)      // all R-type instructions are handled in this case statement
         begin
             data_write = 0;
             data_read = 0;
@@ -143,7 +143,7 @@ module mips_cpu_harvard
             write_data_c = (ir_reg[5:0] == JALR) ? (pc_reg + 8) : alu_result;
             write_enable_c = ~(ir_reg[5:0] == JR);
 
-            pc_in = (ir_reg[5:1] == 5'b00100) ? (pc_reg + (read_data_a << 2)) : (pc_reg + 4);
+            pc_in = (ir_reg[5:1] == 5'b00100) ? (read_data_a << 2) : (pc_reg + 4);
 
             case(ir_reg[5:0])
                 ADDU    : alu_control = ADDU;
@@ -164,7 +164,7 @@ module mips_cpu_harvard
                 default : alu_control = NONE;
             endcase
         end
-        else if (ir_reg[31:26] == BR_Z)
+        else if (ir_reg[31:26] == BR_Z)       // several conditional branches are handled here
         begin
             data_write = 0;
             data_read = 0;
@@ -179,7 +179,7 @@ module mips_cpu_harvard
 
             pc_in = (ir_reg[16] ^ negative) ? (pc_reg + (sign_extended_immediate << 2)) : (pc_reg + 4);
         end
-        else
+        else         // all "other" instructions have to be handled here
         begin
             byte_enabled_write = read_data_b;
             byte_enabled_read = data_readdata;
@@ -210,13 +210,13 @@ module mips_cpu_harvard
             ir_reg <= 0;
             ir_valid <= 0;
         end
-        else if(clk_enable && ir_valid)
+        else if(clk_enable && ir_valid) // CPU runs and updates states here
         begin
             pc_reg <= pc_in;
             active <= ~(pc == 0);
             ir_reg <= instr_readdata;
         end
-        else if(clk_enable)
+        else if(clk_enable) // sets ir_valid after reset
         begin
             ir_valid <= 1;
         end
