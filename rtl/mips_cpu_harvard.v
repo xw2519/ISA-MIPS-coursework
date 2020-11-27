@@ -13,7 +13,7 @@ module mips_cpu_harvard
     input  logic [31:0] instr_readdata,
     output logic [31:0] instr_address,
 
-    /* Combinatorial read and single-cycle write access to instructions */
+    /* Combinatorial read and single-cycle write access to data */
     input  logic [31:0] data_readdata
     output logic        data_write,
     output logic        data_read,
@@ -21,72 +21,60 @@ module mips_cpu_harvard
     output logic [31:0] data_address,
 );
 
-    /* --- Wire definitions --- */
+    /* --- Signal definitions --- */
     // ALU definitions
-    logic        alu_zero;
+    logic [3:0]  alu_control;
+    logic [4:0]  alu_shift_amt;
+    logic [31:0] alu_b;
+
+    logic        zero;
+    logic        equal;
+    logic        negative;
     logic [31:0] alu_result;
-    logic [31:0] alu_mux;
 
-    // ALU Control definitions
-    logic [3:0]  alu_control_output;
-    logic [5:0]  alu_control_input
+    // Register File definitions
+    logic [31:0] read_data_a;
+    logic [31:0] read_data_b;
 
-    // Register file definitions
-    logic [4:0]  regfile_read_reg_1;
-    logic [4:0]  regfile_read_reg_2;
-    logic [4:0]  regfile_write_reg;
-    logic [31:0] regfile_write_data;
-    logic [31:0] regfile_read_data_1;
-    logic [31:0] regfile_read_data_2;
-    logic [31:0] regfile_register_v0; // special output for coursework
-
-    // Sign extender definitions
-    logic [15:0] sign_extended_in;
-    logic [31:0] sign_extended_out;
+    logic [4:0]  write_addr_c;
+    logic        write_enable_c;
+    logic [31:0] write_data_c;
+    logic [4:0]  write_addr_d;
+    logic        write_enable_d;
+    logic [31:0] write_data_d;
 
     // Control definitions
-    logic        ctrl_reg_dst;
-    logic        ctrl_reg_write;
-    logic        ctrl_branch;
-    logic        ctrl_mem_read;
-    logic        ctrl_mem_write;
-    logic        ctrl_mem_to_reg;
-    logic        ctrl_alu_src;
-    logic [1:0]  ctrl_alu_op;
-    logic [5:0]  ctrl_instr_opcode
 
     // PC definitions
-    logic [31:0] pc_out
-    logic [31:0] pc_in
-    logic [31:0] pc_mux
+    logic [31:0] pc_reg;
+    logic [31:0] pc_in;
 
-    // Add definitions
-    logic [31:0] add_input_1;
-    logic [31:0] add_input_2;
-    parameter four = 64'h0000000000000004;
+    /* --- CPU connections --- */
+    always_comb begin
+        sign_extended_imm = UNS ? {16'h0000, instr_readdata[15:0]} : {{16{instr_readdata[15]}}, instr_readdata[15:0]}
+        upper_imm = {16'h0000, instr_readdata[15:0]} << 16
 
+        read_bytes =
+        byte_enabled_read = {read_bytes[3] ? data_readdata[31:24] : 8'h00},
+            {read_bytes[2] ? data_readdata[23:16] : 8'h00},
+            {read_bytes[1] ? data_readdata[15:8] : 8'h00},
+            {read_bytes[0] ? data_readdata[7:0] : 8'h00};
 
-    /* --- Assign relationships --- */
-    assign add_input_1 = pc_out + four; // PC add 4
-    assign pc_mux = (ctrl_branch && alu_zero) ? add_input_2 : add_input_1; // PC mux
-    assign write_reg = (reg_dst) ? instr_readdata[15:11] : instr_readdata[20:16]; // Reg MUX
-    assign write_data = (mem_to_reg) ? data_readdata : alu_result; // Write data mux
-    assign alu_mux = (alu_src) ? sign_extended : read_data_2; // ALU mux
-    assign ctrl_instr_opcode = instr_readdata[31:26]; // Control input
-    assign regfile_read_reg_1 = instr_readdata[25:21]; // Read register 1
-    assign regfile_read_reg_2 = instr_readdata[20:16]; // Read register 2
-    assign sign_extended_in = instr[15:0]; // Sign extended input
-    assign alu_control = instr_readdata[5:0]; // ALU control input
+        alu_control =
+        alu_shift_amt = VAR ? read_data_a[4:0] : instr_readdata[10:6];
+        alu_b = IMM ? sign_extended_imm : read_data_b;
 
+        write_addr_c = IMM ? instr_readdata[20:16] : instr_readdata[15:11];
+        write_enable_c = RGW;
+        write_data_c = alu_result : upper_imm : byte_enabled_read;
+    end
 
-    // TODO: Conditional structure to assign depending on type of instruction
-
-    /* --- CPU construction --- */
+    /* --- CPU states --- */
     always_ff @(posedge clk)
     begin
         if (reset) // Reset logic
         begin
-            pc <= 0;
+            pc <= 32'hBFC00000;
             active <= 1;
         end
         else if(clk_enable)
@@ -95,5 +83,36 @@ module mips_cpu_harvard
         end
     end
 
+    mips_cpu_harvard_alu alu(
+        .alu_control(),
+        .alu_shift_amt(alu_shift_amt),
+        .alu_a(read_data_a),
+        .alu_b(alu_b),
+
+        .zero(zero),
+        .equal(equal),
+        .negative(negative),
+        .alu_result(alu_result)
+    );
+
+    mips_cpu_register_file reg_file(
+        .clk(clk),
+        .reset(reset),
+        .register_v0(register_v0),
+
+        /* Read ports */
+        .read_addr_a(instr_readdata[25:21]),
+        .read_data_a(read_data_a),
+        .read_addr_b(instr_readdata[20:16]),
+        .read_data_b(read_data_b),
+
+        /* Write ports */
+        .write_addr_c,
+        .write_enable_c,
+        .write_data_c,
+        .write_addr_d,
+        .write_enable_d,
+        .write_data_d
+    );
 
 endmodule

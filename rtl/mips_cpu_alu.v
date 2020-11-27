@@ -1,7 +1,7 @@
-module mips_cpu_harvard_alu
+module mips_cpu_alu
 (
     input  logic [3:0]  alu_control,
-    input  logic [4:0]  shift_amt,
+    input  logic [4:0]  alu_shift_amt,
     input  logic [31:0] alu_a,
     input  logic [31:0] alu_b,
 
@@ -32,9 +32,9 @@ module mips_cpu_harvard_alu
             AND  : alu_out = alu_a & alu_b;
             OR   : alu_out = alu_a | alu_b;
             XOR  : alu_out = alu_a ^ alu_b;
-            LSR  : alu_out = alu_a >> shift_amt;
-            ASR  : alu_out = $signed(alu_a) >>> shift_amt;
-            LSL  : alu_out = alu_a << shift_amt;
+            LSR  : alu_out = alu_b >> alu_shift_amt;
+            ASR  : alu_out = $signed(alu_b) >>> alu_shift_amt;
+            LSL  : alu_out = alu_b << alu_shift_amt;
             STL  : alu_out = {31'h(0000),($signed(alu_a) < $signed(alu_b))};
             STLU : alu_out = {31'h(0000),(alu_a < alu_b)};
         endcase

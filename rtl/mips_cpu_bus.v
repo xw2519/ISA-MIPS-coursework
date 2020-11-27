@@ -1,18 +1,18 @@
 module mips_cpu_bus(
     /* Standard signals */
-    input  logic        clk,
-    input  logic        reset,
-    output logic        active,
-    output logic[31:0]  register_v0,
+    input  logic         clk,
+    input  logic         reset,
+    output logic         active,
+    output logic [31:0]  register_v0,
 
     /* Avalon memory mapped bus controller (master) */
-    input  logic        waitrequest,
-    input  logic[31:0]  readdata
-    output logic        write,
-    output logic        read,
-    output logic[3:0]   byteenable,
-    output logic[31:0]  writedata,
-    output logic[31:0]  address,
+    input  logic         waitrequest,
+    input  logic [31:0]  readdata
+    output logic         write,
+    output logic         read,
+    output logic [3:0]   byteenable,
+    output logic [31:0]  writedata,
+    output logic [31:0]  address,
 );
       // 4 possible states, clock enable is low when entering the fetch states
     typedef enum logic[1:0] {
@@ -23,24 +23,24 @@ module mips_cpu_bus(
     } state_t;
 
     /* these are combinatorial signals, assigned in always_comb */
-    logic clk_enable;
-    logic data_read;
-    logic data_write;
-    logic[31:0] instr_addr;
-    logic[31:0] readinstr;
-    logic[31:0] data_addr;
-    logic[31:0] readdata;
-    logic[1:0] next_state;
+    logic         clk_enable;
+    logic         data_read;
+    logic         data_write;
+    logic [31:0]  instr_addr;
+    logic [31:0]  readinstr;
+    logic [31:0]  data_addr;
+    logic [31:0]  readdata;
+    logic [1:0]   next_state;
 
     /* these are sequential, updated in always_ff */
-    logic[1:0] state;
+    logic [1:0]   state;
 
       // these store values read from memory, needed to simulate combinatorial access to memory
-    logic[31:0] instr_reg;      // stores instruction read from memory
-    logic[31:0] data_reg;       // stores data read from memory
+    logic [31:0]  instr_reg;      // stores instruction read from memory
+    logic [31:0]  data_reg;       // stores data read from memory
 
        // stores previous instruction address, required to detect when the instruction address changes
-    logic[31:0] instr_addr_reg;
+    logic [31:0]  instr_addr_reg;
 
 
     always_comb begin
