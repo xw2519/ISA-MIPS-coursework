@@ -253,7 +253,7 @@ module mips_cpu_harvard
                 LBU     : write_data_c = {{24'h000000}, data_readdata[7:0]};
                 LH      : write_data_c = {{16{data_readdata[15]}}, data_readdata[15:0]};
                 LHU     : write_data_c = {{16'h0000}, data_readdata[15:0]};
-                LUI     : write_data_c = {16'h0000, ir_reg[15:0]} << 16;
+                LUI     : write_data_c = {{16'h0000}, ir_reg[15:0]} << 16;
                 LW      : write_data_c = data_readdata;
                 LWL     : write_data_c = {data_readdata[15:0], read_data_b[15:0]};
                 LWR     : write_data_c = {read_data_b[31:16], data_readdata[31:16]};
