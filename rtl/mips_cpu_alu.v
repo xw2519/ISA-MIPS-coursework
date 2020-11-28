@@ -8,7 +8,7 @@ module mips_cpu_alu
     output logic        zero,
     output logic        equal,
     output logic        negative,
-    output logic [31:0] alu_result
+    output logic [31:0] alu_out
 );
 
     /* --- ALU Opcodes --- */
@@ -22,8 +22,7 @@ module mips_cpu_alu
         SRA  = 4'h6,
         SLL  = 4'h7,
         STL  = 4'h8,
-        STLU = 4'h9,
-        NONE   = 4'h10
+        STLU = 4'h9
     } alu_control_t;
 
     always_comb begin
@@ -36,8 +35,8 @@ module mips_cpu_alu
             SRL     : alu_out = alu_b >> alu_shift_amt;
             SRA     : alu_out = $signed(alu_b) >>> alu_shift_amt;
             SLL     : alu_out = alu_b << alu_shift_amt;
-            STL     : alu_out = {31'h(0000),($signed(alu_a) < $signed(alu_b))};
-            STLU    : alu_out = {31'h(0000),(alu_a < alu_b)};
+            STL     : alu_out = {31'h0000,($signed(alu_a) < $signed(alu_b))};
+            STLU    : alu_out = {31'h0000,(alu_a < alu_b)};
             default : alu_out = alu_b;
         endcase
 

@@ -14,7 +14,7 @@ module mips_cpu_register_file
     /* Write port */
     input  logic [4:0]  write_addr_c,
     input  logic        write_enable_c,
-    input  logic [31:0] write_data_c,
+    input  logic [31:0] write_data_c
 );
 
     integer i;
