@@ -16,7 +16,7 @@ module RAM_8x8192_bus(
 );
     parameter RAM_INIT_FILE = "";
 
-    reg   [7:0]  memory[8191:0]
+    reg   [7:0]  memory[8191:0];
 
     logic [12:0] mapped_address;
 
@@ -34,20 +34,20 @@ module RAM_8x8192_bus(
         end
     end
 
-    always_comb
+    always @(*)
     begin
         case(address[31:24])
             8'h00   : mapped_address = address[12:0];
             8'h80   : mapped_address = address[12:0] + 13'h0400;
-            8'hBF   : mapped_address = address[12:0] - 13'h0800;
+            8'hBF   : mapped_address = address[12:0] + 13'h1400;
             8'hFF   : mapped_address = {{1'h1}, address[11:0]};
             default : mapped_address = address[12:0];
         endcase
     end
 
     always @(posedge clk) begin
-        $display("RAM : INFO : read=%h, addr = %h, mem=%h", read, mapped_address,
-                  {memory[mapped_address+3], memory[mapped_address+2], memory[mapped_address+1], memory[mapped_address]});
+        //$display("RAM : INFO : read=%h, addr = %h, mem=%h", read, mapped_address,
+                  //{memory[mapped_address+3], memory[mapped_address+2], memory[mapped_address+1], memory[mapped_address]});
         if (write) begin
           memory[mapped_address]   <= writedata[7:0];
           memory[mapped_address+1] <= writedata[15:8];

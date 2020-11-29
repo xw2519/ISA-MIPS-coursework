@@ -18,7 +18,7 @@ module RAM_8x8192_harvard(
 );
     parameter RAM_INIT_FILE = "";
 
-    reg   [7:0]  memory[8191:0]
+    reg   [7:0]  memory[8191:0];
 
     logic [12:0] mapped_instr_address;
     logic [12:0] mapped_data_address;
@@ -37,12 +37,12 @@ module RAM_8x8192_harvard(
         end
     end
 
-    always_comb
+    always @(*)
     begin
         case(instr_address[31:24])
             8'h00   : mapped_instr_address = instr_address[12:0];
             8'h80   : mapped_instr_address = instr_address[12:0] + 13'h0400;
-            8'hBF   : mapped_instr_address = instr_address[12:0] - 13'h0800;
+            8'hBF   : mapped_instr_address = instr_address[12:0] + 13'h1400;
             8'hFF   : mapped_instr_address = {{1'h1}, instr_address[11:0]};
             default : mapped_instr_address = instr_address[12:0];
         endcase
@@ -50,7 +50,7 @@ module RAM_8x8192_harvard(
         case(data_address[31:24])
             8'h00   : mapped_data_address = data_address[12:0];
             8'h80   : mapped_data_address = data_address[12:0] + 13'h0400;
-            8'hBF   : mapped_data_address = data_address[12:0] - 13'h0800;
+            8'hBF   : mapped_data_address = data_address[12:0] + 13'h1400;
             8'hFF   : mapped_data_address = {{1'h1}, data_address[11:0]};
             default : mapped_data_address = data_address[12:0];
         endcase
@@ -60,8 +60,8 @@ module RAM_8x8192_harvard(
     end
 
     always @(posedge clk) begin
-        $display("RAM : INFO : read=%h, addr = %h, mem=%h", data_read, mapped_data_address,
-                  {memory[mapped_data_address+3], memory[mapped_data_address+2], memory[mapped_data_address+1], memory[mapped_data_address]});
+        //$display("RAM : INFO : read=%h, addr = %h, mem=%h", data_read, mapped_data_address,
+                  //{memory[mapped_data_address+3], memory[mapped_data_address+2], memory[mapped_data_address+1], memory[mapped_data_address]});
         if (data_write) begin
             memory[mapped_data_address]   <= data_writedata[7:0];
             memory[mapped_data_address+1] <= data_writedata[15:8];

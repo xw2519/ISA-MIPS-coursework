@@ -165,7 +165,7 @@ module mips_cpu_harvard
             write_data_c = (ir_reg[5:0] == F_JALR) ? (pc_reg + 8) : alu_result;
             write_enable_c = ~(ir_reg[5:0] == F_JR);
 
-            pc_in = (ir_reg[5:1] == 5'b00100) ? (read_data_a << 2) : (pc_reg + 4);
+            pc_in = (ir_reg[5:1] == 5'b00100) ? read_data_a : (pc_reg + 4);
 
             if ((ir_reg[5:0] == F_MULT) || (ir_reg[5:0] == F_MULTU))
             begin
