@@ -33,7 +33,7 @@ module RAM_8x8192_harvard(
         /* Load contents from file if specified */
         if (RAM_INIT_FILE != "") begin
             $display("RAM : INIT : Loading RAM contents from %s", RAM_INIT_FILE);
-            $readmemh(RAM_INIT_FILE, memory);
+            $readmemh(RAM_INIT_FILE, memory, 0, 8191);
         end
     end
 

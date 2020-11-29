@@ -11,6 +11,7 @@ module RAM_8x8192_bus(
     input  logic         read,
     input  logic [31:0]  writedata,
     input  logic [31:0]  address,
+    input  logic [3:0]   byteenable,
 
     output logic [31:0]  readdata
 );
@@ -30,7 +31,7 @@ module RAM_8x8192_bus(
         /* Load contents from file if specified */
         if (RAM_INIT_FILE != "") begin
             $display("RAM : INIT : Loading RAM contents from %s", RAM_INIT_FILE);
-            $readmemh(RAM_INIT_FILE, memory);
+            $readmemh(RAM_INIT_FILE, memory, 0, 8191);
         end
     end
 
@@ -54,6 +55,9 @@ module RAM_8x8192_bus(
           memory[mapped_address+2] <= writedata[23:16];
           memory[mapped_address+3] <= writedata[31:24];
         end
-        readdata <= {memory[mapped_address+3], memory[mapped_address+2], memory[mapped_address+1], memory[mapped_address]};
+        readdata <= {{byteenable[3] ? memory[mapped_address+3] : 8'h00},
+                     {byteenable[2] ? memory[mapped_address+2] : 8'h00},
+                     {byteenable[1] ? memory[mapped_address+1] : 8'h00},
+                     {byteenable[0] ? memory[mapped_address]   : 8'h00}};
     end
 endmodule

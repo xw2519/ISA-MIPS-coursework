@@ -1,4 +1,4 @@
-module mips_cpu_harvard_tb;
+module mips_cpu_bus_tb;
     //timeunit 1ns / 10ps;
 
     parameter RAM_INIT_FILE = "test.hex.txt";
@@ -6,25 +6,23 @@ module mips_cpu_harvard_tb;
 
     logic        clk;
     logic        reset;
-    logic        clk_enable;
+    logic        waitrequest;
 
     logic        active;
     logic [31:0] register_v0;
 
-    logic [31:0] instr_readdata;
-    logic [31:0] instr_address;
+    logic [31:0] readdata;
+    logic        write;
+    logic        read;
+    logic [31:0] writedata;
+    logic [31:0] address;
+    logic [3:0]  byteenable;
 
-    logic [31:0] data_readdata;
-    logic        data_write;
-    logic        data_read;
-    logic [31:0] data_writedata;
-    logic [31:0] data_address;
+    RAM_8x8192_bus #(RAM_INIT_FILE) ramInst(clk, write, read, writedata, address, byteenable, readdata);
 
-    RAM_8x8192_harvard #(RAM_INIT_FILE) ramInst(clk, instr_address, data_write, data_read, data_writedata, data_address, instr_readdata, data_readdata);
-
-    mips_cpu_harvard cpuInst(clk, reset, active, register_v0, clk_enable,
-    instr_readdata, instr_address, data_readdata, data_write,
-    data_read, data_writedata, data_address);
+    mips_cpu_bus cpuInst(clk, reset, active, register_v0,
+    waitrequest, readdata, write, read,
+    byteenable, writedata, address);
 
     // Generate clock
     initial begin
@@ -41,7 +39,7 @@ module mips_cpu_harvard_tb;
     end
 
     initial begin
-        clk_enable = 1;
+      waitrequest = 0;
 
         reset <= 0;
 
