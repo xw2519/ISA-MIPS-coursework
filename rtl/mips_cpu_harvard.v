@@ -47,7 +47,6 @@ module mips_cpu_harvard
 
     /* --- IR definitions --- */  // required for delayed branching
     logic [31:0] ir_reg;
-    logic        ir_valid;
 
     /* --- Hi and Lo registers --- */
     logic [31:0] hi_reg;
@@ -308,21 +307,16 @@ module mips_cpu_harvard
             pc_reg <= 32'hBFC00000;
             active <= 1;
             ir_reg <= 0;
-            ir_valid <= 0;
             hi_reg <= 0;
             lo_reg <= 0;
         end
-        else if(clk_enable && ir_valid) // The CPU runs and updates states here.
+        else if(clk_enable) // The CPU runs and updates states here.
         begin
             pc_reg <= pc_in;
             active <= ~(pc_reg == 32'h00000000);
             ir_reg <= instr_readdata;
             hi_reg <= hi_in;
             lo_reg <= lo_in;
-        end
-        else if(clk_enable) // This sets ir_valid in the cycle after reset.
-        begin
-            ir_valid <= 1;
         end
     end
 
