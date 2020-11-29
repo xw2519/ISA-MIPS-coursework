@@ -20,8 +20,8 @@ module RAM_8x8192_harvard(
 
     reg   [7:0]  memory[8191:0];
 
-    logic [12:0] mapped_instr_address;
-    logic [12:0] mapped_data_address;
+    logic [12:0] mapped_instr_address;   // Takes address from 32-bit to 13-bit according to map mentioned earlier
+    logic [12:0] mapped_data_address;   // Takes address from 32-bit to 13-bit according to map mentioned earlier
 
     initial
     begin

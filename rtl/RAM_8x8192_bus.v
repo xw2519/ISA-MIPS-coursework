@@ -19,7 +19,7 @@ module RAM_8x8192_bus(
 
     reg   [7:0]  memory[8191:0];
 
-    logic [12:0] mapped_address;
+    logic [12:0] mapped_address;   // Takes address from 32-bit to 13-bit according to map mentioned earlier
 
     initial
     begin

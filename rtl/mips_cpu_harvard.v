@@ -142,18 +142,46 @@ module mips_cpu_harvard
     /* --- CPU connections --- */
     always @(*)
     begin
+        /* --- These signals usually carry the same values, regardless of current instruction. --- */
         instr_address = pc_reg;
-        data_address = alu_result & 32'hFFFFFFFC;   // data address is always calculated by alu, word addresses start at multiples of 4
-        // chooses between Rs and shamt instruction field for shifts
+          // Memory data address is always calculated by the ALU, bitwise AND is used because word addresses start at multiples of 4.
+        data_address = alu_result & 32'hFFFFFFFC;
+          // This chooses between Rs and the "shamt" instruction field for standard and variable shifts.
         alu_shift_amt = (ir_reg[5:2] == 4'h1) ? read_data_a[4:0] : ir_reg[10:6];
-        // sign extends the 16-bit immediate, sign extending is disabled if instruction is ADDIU or SLTIU
+          // This sign-extends the 16-bit immediate, sign extending is disabled if instruction is ADDIU or SLTIU.
         sign_extended_immediate = ({ir_reg[31:28], ir_reg[26]} == 5'b00101) ? {16'h0000, ir_reg[15:0]} : {{16{ir_reg[15]}}, ir_reg[15:0]};
-        // These are not synthesisable, they have to me implemented later
+          // These are not synthesisable, they have to be implemented later.
         product = (ir_reg[5:0] == F_MULTU) ? (read_data_a * read_data_b) : ($signed(read_data_a) * $signed(read_data_b));
         quotient = (ir_reg[5:0] == F_DIVU) ? (read_data_a / read_data_b) : ($signed(read_data_a) / $signed(read_data_b));
         remainder = (ir_reg[5:0] == F_DIVU) ? (read_data_a % read_data_b) : ($signed(read_data_a) % $signed(read_data_b));
 
-        if (ir_reg[31:26] == R_TYPE)      // all R-type instructions are handled in this case statement
+        /* --- This is the main block that decodes and executes instructions ---
+        It is an if-else structure with 3 parts, the first handles R-type instructions,
+        the second handles some conditional branches, the last handles I-type and J-type instructions.
+
+        In each case, there are 10 signals that have to be given values:
+
+        Connections to the data memory:
+        data_write -> whether or not to write to memory.
+        data_read -> whether or not to read from memory.
+        data_writedata -> data to be written to memory.
+
+        Connections to ALU:
+        alu_control -> the operation the ALU should perform.
+        alu_b -> the input to port b of the ALU, could be Rt or a sign-extended immediate.
+
+        Connections to Register File:
+        write_addr_c -> the address of the register to be written to, Rd or Rt.
+        write_data_c -> data to be written to the register file, could be the output of the ALU, the PC or data read from memory.
+        write_enable_c -> whether or not to write to a register file.
+
+        Internal registers:
+        pc_in -> next value of the PC.
+        hi_in -> next value of the hi register.
+        lo_in -> next value of the lo register.
+        */
+
+        if (ir_reg[31:26] == R_TYPE)      // all R-type instructions are handled in this "begin ... end".
         begin
             data_write = 0;
             data_read = 0;
@@ -165,7 +193,7 @@ module mips_cpu_harvard
             write_data_c = (ir_reg[5:0] == F_JALR) ? (pc_reg + 4) : alu_result;
             write_enable_c = ~(ir_reg[5:0] == F_JR);
 
-            pc_in = (ir_reg[5:1] == 5'b00100) ? read_data_a : (pc_reg + 4);
+            pc_in = (ir_reg[5:1] == 5'b00100) ? read_data_a : (pc_reg + 4);   // If the instruction is JR or JALR, jump to Rs.
 
             if ((ir_reg[5:0] == F_MULT) || (ir_reg[5:0] == F_MULTU))
             begin
@@ -199,7 +227,7 @@ module mips_cpu_harvard
                 default   : alu_control = ADDU;
             endcase
         end
-        else if (ir_reg[31:26] == BR_Z)       // Some conditional branches are handled here
+        else if (ir_reg[31:26] == BR_Z)                    // Some conditional branches are handled here.
         begin
             data_write = 0;
             data_read = 0;
@@ -216,7 +244,7 @@ module mips_cpu_harvard
             hi_in = hi_reg;
             lo_in = lo_reg;
         end
-        else         // I-type instructions and J are handled here
+        else                                                  // I-type and J-type instructions and are handled here
         begin
             data_write = (ir_reg[31:26] == SB) || (ir_reg[31:26] == SH) || (ir_reg[31:26] == SW);
             data_read = (ir_reg[31:26] == LB);
@@ -275,7 +303,7 @@ module mips_cpu_harvard
     /* --- CPU states --- */
     always_ff @(posedge clk)
     begin
-        if(reset) // Reset logic
+        if(reset) // Resets the CPU.
         begin
             pc_reg <= 32'hBFC00000;
             active <= 1;
@@ -284,7 +312,7 @@ module mips_cpu_harvard
             hi_reg <= 0;
             lo_reg <= 0;
         end
-        else if(clk_enable && ir_valid) // CPU runs and updates states here
+        else if(clk_enable && ir_valid) // The CPU runs and updates states here.
         begin
             pc_reg <= pc_in;
             active <= ~(pc_reg == 32'h00000000);
@@ -292,7 +320,7 @@ module mips_cpu_harvard
             hi_reg <= hi_in;
             lo_reg <= lo_in;
         end
-        else if(clk_enable) // sets ir_valid in the cycle after reset
+        else if(clk_enable) // This sets ir_valid in the cycle after reset.
         begin
             ir_valid <= 1;
         end
