@@ -162,7 +162,7 @@ module mips_cpu_harvard
             alu_b = read_data_b;
 
             write_addr_c = (ir_reg[5:0] == F_JALR) ? 5'b11111 : ir_reg[15:11];
-            write_data_c = (ir_reg[5:0] == F_JALR) ? (pc_reg + 8) : alu_result;
+            write_data_c = (ir_reg[5:0] == F_JALR) ? (pc_reg + 4) : alu_result;
             write_enable_c = ~(ir_reg[5:0] == F_JR);
 
             pc_in = (ir_reg[5:1] == 5'b00100) ? read_data_a : (pc_reg + 4);
@@ -248,7 +248,7 @@ module mips_cpu_harvard
             endcase
 
             case(ir_reg[31:26])
-                JAL     : write_data_c = pc_reg + 8;
+                JAL     : write_data_c = pc_reg + 4;
                 LB      : write_data_c = {{24{data_readdata[7]}}, data_readdata[7:0]};
                 LBU     : write_data_c = {{24'h000000}, data_readdata[7:0]};
                 LH      : write_data_c = {{16{data_readdata[15]}}, data_readdata[15:0]};
@@ -287,7 +287,7 @@ module mips_cpu_harvard
         else if(clk_enable && ir_valid) // CPU runs and updates states here
         begin
             pc_reg <= pc_in;
-            active <= ~(pc_reg == 0);
+            active <= ~(pc_reg == 32'h00000000);
             ir_reg <= instr_readdata;
             hi_reg <= hi_in;
             lo_reg <= lo_in;
@@ -316,9 +316,9 @@ module mips_cpu_harvard
         .register_v0(register_v0),
 
         /* Read ports */
-        .read_addr_a(instr_readdata[25:21]),
+        .read_addr_a(ir_reg[25:21]),
         .read_data_a(read_data_a),
-        .read_addr_b(instr_readdata[20:16]),
+        .read_addr_b(ir_reg[20:16]),
         .read_data_b(read_data_b),
 
         /* Write port */
