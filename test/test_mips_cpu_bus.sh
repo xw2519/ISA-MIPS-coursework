@@ -1,13 +1,17 @@
 #!/bin/bash
 
-SOURCE_DIR="$1"   # command line argument that takes source directory, "../rtl" in our case
-INSTRUCTION="${2:-all}"  # argument that takes an instruction to test, test all by default
+# Capture the first two command line parameters to specify
+# "SOURCE_DIR" argument that takes source directory, "../rtl" in our case
+# "INSTRUCTION" argument that takes an instruction to test, test all by default
+SOURCE_DIR="$1"   
+INSTRUCTION="${2:-all}"  
 
-g++ utils/hex_gen.cpp -o test/temp/hex_generator
-echo ${INSTRUCTION} | test/temp/hex_generator > test/temp/test.hex.txt
+g++ ../utils/hex_gen.cpp -o ../test/bin/hex_generator
+echo ${INSTRUCTION} | ../bin/hex_generator > ../test/2-binary/test.hex.txt
 
 iverilog -Wall -g 2012 \
-    -s mips_cpu_bus_tb test/testbench/RAM_8x8192_bus.v test/testbench/mips_cpu_bus_tb.v ${SOURCE_DIR}/mips_cpu_*.v ${SOURCE_DIR}/mips_cpu/*.v \
-    -Pmips_cpu_bus_tb.RAM_INIT_FILE=\"test/temp/test.hex.txt\" \
-    -o test/temp/mips_bus_test
-test/temp/mips_bus_test
+    -s mips_cpu_bus_tb ../test/0-testbenches/RAM_8x8192_bus.v ../test/0-testbenches/mips_cpu_bus_tb.v ${SOURCE_DIR}/mips_cpu_*.v \
+    -P mips_cpu_bus_tb.RAM_INIT_FILE=\"test/2-binary/test.hex.txt\" \
+    -o ../test/3-simulator/mips_bus_test
+    
+../test/3-simulator/mips_bus_test
