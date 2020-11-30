@@ -1,9 +1,14 @@
 #include<iostream>
 #include<iomanip>
+#include<string>
 
 using namespace std;
 
 int main(){
+  string instruction;    // instruction to be tested
+  cin >> instruction;
+  cerr << instruction << endl;
+
   cout << hex;
   cout << setw(2);
   cout << setfill('0');

@@ -1,7 +1,7 @@
 module mips_cpu_bus_tb;
     //timeunit 1ns / 10ps;
 
-    parameter RAM_INIT_FILE = "test.hex.txt";
+    parameter RAM_INIT_FILE = "";
     parameter TIMEOUT_CYCLES = 10000;
 
     logic        clk;
