@@ -12,6 +12,7 @@ module mips_cpu_bus_tb;
     logic [31:0] register_v0;
 
     logic [31:0] readdata;
+    logic [31:0] delayed_readdata;
     logic        write;
     logic        read;
     logic [31:0] writedata;
@@ -21,7 +22,7 @@ module mips_cpu_bus_tb;
     RAM_8x8192_bus #(RAM_INIT_FILE) ramInst(clk, write, read, writedata, address, byteenable, readdata);
 
     mips_cpu_bus cpuInst(clk, reset, active, register_v0,
-    waitrequest, readdata, write, read,
+    waitrequest, delayed_readdata, write, read,
     byteenable, writedata, address);
 
     // Generate clock
@@ -38,7 +39,8 @@ module mips_cpu_bus_tb;
         $fatal(2, "Simulation did not finish within %d cycles.", TIMEOUT_CYCLES);
     end
 
-    initial begin
+    initial
+    begin
       waitrequest = 0;
 
         reset <= 0;
@@ -51,19 +53,37 @@ module mips_cpu_bus_tb;
 
         @(posedge clk);
         assert(active==1)
-        else $display("TB : CPU did not set running=1 after reset.");
+        else $display("TB : CPU did not set active=1 after reset.");
 
         while (active) begin
             @(posedge clk);
         end
 
         $display("TB : INFO : register_v0=%h", register_v0);
-        $display("TB : finished; running=0");
+        $display("TB : finished; active=0");
 
         $finish;
 
     end
 
+    always @(posedge read) // Uses waitrequest to cause fetch to take 3 cycles
+    begin
+        waitrequest = 1;
+        $display("TB : INFO : Waiting for FETCH; address=%h", address);
+        delayed_readdata = 32'hxxxxxxxx;
+        #25;
+        delayed_readdata = readdata;
+        $display("TB : INFO : FETCH completed; readdata=%h \n", delayed_readdata);
+        waitrequest = 0;
+    end
 
+    always @(posedge write)   // Uses waitrequest to make writes take 4 cycles
+    begin
+        waitrequest = 1;
+        $display("TB : INFO : Waiting for WRITE; address=%h", address);
+        #35;
+        $display("TB : INFO : WRITE completed; writedata=%h \n", writedata);
+        waitrequest = 0;
+    end
 
 endmodule
