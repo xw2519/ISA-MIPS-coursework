@@ -288,10 +288,10 @@ module mips_cpu_harvard
             endcase
 
             case(ir_reg[31:26])
-                BEQ     : pc_in = equal ? sign_extended_immediate : pc_reg + 4;
-                BGTZ    : pc_in = ((~negative) && ~(zero)) ? sign_extended_immediate : pc_reg + 4;
-                BLEZ    : pc_in = (negative || zero) ? sign_extended_immediate : pc_reg + 4;
-                BNE     : pc_in = ~(equal) ? sign_extended_immediate : pc_reg + 4;
+                BEQ     : pc_in = equal ? (pc_reg + (sign_extended_immediate << 2)) : pc_reg + 4;
+                BGTZ    : pc_in = ((~negative) && ~(zero)) ? (pc_reg + (sign_extended_immediate << 2)) : pc_reg + 4;
+                BLEZ    : pc_in = (negative || zero) ? (pc_reg + (sign_extended_immediate << 2)) : pc_reg + 4;
+                BNE     : pc_in = ~(equal) ? (pc_reg + (sign_extended_immediate << 2)) : pc_reg + 4;
                 J       : pc_in = pc_reg + {{6{ir_reg[25]}}, ir_reg[25:0]};
                 JAL     : pc_in = pc_reg + {{6{ir_reg[25]}}, ir_reg[25:0]};
                 default : pc_in = pc_reg + 4;
