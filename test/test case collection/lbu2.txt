@@ -1,0 +1,14 @@
+#lbu2
+#lbu
+#ta2617
+#Corner case
+#245
+#
+#
+
+addi $20, $20, 0x2
+sll $20, $20, 28
+lbu $2, -2($20)
+jr $0
+
+#Expected: -11 (245)

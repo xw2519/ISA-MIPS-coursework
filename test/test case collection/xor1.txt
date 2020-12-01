@@ -1,0 +1,15 @@
+#xor1
+#xor
+#am9717
+#Simple XOR function
+#43
+#
+#
+
+addi $16, $16, 39
+addi $17, $17, 12
+xor $2, $16, $17
+jr $0
+
+#Expected: 43
+

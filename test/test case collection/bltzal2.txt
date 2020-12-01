@@ -1,0 +1,18 @@
+#bltzal2
+#bltzal
+#am9717
+#branching outside range 
+#245
+#
+#
+
+addi $2, $2, 2
+addi $2, $2, -3
+bltzal $2, 4
+sll $0, $0, 0
+addi $31, $0, 0
+beq $0, $31, 8
+sll $0, $0, 0
+jr $0
+
+#Expected: -11 (245)

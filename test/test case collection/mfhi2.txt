@@ -1,0 +1,14 @@
+#mfhi2
+#mfhi
+#ta2617
+#Checks move from HI after store
+#100
+#
+#
+
+addiu $16, $16, 100
+mthi $16
+mfhi $2
+jr $0
+
+#Expected: 100

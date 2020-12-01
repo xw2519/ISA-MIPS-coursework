@@ -1,0 +1,13 @@
+#addu1
+#addu
+#ta2617
+#Normal add
+#10
+#
+#
+
+addi $16, $16, 10 
+addu $2, $0, $16
+jr $0
+
+#Expected: 10

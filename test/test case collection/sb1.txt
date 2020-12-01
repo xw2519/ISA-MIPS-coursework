@@ -1,0 +1,16 @@
+#sb1
+#sb
+#ta2617
+#Normal store to data memory
+#63
+#
+#
+
+addi $20, $20, 0x2
+sll $20, $20, 28
+addi $16, $16, 0xf3f
+sb $16, 3($20)
+lb $2, 3($20)
+jr $0
+
+#Expected: 63

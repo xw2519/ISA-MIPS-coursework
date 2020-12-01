@@ -1,0 +1,14 @@
+#lw5
+#lw
+#ta2617
+#calls GETC
+#109
+#m
+#
+
+addi $20, $20, 0x3
+sll $20, $20, 28
+lw $2, 0($20)
+jr $0
+
+#Expected: exit: m (109) stdout:

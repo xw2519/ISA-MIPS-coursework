@@ -1,0 +1,14 @@
+#xori1
+#xori
+#am9717
+#Simple XORI function
+#10
+#
+#
+
+addi $16, $16, 5
+xori $2, $16, 15
+jr $0
+
+#Expected: 10
+

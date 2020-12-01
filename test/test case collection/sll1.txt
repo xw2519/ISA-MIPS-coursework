@@ -1,0 +1,14 @@
+#sll1
+#sll
+#am9717
+#Simple SLL function
+#20
+#
+#
+
+addi $16, $16, 5
+sll $2, $16, 2
+jr $0
+
+#Expected: 20
+

@@ -1,0 +1,14 @@
+#lh2
+#lh
+#ta2617
+#Load from misaligned address
+#245
+#
+#
+
+addi $20, $20, 0x2
+sll $20, $20, 28
+lh $2, 1($20)
+jr $0
+
+#Expected: -11 (245)

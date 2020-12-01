@@ -1,0 +1,14 @@
+#addi3
+#addi
+#am9717
+#Adds outside range -overflow
+#246
+#
+#
+
+addi $2, $2, 2
+sll $2, $2, 30
+add $2, $2, $2
+jr $0
+
+#Expected: -10 (246)

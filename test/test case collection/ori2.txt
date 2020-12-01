@@ -1,0 +1,14 @@
+#ori2
+#ori
+#am9717
+#Zero extended immediate
+#3
+#
+#
+
+lui $16, 3
+ori $2, $16, 65535
+srl $2, $2, 16
+jr $0
+
+#Expected: 3

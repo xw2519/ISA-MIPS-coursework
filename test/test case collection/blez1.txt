@@ -1,0 +1,18 @@
+#blez1
+#blez
+#am9717
+#Branch on equal to zero
+#2
+#
+#
+
+addi $2, $2, 4
+addi $2, $2, -4
+blez $2, 2
+sll $0, $0, 0
+addi $2, $2, 2
+sll $0, $0, 0
+jr $0
+sll $0, $0, 0
+
+#Expected: 2

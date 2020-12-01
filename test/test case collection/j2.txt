@@ -1,0 +1,16 @@
+#j2
+#j
+#ta2617
+#Jump to invalid memory location
+#245
+#
+#
+
+j -20
+addi $20, $20, 0x1
+addi $2, $2, 5
+addi $16, $16, 10
+add $2, $2, $16
+jr $0
+
+#Expected: -11 (245)

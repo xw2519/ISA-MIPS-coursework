@@ -1,0 +1,15 @@
+#lw3
+#lw
+#ta2617
+#Load from instruction memory
+#1
+#
+#
+
+addi $20, $20, 0x1
+sll $20, $20, 28
+lw $2, 0($20)
+sll $0, $0, 0
+jr $0
+
+#Expected: 1

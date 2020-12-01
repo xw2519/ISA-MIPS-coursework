@@ -1,0 +1,18 @@
+#jr5
+#jr
+#ta2617
+#Misaligned PC
+#245
+#
+#
+
+addi $20, $20, 0x1
+sll $20, $20, 28
+addi $20, $20, 15
+jr $20
+addi $20, $2, 5
+addi $16, $16, 10
+add $0, $2, $16
+jr $0
+
+#Expected: -11 (245)

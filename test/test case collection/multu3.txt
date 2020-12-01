@@ -1,0 +1,15 @@
+#multu3
+#multu
+#am9717
+#Check result in HI
+#0
+#
+#
+
+addiu $16, $16, 237
+addiu $17, $17, 96
+multu $16, $17
+mfhi $2 
+jr $0
+
+#Expected: 0

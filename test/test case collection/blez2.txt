@@ -1,0 +1,16 @@
+#blez2
+#blez
+#am9717
+#branching outside range 
+#245
+#
+#
+
+addi $2, $2, 3
+addi $2, $2, -4
+blez $2, 8
+sll $0, $0, 0
+jr $0
+sll $0, $0, 0
+
+#Expected: -11 (245)

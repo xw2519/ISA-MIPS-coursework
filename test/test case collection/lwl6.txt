@@ -1,0 +1,28 @@
+#lwl6
+#lwl
+#ta2617
+#Load from end of data memory
+#245
+#
+#
+
+addi $20, $20, 0x24
+sll $20, $20, 24
+lui $16, 0x0403
+addi $16, $16, 0x0201
+sw $16, 0($20)
+lwl $17, -3($20)
+sll $0, $0, 0
+andi $2, $17, 0xff
+srl $18, $17, 8
+andi $18, $18, 0xff
+add $2, $2, $18
+srl $18, $17, 16
+andi $18, $18, 0xff
+add $2, $2, $18
+srl $18, $17, 24
+andi $18, $18, 0xff
+add $2, $2, $18
+jr $0
+
+#Expected: -11 (245)

@@ -1,0 +1,15 @@
+#add3
+#add
+#am9717
+#Checks for -overflow
+#246
+#
+#
+
+addi $16, $16, 1
+sll $16, $16, 31
+addi $2, $16, -1
+add $2, $16, $2
+jr $0
+
+#Expected: -10 (246)

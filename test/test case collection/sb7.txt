@@ -1,0 +1,25 @@
+#sb7
+#sb
+#ta2617
+#PUTC Print
+#0
+#
+#Hello!
+
+addi $20, $20, 0x3
+sll $20, $20, 28
+addi $16, $0, 0x48
+sb $16, 7($20)
+addi $16, $0, 0x65
+sb $16, 7($20)
+addi $16, $0, 0x6c
+sb $16, 7($20)
+sb $16, 7($20)
+addi $16, $0, 0x6f
+sb $16, 7($20)
+addi $16, $0, 0x21
+sb $16, 7($20)
+
+jr $0
+
+#Expected: exit: 0 stdout: Hello!

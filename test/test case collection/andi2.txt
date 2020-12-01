@@ -1,0 +1,16 @@
+#andi2
+#andi
+#ta2617
+#Check zero extension
+#0
+#
+#
+
+addi $16, $16, 0xffff
+sll $16, $16, 16
+addi $16, $16, 0xffff
+andi $17, $16, 0x8000
+srl $2, $17, 16
+jr $0
+
+#Expected: 0

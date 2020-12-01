@@ -1,0 +1,17 @@
+#xor2
+#xor
+#am9717
+#Multiple XOR function
+#46
+#
+#
+
+addi $16, $16, 39
+addi $17, $17, 12
+xor $2, $16, $17
+addi $18, $18, 5
+xor $2, $2, $18
+jr $0
+
+#Expected: 46
+

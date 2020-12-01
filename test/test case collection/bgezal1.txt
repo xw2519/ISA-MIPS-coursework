@@ -1,0 +1,15 @@
+#bgezal1
+#bgezal
+#am9717
+#normal branching operation 
+#0
+#
+#
+
+addi $16, $16, 2
+bgezal $16, 8
+addi $31, $0, 0
+beq $0, $31, -5
+jr $0
+
+#Expected: 0

@@ -1,0 +1,17 @@
+#lbu4
+#lbu
+#ta2617
+#Checks zero extension GETC
+#0
+#
+#
+
+addi $20, $20, 0x3
+sll $20, $20, 28
+lbu $17, 3($20)
+sll $0, $0, 0
+srl $17, $17, 24
+andi $2, $17, 0xf
+jr $0
+
+#Expected: exit: 0

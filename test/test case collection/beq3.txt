@@ -1,0 +1,15 @@
+#beq3
+#beq
+#am9717
+#Branch out of range
+#245
+#
+#
+
+addi $12, $12, 20
+add $13, $13, $12
+beq $16, $17, -24
+sll $0, $0, 0
+jr $0
+
+#Expected: -11 (245)

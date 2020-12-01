@@ -1,0 +1,13 @@
+#div3
+#div
+#am9717
+#divide by zero
+#0
+#
+#
+
+addi $16, $16, 241
+div $16, $0
+jr $0
+
+#Expected: 0 (no exception)

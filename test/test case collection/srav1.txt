@@ -1,0 +1,15 @@
+#srav1
+#srav
+#am9717
+#Simples SRAV function
+#1
+#
+#
+
+addiu $16, $16, 120
+addiu $17, $17, 6
+srav $2, $16, $17
+jr $0
+
+#Expected: 1
+

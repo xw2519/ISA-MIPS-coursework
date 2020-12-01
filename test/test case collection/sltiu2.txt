@@ -1,0 +1,14 @@
+#sltiu2
+#sltiu
+#am9717
+#Case rs < rt 
+#1
+#
+#
+
+addiu $18, $18, 69
+sltiu $2, $18, 122
+jr $0
+
+#Expected: 1
+

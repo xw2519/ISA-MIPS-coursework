@@ -1,0 +1,14 @@
+#and1
+#and
+#ta2617
+#Normal operation
+#5
+#
+#
+
+addi $16, $16, 0xff
+addi $17, $17, 0x5
+and $2, $16, $17
+jr $0
+
+#Expected: 5

@@ -1,0 +1,15 @@
+#addi2
+#addi
+#am9717
+#ADDI check +overflow
+#246
+#
+#
+
+addi $16, $16, 0x7fff
+sll $16, $16, 16
+addi $16, $16, 0xffff
+add $2, $16, $16
+jr $0
+
+#Expected: -10 (246)

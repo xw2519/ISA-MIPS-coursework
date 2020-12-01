@@ -1,0 +1,16 @@
+#mult2
+#mult
+#am9717
+#Check result in LO
+#187
+#
+#
+
+lui $17, 65535
+addiu $16, $16, 65535
+addiu $18, $18, 69
+mult $16, $18
+mflo $2 
+jr $0
+
+#Expected: 187

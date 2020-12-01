@@ -1,0 +1,13 @@
+#andi1
+#andi
+#ta2617
+#Normal operation
+#1
+#
+#
+
+addi $16, $16, 11
+andi $2, $16, 21
+jr $0
+
+#Expected: 1

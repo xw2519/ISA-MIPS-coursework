@@ -1,0 +1,15 @@
+#sh7
+#sh
+#ta2617
+#Check putc (t)
+#0
+#
+#t
+
+addi $20, $20, 0x3
+sll $20, $20, 28
+addi $16, $16, 0x74
+sh $16, 6($20)
+jr $0
+
+#Expected: exit:0   stdout:t

@@ -1,0 +1,16 @@
+#beq2
+#beq
+#ta2617
+#Case rs != rt
+#20
+#
+#
+
+addi $16, $16, 20
+addi $17, $17, 10
+beq $16, $17, 8
+sll $0, $0, 0
+add $2, $0, $16
+jr $0
+
+#Expected: 20

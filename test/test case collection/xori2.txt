@@ -1,0 +1,15 @@
+#xori2
+#xori
+#am9717
+#Multiple XORI function
+#19
+#
+#
+
+addi $16, $16, 5
+xori $2, $16, 15
+xori $2, $2, 25
+jr $0
+
+#Expected: 19
+

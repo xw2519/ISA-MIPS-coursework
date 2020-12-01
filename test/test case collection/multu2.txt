@@ -1,0 +1,17 @@
+#multu2
+#multu
+#am9717
+#Check result in LO
+#1
+#
+#
+
+lui $4, 65535
+ori $4, $4, 65535
+lui $5, 65535
+ori $5, $5, 65535
+multu $4, $5
+mflo $2 
+jr $0
+
+#Expected: 1

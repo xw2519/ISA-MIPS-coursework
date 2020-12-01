@@ -1,0 +1,16 @@
+#bgez2
+#bgez
+#ta2617
+#Case rs == 0 (should skip line 8)
+#35
+#
+#
+
+addi $16, $16, 35
+bgez $17, 8
+sll $0, $0, 0
+add $2, $0, $16
+add $2, $2, $16
+jr $0
+
+#Expected: 35

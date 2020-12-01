@@ -1,0 +1,16 @@
+#srlv1
+#srlv
+#am9717
+#Simples SRLV function
+#3
+#
+#
+
+addiu $16, $16, 120
+addu $16, $16, $16
+addiu $17, $17, 6
+srlv $2, $16, $17
+jr $0
+
+#Expected: 3
+

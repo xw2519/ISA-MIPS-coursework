@@ -1,0 +1,20 @@
+#jalr1
+#jalr
+#ta2617
+#Checks correct behaviour rs=31
+#31
+#
+#
+
+lui $16, 0x1000
+addi $16, $16, 24
+addi $2, $0, 1
+jalr $16
+sll $0, $0, 0
+addi $2, $2, -1
+addi $2, $2, 5
+addi $2, $2, 5
+add $2, $2, $31
+jr $0
+
+#Expected: 31

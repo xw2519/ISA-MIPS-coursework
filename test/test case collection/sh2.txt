@@ -1,0 +1,14 @@
+#sh2
+#sh
+#ta2617
+#Store misaligned
+#245
+#
+#
+
+addi $20, $20, 0x2
+sll $20, $20, 28
+sh $16, 9($20)
+jr $0
+
+#Expected: -11 (245)

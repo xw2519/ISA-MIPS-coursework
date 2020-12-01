@@ -1,0 +1,14 @@
+#lui3
+#lui
+#ta2617
+#Checks ms 16 bits
+#33
+#
+#
+
+lui $2, 0x0021
+srl $2, $2, 16
+jr $0
+
+#Expected: 33
+

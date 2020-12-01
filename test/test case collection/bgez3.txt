@@ -1,0 +1,17 @@
+#bgez3
+#bgez
+#ta2617
+#Case rs < 0 (should not skip)
+#70
+#
+#
+
+addi $16, $16, 35
+addi $17, $17, -1
+bgez $17, 8
+sll $0, $0, 0
+add $2, $0, $16
+add $2, $2, $16
+jr $0
+
+#Expected: 70

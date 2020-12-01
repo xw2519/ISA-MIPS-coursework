@@ -69,11 +69,11 @@ module mips_cpu_bus_tb;
     always @(posedge read) // Uses waitrequest to cause fetch to take 3 cycles
     begin
         waitrequest = 1;
-        $display("TB : INFO : Waiting for FETCH; address=%h", address);
+        // $display("TB : INFO : Waiting for FETCH; address=%h", address);
         delayed_readdata = 32'hxxxxxxxx;
         #25;
         delayed_readdata = readdata;
-        $display("TB : INFO : FETCH completed; readdata=%h \n", delayed_readdata);
+        // $display("TB : INFO : FETCH completed; readdata=%h \n", delayed_readdata);
         waitrequest = 0;
     end
 

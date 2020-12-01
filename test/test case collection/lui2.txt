@@ -1,0 +1,14 @@
+#lui2
+#lui
+#ta2617
+#Checks ls 16 bits
+#0
+#
+#
+
+addi $2, $0, 200
+lui $2, 0xff22
+jr $0
+
+#Expected: 0
+

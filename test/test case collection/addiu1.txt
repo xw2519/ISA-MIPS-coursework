@@ -1,0 +1,13 @@
+#addiu1
+#addiu
+#am9717
+#Simple addition 
+#100
+#
+#
+
+addiu $2, $2, 50
+addiu $2, $2, 50
+jr $0
+
+#Expected: 100

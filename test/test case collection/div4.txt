@@ -1,0 +1,16 @@
+#div4
+#div
+#am9717
+#check result in LO
+#255
+#
+#
+
+lui $16, 0xFFFF
+addi $16, $16, 0xFFFF
+addi $17, $17, 0x1
+div $16, $17
+mflo $2
+jr $0
+
+#Expected: 255

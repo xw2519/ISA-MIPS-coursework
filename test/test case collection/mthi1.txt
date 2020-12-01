@@ -1,0 +1,13 @@
+#mthi1
+#mthi
+#ta2617
+#Checks store to HI
+#0
+#
+#
+
+addiu $16, $16, 100
+mthi $16
+jr $0
+
+#Expected: 0

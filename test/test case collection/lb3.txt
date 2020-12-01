@@ -1,0 +1,19 @@
+#lb3
+#lb
+#ta2617
+#Checks sign extension
+#15
+#
+#
+
+addi $20, $20, 0x2
+sll $20, $20, 28
+addi $16, $16, 0xffff
+sw $16, 0($20)
+lb $17, 3($20)
+sll $0, $0, 0
+srl $17, $17, 24
+andi $2, $17, 0xf
+jr $0
+
+#Expected: exit: 15

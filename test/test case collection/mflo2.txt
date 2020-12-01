@@ -1,0 +1,14 @@
+#mflo2
+#mflo
+#ta2617
+#Checks move from LO after store
+#30
+#
+#
+
+addiu $16, $16, 30
+mtlo $16
+mflo $2
+jr $0
+
+#Expected: 30

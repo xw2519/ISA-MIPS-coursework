@@ -1,0 +1,20 @@
+#bltz3
+#bltz
+#am9717
+#delayed branch (skips lines 5 and 6)
+#6
+#
+#
+
+addi $2, $2, 3
+add $2, $2, $2
+addi $2, $2, -7
+bltz $2, 8
+sll $0, $0, 0
+addi $2, $2, 2
+addi $2, $2, 3
+addi $2, $2, 4
+jr $0
+sll $0, $0, 0
+
+#Expected: 6

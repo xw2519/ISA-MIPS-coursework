@@ -1,0 +1,14 @@
+#lb2
+#lb
+#ta2617
+#Corner case end of memory range
+#245
+#
+#
+
+addi $20, $20, 0x24
+sll $20, $20, 24
+lb $2, 0($20)
+jr $0
+
+#Expected: -11 (245)

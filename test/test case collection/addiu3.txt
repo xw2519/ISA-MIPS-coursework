@@ -1,0 +1,12 @@
+#addiu3
+#addiu
+#am9717
+#Large +constant added
+#255
+#
+#
+
+addiu $2, $2, 0xFFFF
+jr $0
+
+#Expected: 255

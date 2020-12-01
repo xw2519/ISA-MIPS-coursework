@@ -1,0 +1,12 @@
+#addi1
+#addi
+#am9717
+#Simple addi
+#30
+#
+#
+
+addi $2, $0, 30
+jr $0
+
+#Expected: 30

@@ -1,0 +1,23 @@
+#sb6
+#sb
+#ta2617
+#Multiple stores
+#9
+#
+#
+
+addi $20, $20, 0x2
+sll $20, $20, 28
+addi $16, $16, 4
+sb $16, 2($20)
+sb $16, 3($20)
+addi $16, $0, 5
+sb $16, 6($20)
+sb $16, 7($20)
+lw $2, 0($20)
+lw $17, 4($20)
+sll $0, $0, 0
+add $2, $2, $17
+jr $0
+
+#Expected: 2313 (ls 2 bytes reads 9)

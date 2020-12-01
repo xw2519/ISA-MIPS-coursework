@@ -1,0 +1,13 @@
+#addiu2
+#addiu
+#am9717
+#+ve and -ve addition 
+#25
+#
+#
+
+addiu $2, $2, 50
+addiu $2, $2, -25
+jr $0
+
+#Expected: 25

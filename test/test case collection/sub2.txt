@@ -1,0 +1,14 @@
+#sub2
+#sub
+#ta2617
+#Subs a negative number
+#30
+#
+#
+
+addi $16, $16, 20
+addi $17, $17, -10
+sub $2, $16, $17
+jr $0
+
+#Expected: 30
