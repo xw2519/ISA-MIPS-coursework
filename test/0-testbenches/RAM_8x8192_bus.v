@@ -12,17 +12,14 @@ module RAM_8x8192_bus(
     input  logic [31:0]  writedata,
     input  logic [31:0]  address,
     input  logic [3:0]   byteenable,
-
     output logic [31:0]  readdata
 );
+
     parameter RAM_INIT_FILE = "";
-
-    reg   [7:0]  memory[8191:0];
-
+    reg   [7:0]  memory [8191:0];
     logic [12:0] mapped_address;   // Takes address from 32-bit to 13-bit according to map mentioned earlier
 
-    initial
-    begin
+    initial begin
         integer i;
 
         for (i=0; i<8192; i++) begin
@@ -35,8 +32,7 @@ module RAM_8x8192_bus(
         end
     end
 
-    always @(*)
-    begin
+    always @(*) begin
         case(address[31:24])
             8'h00   : mapped_address = address[12:0];
             8'h80   : mapped_address = address[12:0] + 13'h0400;
@@ -50,11 +46,12 @@ module RAM_8x8192_bus(
         //$display("RAM : INFO : read=%h, addr = %h, mem=%h", read, mapped_address,
                   //{memory[mapped_address+3], memory[mapped_address+2], memory[mapped_address+1], memory[mapped_address]});
         if (write) begin
-          memory[mapped_address]   <= writedata[7:0];
-          memory[mapped_address+1] <= writedata[15:8];
-          memory[mapped_address+2] <= writedata[23:16];
-          memory[mapped_address+3] <= writedata[31:24];
+            memory[mapped_address]   <= writedata[7:0];
+            memory[mapped_address+1] <= writedata[15:8];
+            memory[mapped_address+2] <= writedata[23:16];
+            memory[mapped_address+3] <= writedata[31:24];
         end
+
         readdata <= {{byteenable[3] ? memory[mapped_address+3] : 8'h00},
                      {byteenable[2] ? memory[mapped_address+2] : 8'h00},
                      {byteenable[1] ? memory[mapped_address+1] : 8'h00},
