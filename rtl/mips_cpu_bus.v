@@ -43,8 +43,7 @@ module mips_cpu_bus(
     logic [31:0]  instr_addr_reg;
 
 
-    always @(*)
-    begin
+    always @(*) begin
         byteenable = 4'hF;   // changing this would require changing the declaration for mips_cpu_harvard
 
         // Determines next state - state only changes if 'waitrequest' is low
