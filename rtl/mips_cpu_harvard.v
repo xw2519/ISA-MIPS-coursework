@@ -37,24 +37,24 @@ module mips_cpu_harvard
     logic [31:0] read_data_a;
     logic [31:0] read_data_b;
 
-    logic [4:0]  write_addr_c;
     logic        write_enable_c;
+    logic [4:0]  write_addr_c;
     logic [31:0] write_data_c;
 
-    /* --- PC definitions --- */
+    // PC definitions 
     logic [31:0] pc_reg;
     logic [31:0] pc_in;
 
-    /* --- IR definitions --- */  // required for delayed branching
+    // Instruction register definitions  
     logic [31:0] ir_reg;
 
-    /* --- Hi and Lo registers --- */
+    // Hi and Lo registers 
     logic [31:0] hi_reg;
     logic [31:0] hi_in;
     logic [31:0] lo_reg;
     logic [31:0] lo_in;
 
-    /* --- Internal signals --- */
+    // Internal signals 
     logic [31:0] sign_extended_immediate;
     logic [63:0] product;
     logic [31:0] quotient;
@@ -62,8 +62,8 @@ module mips_cpu_harvard
 
     /* --- Supported opcodes --- */
     typedef enum logic[5:0] {
-        R_TYPE = 6'b000000, /* ADDU, AND, JALR, JR, OR, SLL, SLLV, SLT, SLTU, SRA, SRAV, SRL, SRLV, SUBU, XOR */
-        BR_Z   = 6'b000001, /* BGEZ, BGEZAL, BLTZ, BLTZAL */
+        R_TYPE = 6'b000000, 
+        BR_Z   = 6'b000001, 
         ADDIU  = 6'b001001,
         ANDI   = 6'b001100,
         BEQ    = 6'b000100,
@@ -89,7 +89,7 @@ module mips_cpu_harvard
         XORI   = 6'b001110
     } opcode_t;
 
-    /* --- ALU Functions --- */
+    /* --- ALU functions --- */
     typedef enum logic[5:0] {
         F_ADDU  = 6'b100001,
         F_AND   = 6'b100100,
@@ -116,7 +116,7 @@ module mips_cpu_harvard
         F_XOR   = 6'b100110
     } alu_function_t;
 
-    /* --- ALU Opcodes --- */
+    /* --- ALU opcodes --- */
     typedef enum logic[3:0] {
         ADDU = 4'h0,
         SUBU = 4'h1,
@@ -138,50 +138,80 @@ module mips_cpu_harvard
         BLTZAL = 5'b10000
     */
 
+    /* Sub-module declarations */
+    mips_cpu_alu alu(
+        .alu_control    (alu_control),
+        .alu_shift_amt  (alu_shift_amt),
+        .alu_a          (read_data_a),
+        .alu_b          (alu_b),
+        .zero           (zero),
+        .equal          (equal),
+        .negative       (negative),
+        .alu_out        (alu_result)
+    );
+
+    mips_cpu_register_file reg_file(
+        .clk            (clk),
+        .reset          (reset),
+        .register_v0    (register_v0),
+
+        /* Read ports */
+        .read_addr_a    (ir_reg[25:21]),
+        .read_data_a    (read_data_a),
+        .read_addr_b    (ir_reg[20:16]),
+        .read_data_b    (read_data_b),
+
+        /* Write ports */
+        .write_addr_c   (write_addr_c),
+        .write_enable_c (write_enable_c),
+        .write_data_c   (write_data_c)
+    );
+
     /* --- CPU connections --- */
     always @(*)
     begin
-        /* --- These signals usually carry the same values, regardless of current instruction. --- */
         instr_address = pc_reg;
-          // Memory data address is always calculated by the ALU, bitwise AND is used because word addresses start at multiples of 4.
-        data_address = alu_result & 32'hFFFFFFFC;
-          // This chooses between Rs and the "shamt" instruction field for standard and variable shifts.
+        data_address  = alu_result & 32'hFFFFFFFC;
+        
+        // Choose between 'Rs' and 'shamt' for standard and variable shifts.
         alu_shift_amt = (ir_reg[5:2] == 4'h1) ? read_data_a[4:0] : ir_reg[10:6];
-          // This sign-extends the 16-bit immediate, sign extending is disabled if instruction is ADDIU or SLTIU.
+
+        // Sign-extends 16-bit immediate, disabled if instruction is 'ADDIU' or 'SLTIU'
         sign_extended_immediate = ({ir_reg[31:28], ir_reg[26]} == 5'b00101) ? {16'h0000, ir_reg[15:0]} : {{16{ir_reg[15]}}, ir_reg[15:0]};
-          // These are not synthesisable, they have to be implemented later.
-        product = (ir_reg[5:0] == F_MULTU) ? (read_data_a * read_data_b) : ($signed(read_data_a) * $signed(read_data_b));
-        quotient = (ir_reg[5:0] == F_DIVU) ? (read_data_a / read_data_b) : ($signed(read_data_a) / $signed(read_data_b));
-        remainder = (ir_reg[5:0] == F_DIVU) ? (read_data_a % read_data_b) : ($signed(read_data_a) % $signed(read_data_b));
 
-        /* --- This is the main block that decodes and executes instructions ---
-        It is an if-else structure with 3 parts, the first handles R-type instructions,
-        the second handles some conditional branches, the last handles I-type and J-type instructions.
+        // NOTE: Not synthesisable, they have to be implemented later.
+        product   = (ir_reg[5:0] == F_MULTU) ? (read_data_a * read_data_b) : ($signed(read_data_a) * $signed(read_data_b));
+        quotient  = (ir_reg[5:0] == F_DIVU)  ? (read_data_a / read_data_b) : ($signed(read_data_a) / $signed(read_data_b));
+        remainder = (ir_reg[5:0] == F_DIVU)  ? (read_data_a % read_data_b) : ($signed(read_data_a) % $signed(read_data_b));
 
-        In each case, there are 10 signals that have to be given values:
+        /* 
+        IF-ELSEIF-ELSE structure decoding and executing instructions 
+            - R-type instructions
+            - Conditional branches
+            - I-type and J-type instructions
 
         Connections to the data memory:
-        data_write -> whether or not to write to memory.
-        data_read -> whether or not to read from memory.
-        data_writedata -> data to be written to memory.
+            data_write - Enable write to memory
+            data_read - Enable read from memory
+            data_writedata - Data to be written to memory
 
         Connections to ALU:
-        alu_control -> the operation the ALU should perform.
-        alu_b -> the input to port b of the ALU, could be Rt or a sign-extended immediate.
+            alu_control - ALU operation
+            alu_b -> ALU port 'b' input, 'Rt' or sign-extended immediate
 
         Connections to Register File:
-        write_addr_c -> the address of the register to be written to, Rd or Rt.
-        write_data_c -> data to be written to the register file, could be the output of the ALU, the PC or data read from memory.
-        write_enable_c -> whether or not to write to a register file.
+            write_addr_c - Address of destination register - 'Rd' or 'Rt'
+            write_data_c - Data to be written to destination register: ALU output or PC or data read from memory
+            write_enable_c - Enable write to register file
 
         Internal registers:
-        pc_in -> next value of the PC.
-        hi_in -> next value of the hi register.
-        lo_in -> next value of the lo register.
+            pc_in - next value of PC
+            hi_in - next value of 'hi' register
+            lo_in - next value of 'lo' register
         */
 
-        if (ir_reg[31:26] == R_TYPE)      // all R-type instructions are handled in this "begin ... end".
-        begin
+        // R-type register
+        if (ir_reg[31:26] == R_TYPE) begin
             data_write = 0;
             data_read = 0;
             data_writedata = 0;
@@ -194,20 +224,19 @@ module mips_cpu_harvard
 
             pc_in = (ir_reg[5:1] == 5'b00100) ? read_data_a : (pc_reg + 4);   // If the instruction is JR or JALR, jump to Rs.
 
-            if ((ir_reg[5:0] == F_MULT) || (ir_reg[5:0] == F_MULTU))
-            begin
+            if ((ir_reg[5:0] == F_MULT) || (ir_reg[5:0] == F_MULTU)) begin
                 hi_in = product[63:32];
                 lo_in = product[31:0];
             end
-            else if ((ir_reg[5:0] == F_DIV) || (ir_reg[5:0] == F_DIVU))
-            begin
-              hi_in = product[63:32];
-              lo_in = product[31:0];
+
+            else if ((ir_reg[5:0] == F_DIV) || (ir_reg[5:0] == F_DIVU)) begin
+                hi_in = product[63:32];
+                lo_in = product[31:0];
             end
-            else
-            begin
-              hi_in = (ir_reg[5:0] == F_MTHI) ? read_data_a : hi_reg;
-              lo_in = (ir_reg[5:0] == F_MTLO) ? read_data_a : lo_reg;
+
+            else begin
+                hi_in = (ir_reg[5:0] == F_MTHI) ? read_data_a : hi_reg;
+                lo_in = (ir_reg[5:0] == F_MTLO) ? read_data_a : lo_reg;
             end
 
             case(ir_reg[5:0])
@@ -226,10 +255,11 @@ module mips_cpu_harvard
                 default   : alu_control = ADDU;
             endcase
         end
-        else if (ir_reg[31:26] == BR_Z)                    // Some conditional branches are handled here.
-        begin
+
+        // Conditional branches
+        else if (ir_reg[31:26] == BR_Z) begin
             data_write = 0;
-            data_read = 0;
+            data_read  = 0;
             data_writedata = 0;
 
             alu_control = ADDU;
@@ -243,10 +273,11 @@ module mips_cpu_harvard
             hi_in = hi_reg;
             lo_in = lo_reg;
         end
-        else                                                  // I-type and J-type instructions and are handled here
-        begin
+
+        // I-type and J-type instructions
+        else begin
             data_write = (ir_reg[31:26] == SB) || (ir_reg[31:26] == SH) || (ir_reg[31:26] == SW);
-            data_read = (ir_reg[31:26] == LB);
+            data_read  = (ir_reg[31:26] == LB);
 
             alu_b = ((ir_reg[31:26] == BEQ) || (ir_reg[31:26] == BNE)) ? ir_reg[20:16] : sign_extended_immediate;
 
@@ -302,16 +333,15 @@ module mips_cpu_harvard
     /* --- CPU states --- */
     always_ff @(posedge clk)
     begin
-        if(reset) // Resets the CPU.
-        begin
+        if(reset) begin
             pc_reg <= 32'hBFC00000;
             active <= 1;
             ir_reg <= 0;
             hi_reg <= 0;
             lo_reg <= 0;
         end
-        else if(clk_enable) // The CPU runs and updates states here.
-        begin
+
+        else if(clk_enable) begin
             pc_reg <= pc_in;
             active <= ~(pc_reg == 32'h00000000);
             ir_reg <= instr_readdata;
@@ -319,34 +349,5 @@ module mips_cpu_harvard
             lo_reg <= lo_in;
         end
     end
-
-    mips_cpu_alu alu(
-        .alu_control(alu_control),
-        .alu_shift_amt(alu_shift_amt),
-        .alu_a(read_data_a),
-        .alu_b(alu_b),
-
-        .zero(zero),
-        .equal(equal),
-        .negative(negative),
-        .alu_out(alu_result)
-    );
-
-    mips_cpu_register_file reg_file(
-        .clk(clk),
-        .reset(reset),
-        .register_v0(register_v0),
-
-        /* Read ports */
-        .read_addr_a(ir_reg[25:21]),
-        .read_data_a(read_data_a),
-        .read_addr_b(ir_reg[20:16]),
-        .read_data_b(read_data_b),
-
-        /* Write port */
-        .write_addr_c(write_addr_c),
-        .write_enable_c(write_enable_c),
-        .write_data_c(write_data_c)
-    );
 
 endmodule
