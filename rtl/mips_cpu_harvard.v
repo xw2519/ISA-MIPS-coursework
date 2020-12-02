@@ -41,20 +41,20 @@ module mips_cpu_harvard
     logic [4:0]  write_addr_c;
     logic [31:0] write_data_c;
 
-    // PC definitions 
+    // PC definitions
     logic [31:0] pc_reg;
     logic [31:0] pc_in;
 
-    // Instruction register definitions  
+    // Instruction register definitions
     logic [31:0] ir_reg;
 
-    // Hi and Lo registers 
+    // Hi and Lo registers
     logic [31:0] hi_reg;
     logic [31:0] hi_in;
     logic [31:0] lo_reg;
     logic [31:0] lo_in;
 
-    // Internal signals 
+    // Internal signals
     logic [31:0] sign_extended_immediate;
     logic [63:0] product;
     logic [31:0] quotient;
@@ -62,8 +62,8 @@ module mips_cpu_harvard
 
     /* --- Supported opcodes --- */
     typedef enum logic[5:0] {
-        R_TYPE = 6'b000000, 
-        BR_Z   = 6'b000001, 
+        R_TYPE = 6'b000000,
+        BR_Z   = 6'b000001,
         ADDIU  = 6'b001001,
         ANDI   = 6'b001100,
         BEQ    = 6'b000100,
@@ -152,6 +152,7 @@ module mips_cpu_harvard
 
     mips_cpu_register_file reg_file(
         .clk            (clk),
+        .clk_enable     (clk_enable),
         .reset          (reset),
         .register_v0    (register_v0),
 
@@ -172,7 +173,7 @@ module mips_cpu_harvard
     begin
         instr_address = pc_reg;
         data_address  = alu_result & 32'hFFFFFFFC;
-        
+
         // Choose between 'Rs' and 'shamt' for standard and variable shifts.
         alu_shift_amt = (ir_reg[5:2] == 4'h1) ? read_data_a[4:0] : ir_reg[10:6];
 
@@ -184,8 +185,8 @@ module mips_cpu_harvard
         quotient  = (ir_reg[5:0] == F_DIVU)  ? (read_data_a / read_data_b) : ($signed(read_data_a) / $signed(read_data_b));
         remainder = (ir_reg[5:0] == F_DIVU)  ? (read_data_a % read_data_b) : ($signed(read_data_a) % $signed(read_data_b));
 
-        /* 
-        IF-ELSEIF-ELSE structure decoding and executing instructions 
+        /*
+        IF-ELSEIF-ELSE structure decoding and executing instructions
             - R-type instructions
             - Conditional branches
             - I-type and J-type instructions

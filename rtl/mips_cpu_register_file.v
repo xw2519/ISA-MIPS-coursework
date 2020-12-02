@@ -2,6 +2,7 @@ module mips_cpu_register_file
 (
     /* Standard signals */
     input  logic        clk,
+    input  logic        clk_enable,
     input  logic        reset,
     output logic [31:0] register_v0,
 
@@ -36,7 +37,7 @@ module mips_cpu_register_file
         end
 
         // Write at positive clock-edge
-        else if (write_enable_c && (write_addr_c != 0)) begin
+        else if (write_enable_c && (write_addr_c != 0) && clk_enable) begin
             regs[write_addr_c] <= write_data_c;
         end
     end
