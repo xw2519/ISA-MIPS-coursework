@@ -51,8 +51,27 @@ set +e
 grep "${P}" 4-output/mips_cpu_bus_tb_${TESTCASE}.stdout > 4-output/mips_cpu_bus_tb_${TESTCASE}.out-lines
 set -e 
 
-#sed replaces unwanyed bits (P) with N
+#sed replaces unwanted bits (P) with N
 sed -e "s/${P}/${N}/g" 4-output/mips_cpu_bus_tb_${TESTCASE}.out-lines > 4-output/mips_cpu_bus_tb_${TESTCASE}.out
 
+#obtaining simmulator output....
 
+
+
+#comparing outputs
+>&2 echo "Comparing outputs to simmulators"
+#-w to ignore whitespace //// may be room for edge cases here <----
+
+set +e 
+diff -w 5-reference/${TESTCASE}.out 4-output/mips_cpu_bus_tb_${TESTCASE}.out-lines > 4-output/mips_cpu_bus_tb_${TESTCASE}.out
+RESULT=$?
+set -e
+
+#PASS or FAIL
+
+if [[ "${RESULT}" -ne 0]]; then 
+    echo " ${TESTCASE}, FAIL"
+else
+    echo " ${TESTCASE}, PASS"
+fi
 
