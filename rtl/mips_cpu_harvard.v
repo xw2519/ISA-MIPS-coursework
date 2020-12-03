@@ -55,7 +55,6 @@ module mips_cpu_harvard
     logic [31:0] lo_in;
 
     // Internal signals
-    logic [31:0] sign_extended_immediate;
     logic [63:0] product;
     logic [31:0] quotient;
     logic [31:0] remainder;
@@ -177,9 +176,6 @@ module mips_cpu_harvard
         // Choose between 'Rs' and 'shamt' for standard and variable shifts.
         alu_shift_amt = (ir_reg[5:2] == 4'h1) ? read_data_a[4:0] : ir_reg[10:6];
 
-        // Sign-extends 16-bit immediate, disabled if instruction is 'ADDIU' or 'SLTIU'
-        sign_extended_immediate = ({ir_reg[31:28], ir_reg[26]} == 5'b00101) ? {16'h0000, ir_reg[15:0]} : {{16{ir_reg[15]}}, ir_reg[15:0]};
-
         // NOTE: Not synthesisable, they have to be implemented later.
         product   = (ir_reg[5:0] == F_MULTU) ? (read_data_a * read_data_b) : ($signed(read_data_a) * $signed(read_data_b));
         quotient  = (ir_reg[5:0] == F_DIVU)  ? (read_data_a / read_data_b) : ($signed(read_data_a) / $signed(read_data_b));
@@ -270,7 +266,7 @@ module mips_cpu_harvard
             write_data_c = pc_reg;
             write_enable_c = ir_reg[20];
 
-            pc_in = (ir_reg[16] ^ negative) ? (pc_reg + (sign_extended_immediate << 2)) : (pc_reg + 4);
+            pc_in = (ir_reg[16] ^ negative) ? (pc_reg + {{14{ir_reg[15]}}, ir_reg[15:0], 2'b00}) : (pc_reg + 4);
             hi_in = hi_reg;
             lo_in = lo_reg;
         end
@@ -280,7 +276,7 @@ module mips_cpu_harvard
             data_write = (ir_reg[31:26] == SB) || (ir_reg[31:26] == SH) || (ir_reg[31:26] == SW);
             data_read  = (ir_reg[31:26] == LB);
 
-            alu_b = ((ir_reg[31:26] == BEQ) || (ir_reg[31:26] == BNE)) ? ir_reg[20:16] : sign_extended_immediate;
+            alu_b = ((ir_reg[31:26] == BEQ) || (ir_reg[31:26] == BNE)) ? ir_reg[20:16] : {{16{ir_reg[15]}}, ir_reg[15:0]};
 
             write_addr_c = (ir_reg[31:26] == JAL) ? 5'b11111 : ir_reg[20:16];
             write_enable_c = ((ir_reg[31:26] == ADDIU) || (ir_reg[31:26] == ANDI)  || (ir_reg[31:26] == JAL) ||
@@ -320,10 +316,10 @@ module mips_cpu_harvard
             endcase
 
             case(ir_reg[31:26])
-                BEQ     : pc_in = equal ? (pc_reg + (sign_extended_immediate << 2)) : pc_reg + 4;
-                BGTZ    : pc_in = ((~negative) && ~(zero)) ? (pc_reg + (sign_extended_immediate << 2)) : pc_reg + 4;
-                BLEZ    : pc_in = (negative || zero) ? (pc_reg + (sign_extended_immediate << 2)) : pc_reg + 4;
-                BNE     : pc_in = ~(equal) ? (pc_reg + (sign_extended_immediate << 2)) : pc_reg + 4;
+                BEQ     : pc_in = equal ? (pc_reg + ({{14{ir_reg[15]}}, ir_reg[15:0], 2'b00})) : pc_reg + 4;
+                BGTZ    : pc_in = ((~negative) && ~(zero)) ? (pc_reg + ({{14{ir_reg[15]}}, ir_reg[15:0], 2'b00})) : pc_reg + 4;
+                BLEZ    : pc_in = (negative || zero) ? (pc_reg + ({{14{ir_reg[15]}}, ir_reg[15:0], 2'b00})) : pc_reg + 4;
+                BNE     : pc_in = ~(equal) ? (pc_reg + ({{14{ir_reg[15]}}, ir_reg[15:0], 2'b00})) : pc_reg + 4;
                 J       : pc_in = pc_reg + {{6{ir_reg[25]}}, ir_reg[25:0]};
                 JAL     : pc_in = pc_reg + {{6{ir_reg[25]}}, ir_reg[25:0]};
                 default : pc_in = pc_reg + 4;
