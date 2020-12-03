@@ -27,8 +27,8 @@ module mips_cpu_alu
 
     always_comb begin
         case(alu_control)
-            ADDU    : alu_out = alu_a + alu_b;
-            SUBU    : alu_out = alu_a - alu_b;
+            ADDU    : alu_out = $unsigned(alu_a) + $unsigned(alu_b);
+            SUBU    : alu_out = $unsigned(alu_a) - $unsigned(alu_b);
             AND     : alu_out = alu_a & alu_b;
             OR      : alu_out = alu_a | alu_b;
             XOR     : alu_out = alu_a ^ alu_b;
@@ -36,7 +36,7 @@ module mips_cpu_alu
             SRA     : alu_out = $signed(alu_b) >>> alu_shift_amt;
             SLL     : alu_out = alu_b << alu_shift_amt;
             STL     : alu_out = {31'h0000,($signed(alu_a) < $signed(alu_b))};
-            STLU    : alu_out = {31'h0000,(alu_a < alu_b)};
+            STLU    : alu_out = {31'h0000,($unsigned(alu_a) < $unsigned(alu_b))};
             default : alu_out = alu_b;
         endcase
 
