@@ -6,8 +6,8 @@
 #
 #
 
-addi $16, $16, 11
-andi $2, $16, 21
+addiu $16, $16, 11
+andiu $2, $16, 21
 jr $0
 
 #Expected: 1

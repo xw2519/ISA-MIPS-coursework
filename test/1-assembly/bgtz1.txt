@@ -1,14 +1,14 @@
 #bgtz1
 #bgtz
 #am9717
-#normal branching operation 
+#normal branching operation
 #0
 #
 #
 
-addi $2, $2, 3
-addi $2, $2, -1
-addi $2, $2, -1
+addiu $2, $2, 3
+addiu $2, $2, -1
+addiu $2, $2, -1
 bgtz $2, -8
 sll $0, $0, 0
 jr $0

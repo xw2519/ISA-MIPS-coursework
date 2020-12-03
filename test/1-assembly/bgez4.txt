@@ -6,11 +6,11 @@
 #
 #
 
-addi $16, $16, 3
-addi $17, $17, 1
+addiu $16, $16, 3
+addiu $17, $17, 1
 sll $0, $0, 0
-bgez $16, -8 
-sub $16, $16, $17
+bgez $16, -8
+subu $16, $16, $17
 jr $0
 
 #Expected: 0
