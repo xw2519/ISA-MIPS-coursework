@@ -17,24 +17,22 @@ TESTCASE="$2"
 #and memory is initilised correctly 
 
 iverilog -g 2012 \
-   ${SOURCE_DIRECTORY} 0-testbenches/mips_cpu_bus_tb.v 0-testbenches/RAM_*.v \
+   ${SOURCE_DIRECTORY} rtl/mips_cpu_harvard.v rtl/mips_cpu_alu.v rtl/mips_cpu_register_file.v test/0-testbenches/mips_cpu_bus_tb.v test/0-testbenches/RAM_*.v \
    -s mips_cpu_bus_tb \
-   -Pmips_cpu_bus_tb.RAM_INIT_FILE=\"2-binary/${TESTCASE}.hex.txt\" \
-   -o 3-simulator/mips_cpu_bus_tb_${TESTCASE}
+   -Pmips_cpu_bus_tb.RAM_INIT_FILE=\"test/2-binary/${TESTCASE}.hex.txt\" \
+   -o test/3-simulator/mips_cpu_bus_tb_${TESTCASE}
 
 
 
 >&2 echo "Running test-bench"
-
 #+e disables automatic script failure if command fails
-
 set +e 
-3-simulator/mips_cpu_bus_tb_${TESTCASE} > 4-output/mips_cpu_bus_tb_${TESTCASE}.stdout
+test/3-simulator/mips_cpu_bus_tb_${TESTCASE} > test/4-output/mips_cpu_bus_tb_${TESTCASE}.stdout
 #exit code:
 RESULT=$?
 set -e
 
-if [${RESULT} -ne 0]; then 
+if [[ "${RESULT}" -ne 0 ]]; then 
     echo "${TESTCASE} FAILED"
     exit
 fi 
@@ -44,15 +42,15 @@ fi
 >&2 echo "Extracting ouputs from CPU"
 
 P="TB : INFO : register_v0="
-N=""
+N=" "
 
 #grep looks at lines containing P
 set +e 
-grep "${P}" 4-output/mips_cpu_bus_tb_${TESTCASE}.stdout > 4-output/mips_cpu_bus_tb_${TESTCASE}.out-lines
+grep "${P}" test/4-output/mips_cpu_bus_tb_${TESTCASE}.stdout > test/4-output/mips_cpu_bus_tb_${TESTCASE}.out-lines
 set -e 
 
 #sed replaces unwanted bits (P) with N
-sed -e "s/${P}/${N}/g" 4-output/mips_cpu_bus_tb_${TESTCASE}.out-lines > 4-output/mips_cpu_bus_tb_${TESTCASE}.out
+sed -e "s/${P}/${N}/g" test/4-output/mips_cpu_bus_tb_${TESTCASE}.out-lines > test/4-output/mips_cpu_bus_tb_${TESTCASE}.out
 
 #obtaining simmulator output....
 
@@ -63,13 +61,13 @@ sed -e "s/${P}/${N}/g" 4-output/mips_cpu_bus_tb_${TESTCASE}.out-lines > 4-output
 #-w to ignore whitespace //// may be room for edge cases here <----
 
 set +e 
-diff -w 5-reference/${TESTCASE}.out 4-output/mips_cpu_bus_tb_${TESTCASE}.out-lines > 4-output/mips_cpu_bus_tb_${TESTCASE}.out
+diff -w test/5-reference/${TESTCASE}.out test/4-output/mips_cpu_bus_tb_${TESTCASE}.out > test/4-output/comparing_errors/${TESTCASE}_comparison_erros.out
 RESULT=$?
 set -e
 
 #PASS or FAIL
 
-if [[ "${RESULT}" -ne 0]]; then 
+if [[ "${RESULT}" -ne 0 ]]; then 
     echo " ${TESTCASE}, FAIL"
 else
     echo " ${TESTCASE}, PASS"
