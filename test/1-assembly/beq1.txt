@@ -1,10 +1,5 @@
-#beq1
-#beq
-#ta2617
-#Case rs == rt (should skip line 9)
+# Branch should be taken
 #35
-#
-#
 
 addiu $16, $16, 35
 addiu $17, $17, 35
