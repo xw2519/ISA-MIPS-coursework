@@ -16,9 +16,13 @@ TESTCASE="$2"
 #this will need changing so addressing is correct 
 #and memory is initilised correctly 
 
+
+COMP_FILES="${SOURCE_DIRECTORY}""/*.v"
+
+
 iverilog -g 2012 \
-   ${SOURCE_DIRECTORY} rtl/mips_cpu_harvard.v rtl/mips_cpu_alu.v rtl/mips_cpu_register_file.v test/0-testbenches/mips_cpu_bus_tb.v test/0-testbenches/RAM_*.v \
-   -s mips_cpu_bus_tb \
+    ${COMP_FILES} test/0-testbenches/mips_cpu_bus_tb.v test/0-testbenches/RAM_*.v \
+    -s mips_cpu_bus_tb \
    -Pmips_cpu_bus_tb.RAM_INIT_FILE=\"test/2-binary/${TESTCASE}.hex.txt\" \
    -o test/3-simulator/mips_cpu_bus_tb_${TESTCASE}
 
