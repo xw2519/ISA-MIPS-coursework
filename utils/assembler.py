@@ -96,6 +96,8 @@ def asm_to_hex(asm_dir, hex_dir):
     instr_lines = []
     labels = {}
 
+    line_count = 0
+
     for i,line in enumerate(asm_in):
         split = [x.replace('$','').replace(',','') for x in line.split()]
         if len(split) == 0: continue
@@ -166,12 +168,18 @@ def asm_to_hex(asm_dir, hex_dir):
             Rs = int(line[2].split('(')[1].replace(')',''))
             hex_line = hex(int(opcode + to_bin(Rs,5) + to_bin(Rt,5) + to_bin(offset,16),2))
         hex_line = hex_line.split('x')[-1].zfill(8) + 'h'
-        print(hex_line)
-        for i in range(4):
-            print(hex_line[-2*i-3:-2*i-1])
-            hex_file.write(hex_line[-2*i-3:-2*i-1]+'\n')
 
-for filename in os.listdir('./test/1-assembly/'):
+        # print(hex_line)
+        
+        for i in range(4):
+            # print(hex_line[-2*i-3:-2*i-1])
+            hex_file.write(hex_line[-2*i-3:-2*i-1]+'\n')
+            line_count = line_count + 1
+
+
+    for i in range(8192 - (line_count + 5120)): hex_file.write('00\n')
+
+for filename in os.listdir('../test/1-assembly/'):
     if filename.endswith(".asm.txt"):
-        print(os.path.join('./test/1-assembly/', filename))
-        asm_to_hex(os.path.join('./test/1-assembly/', filename), os.path.join('./test/2-binary/', filename.replace('asm','hex')))
+        print(os.path.join('../test/1-assembly/', filename))
+        asm_to_hex(os.path.join('../test/1-assembly/', filename), os.path.join('../test/2-binary/', filename.replace('asm','hex')))
