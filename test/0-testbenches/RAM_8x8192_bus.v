@@ -15,6 +15,7 @@ module RAM_8x8192_bus(
     output logic [31:0]  readdata
 );
 
+    integer index;
     parameter RAM_INIT_FILE = "";
     reg   [7:0]  memory [8191:0];
     logic [12:0] mapped_address;   // Takes address from 32-bit to 13-bit according to map mentioned earlier
@@ -22,14 +23,16 @@ module RAM_8x8192_bus(
     initial begin
         integer i;
 
-        for (i=0; i<8192; i++) begin
-            memory[i]=0;
-        end
         /* Load contents from file if specified */
         if (RAM_INIT_FILE != "") begin
             $display("RAM : INIT : Loading RAM contents from %s", RAM_INIT_FILE);
             $readmemh(RAM_INIT_FILE, memory, 0, 8191);
         end
+        /*
+        for (index = 0; index < 8192; index ++) begin
+            $display("Index:%d and memory %h" ,index, memory[index]);
+        end
+        */
     end
 
     always @(*) begin

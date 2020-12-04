@@ -14,9 +14,9 @@ module mips_cpu_register_file
     output logic [31:0] read_data_b,
 
     /* Write port */
-    input  logic [4:0]  write_addr_c,
-    input  logic        write_enable_c,
-    input  logic [31:0] write_data_c
+    input  logic [4:0]  regfile_write_addr,
+    input  logic        regfile_write_enable,
+    input  logic [31:0] regfile_write_data
 );
 
     integer i;
@@ -37,8 +37,8 @@ module mips_cpu_register_file
         end
 
         // Write at positive clock-edge
-        else if (write_enable_c && (write_addr_c != 0) && clk_enable) begin
-            regs[write_addr_c] <= write_data_c;
+        else if (regfile_write_enable && (regfile_write_addr != 0) && clk_enable) begin
+            regs[regfile_write_addr] <= regfile_write_data;
         end
     end
 endmodule

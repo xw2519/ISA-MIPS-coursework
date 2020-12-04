@@ -11,7 +11,7 @@ INSTRUCTION="${2:-all}"
 
 iverilog -Wall -g 2012 \
     -s mips_cpu_bus_tb test/0-testbenches/RAM_8x8192_bus.v test/0-testbenches/mips_cpu_bus_tb.v ${SOURCE_DIR}/mips_cpu_*.v \
-    -P mips_cpu_bus_tb.RAM_INIT_FILE=\"test/2-binary/addu1.hex.txt\" \
+    -P mips_cpu_bus_tb.RAM_INIT_FILE=\"test/2-binary/addiu3.hex.txt\" \
     -o test/3-simulator/mips_bus_test
     
 test/3-simulator/mips_bus_test
