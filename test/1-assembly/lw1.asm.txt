@@ -4,10 +4,10 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-# addiu3
-# addiu
-# Large constants
-# 0xffffffff
+# lw1
+# lw
+# Normal
+# 35
 
-addiu $2, $2, 65535
-jr $0
+lw 	$2, 4($20)
+jr 	$0

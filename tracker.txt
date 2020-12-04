@@ -26,5 +26,9 @@ Data log to track changes and testing progress:
 -----------------------------------------------
 - 'addu' works 
 - Fixed instructions to correspond to line 5120 
+- 'lw' works
+- 'and' and 'andi' works
+- Padded the python file to fit with 8192 constraint
+
 
 

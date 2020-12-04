@@ -4,10 +4,12 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-# addiu3
-# addiu
-# Large constants
-# 0xffffffff
+# jr1
+# jr
+# HALT
+# 0
 
-addiu $2, $2, 65535
+jr $0
+addiu $2, $2, 0
+addiu $2, $2, 10
 jr $0

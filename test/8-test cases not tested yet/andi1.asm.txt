@@ -1,8 +1,0 @@
-#bitwise AND immediate
-#1
-
-addiu $21, $21, 11
-andi $2, $21, 21
-jr $0
-
-#Expected: 1

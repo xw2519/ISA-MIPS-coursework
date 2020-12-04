@@ -4,10 +4,11 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-# addiu3
-# addiu
-# Large constants
-# 0xffffffff
+# andi2
+# andi
+# sign extension
+# 0x00000000
 
-addiu $2, $2, 65535
+addiu $8, $9, 65535
+andi $8, $8, 0
 jr $0

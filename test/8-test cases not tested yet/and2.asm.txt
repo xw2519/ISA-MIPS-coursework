@@ -1,9 +1,0 @@
-# bitwise AND with 0
-#0
-
-addiu $16, $16, 65535
-addiu $17, $17, 0
-and $2, $16, $17
-jr $0
-
-#Expected: 0

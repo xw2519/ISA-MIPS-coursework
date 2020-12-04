@@ -4,10 +4,11 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-# addiu3
-# addiu
-# Large constants
-# 0xffffffff
+# and1
+# andi
+# bitwise AND immediate
+# 0x00000001
 
-addiu $2, $2, 65535
+addiu $27, $27, 11
+andi $2, $27, 21
 jr $0
