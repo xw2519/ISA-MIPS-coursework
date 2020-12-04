@@ -1,14 +1,13 @@
 # addiu3
 # addiu
 # Large constants
-# 65535
+# -1
 
-addiu $2, $2, 0xFFFF
+addiu $2, $2, 65535
 jr $0
 
-# Expected: 65535
+# Expected: 0xffffffff
 
 ----------------------------------
 # 2442ffff
 # 00000008
-

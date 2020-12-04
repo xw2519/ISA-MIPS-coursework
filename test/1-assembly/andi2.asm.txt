@@ -1,0 +1,9 @@
+#Test sign extension
+#0
+
+addiu $19, $19, 65535
+andi $18, $19, 32768
+srl $2, $18, 16
+jr $0
+
+#Expected: 0

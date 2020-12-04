@@ -40,8 +40,8 @@ module mips_cpu_alu
             default : alu_out = alu_b;
         endcase
 
-        zero = (alu_a == 0);
-        equal = (alu_a == alu_b);
+        zero     = (alu_a == 0);
+        equal    = (alu_a == alu_b);
         negative = ($signed(alu_a) < 0);
     end
 endmodule
