@@ -4,10 +4,10 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-# addiu2
-# addiu
-# +ve and -ve addition 
-# 0x0000000d
+addiu2
+addiu
+pos and neg addition 
+0x0000000d
 
 addiu $2, $2, 20
 addiu $2, $2, -7

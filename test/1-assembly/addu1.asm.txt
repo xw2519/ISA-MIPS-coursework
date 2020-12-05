@@ -4,10 +4,10 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-# addu1
-# addu
-# simple addition
-# 0x0000000f
+addu1
+addu
+simple addition
+0x0000000f
 
 
 addiu $8, $8, 15

@@ -4,10 +4,10 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-# jr1
-# jr
-# HALT
-# 0
+jr1
+jr
+HALT
+0
 
 jr $0
 addiu $2, $2, 0

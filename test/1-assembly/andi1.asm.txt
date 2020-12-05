@@ -4,10 +4,10 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-# and1
-# andi
-# bitwise AND immediate
-# 0x00000001
+and1
+andi
+bitwise AND immediate
+0x00000001
 
 addiu $27, $27, 11
 andi $2, $27, 21

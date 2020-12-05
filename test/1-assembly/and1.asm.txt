@@ -4,10 +4,10 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-# and1
-# and
-# bitwise AND
-# 0x0000002c
+and1
+and
+bitwise AND
+0x0000002c
 
 addiu $13, $16, 300
 addiu $19, $17, 60
