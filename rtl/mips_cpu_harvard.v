@@ -93,7 +93,7 @@ module mips_cpu_harvard
     /* --- Supported opcodes --- */
     typedef enum logic[5:0] {
         R_TYPE = 6'b000000,
-        BR_Z   = 6'b000001, 
+        BR_Z   = 6'b000001,
         ADDIU  = 6'b001001,
         ANDI   = 6'b001100,
         BEQ    = 6'b000100,
@@ -127,8 +127,8 @@ module mips_cpu_harvard
         F_DIVU  = 6'b011011,
         F_JALR  = 6'b001001,
         F_JR    = 6'b001000,
-        F_MFHI  = 6'b010000, 
-        F_MFLO  = 6'b010010, 
+        F_MFHI  = 6'b010000,
+        F_MFLO  = 6'b010010,
         F_MTHI  = 6'b010001,
         F_MTLO  = 6'b010011,
         F_MULT  = 6'b011000,
@@ -326,8 +326,8 @@ module mips_cpu_harvard
                 BGTZ    : pc_in = ((~negative) && ~(zero)) ? (pc_reg + ({{14{ir_reg[15]}}, ir_reg[15:0], 2'b00})) : pc_reg + 4;
                 BLEZ    : pc_in = (negative || zero) ? (pc_reg + ({{14{ir_reg[15]}}, ir_reg[15:0], 2'b00})) : pc_reg + 4;
                 BNE     : pc_in = ~(equal) ? (pc_reg + ({{14{ir_reg[15]}}, ir_reg[15:0], 2'b00})) : pc_reg + 4;
-                J       : pc_in = pc_reg + {{6{ir_reg[25]}}, ir_reg[25:0]};
-                JAL     : pc_in = pc_reg + {{6{ir_reg[25]}}, ir_reg[25:0]};
+                J       : pc_in = {pc_reg[31:28], ir_reg[25:0], 2'b00};
+                JAL     : pc_in = {pc_reg[31:28], ir_reg[25:0], 2'b00};
                 default : pc_in = pc_reg + 4;
             endcase
         end
