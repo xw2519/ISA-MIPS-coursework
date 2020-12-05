@@ -1,8 +1,8 @@
 ---------------------------------------------------
-# test-case ID
-# instruction tested
-# comments
-# expected ouput
+test-case ID
+instruction tested
+comments
+expected ouput
 ---------------------------------------------------
 # addiu1
 # addiu
