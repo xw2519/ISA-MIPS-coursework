@@ -4,10 +4,10 @@ instruction tested
 comments
 expected ouput
 ---------------------------------------------------
-# addiu1
-# addiu
-# Addition 
-# 0x0000005a
+addiu1
+addiu
+Addition 
+0x0000005a
 
 addiu $2, $2, 10
 addiu $2, $2, 80

@@ -13,6 +13,11 @@ SIMUL_DIR="test/3-simulator"
 OUT_DIR="test/4-output"
 REF_DIR="test/5-reference"
 
+# Extract assembly file parameters
+Case_ID=$(awk 'NR==7' ${ASSEM_DIR}/${TEST_CASE}.asm.txt)
+Case_Instr=$(awk 'NR==8' ${ASSEM_DIR}/${TEST_CASE}.asm.txt)
+Case_Comment=$(awk 'NR==9' ${ASSEM_DIR}/${TEST_CASE}.asm.txt)
+
 # Redirect output to stder (&2) so that it seperate from genuine outputs
 >&2 echo "Testing instructions: ${TEST_CASE}"
 
@@ -42,18 +47,16 @@ set -e
 # Replace "TB : INFO : register_v0=" and "TB : finished; active=" with ""
 sed -e "s/${Reg_output}/${Nothing}/g; s/${Active_flag}/${Nothing}/g" ${OUT_DIR}/${TEST_CASE}.out-lines > ${OUT_DIR}/${TEST_CASE}.out
 
-# Room for edge cases
-
-
 >&2 echo "4 - Comparing output with reference"
 set +e 
 diff -w ${REF_DIR}/${TEST_CASE}.out ${OUT_DIR}/${TEST_CASE}.out > ${OUT_DIR}/${TEST_CASE}_diff_out
 RESULT=$?
 set -e
 
+# Output formatting
 if [[ "${RESULT}" -ne 0 ]]; then 
-    echo "${TEST_CASE}, FAIL"
+    echo "${Case_ID} ${Case_Instr} Fail ${Case_Comment}"
 else
-    echo "${TEST_CASE}, PASS"
+    echo "${Case_ID} ${Case_Instr} Pass ${Case_Comment}"
 fi
 
