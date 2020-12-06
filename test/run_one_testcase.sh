@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -eou pipefail # Turn on warnings
-rm -rf test/4-output/* # Remove all previous output and discard warnings
 
 # Parameter declarations
 SOURCE_DIR="$1"
@@ -12,6 +11,9 @@ BIN_DIR="test/2-binary"
 SIMUL_DIR="test/3-simulator"
 OUT_DIR="test/4-output"
 REF_DIR="test/5-reference"
+
+rm -rf test/4-output/${TEST_CASE}* # Remove all previous output of specific testcase and discard warnings
+
 
 # Extract assembly file parameters
 Case_ID=$(awk 'NR==7' ${ASSEM_DIR}/${TEST_CASE}.asm.txt)
