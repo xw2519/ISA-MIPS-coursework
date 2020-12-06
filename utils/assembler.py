@@ -94,12 +94,14 @@ def asm_to_hex(asm_dir, hex_dir):
     asm_in = asm_file.readlines()
 
     instr_lines = []
-    labels = {}
-
     line_count = 0
 
+    comment = False
+
     for i,line in enumerate(asm_in):
-        if i < 11: continue     # The first 11 lines are comments only
+        if '/*' in line: comment = True
+        if ('*/' in line) and (line.find('/*') < line.find('*/')): comment = False
+        if (i < 11) or comment: continue     # The first 11 lines are comments only
 
         split = [x.replace('$','').replace(',','') for x in line.split()]
         if len(split) == 0: continue
@@ -176,7 +178,7 @@ def asm_to_hex(asm_dir, hex_dir):
         for i in range(4):
             # print(hex_line[-2*i-3:-2*i-1])
             hex_file.write(hex_line[-2*i-3:-2*i-1]+'\n')
-            line_count = line_count + 1
+            line_count += 1
 
 
     for i in range(8192 - (line_count + 5120)): hex_file.write('00\n')
