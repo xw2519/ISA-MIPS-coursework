@@ -99,6 +99,8 @@ def asm_to_hex(asm_dir, hex_dir):
     line_count = 0
 
     for i,line in enumerate(asm_in):
+        if i < 11: continue     # The first 11 lines are comments only
+
         split = [x.replace('$','').replace(',','') for x in line.split()]
         if len(split) == 0: continue
         if split[0].upper() in opcodes:
@@ -170,7 +172,7 @@ def asm_to_hex(asm_dir, hex_dir):
         hex_line = hex_line.split('x')[-1].zfill(8) + 'h'
 
         # print(hex_line)
-        
+
         for i in range(4):
             # print(hex_line[-2*i-3:-2*i-1])
             hex_file.write(hex_line[-2*i-3:-2*i-1]+'\n')
