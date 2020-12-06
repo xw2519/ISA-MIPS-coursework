@@ -1,5 +1,5 @@
-#sub3
-#sub
+#subu2
+#subu
 #ta2617
 #Causes overflow
 #246

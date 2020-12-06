@@ -1,5 +1,5 @@
-#sub4
-#sub
+#subu3
+#subu
 #ta2617
 #Multiple subtractions
 #206

@@ -1,5 +1,5 @@
-#sub1
-#sub
+#subu1
+#subu
 #ta2617
 #Test for normal case
 #16
@@ -8,7 +8,7 @@
 
 addi $16, $16, 20
 addi $17, $17, 4
-sub $2, $16, $17
+subu $2, $16, $17
 jr $0
 
 #Expected: 16
