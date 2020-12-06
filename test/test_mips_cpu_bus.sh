@@ -12,7 +12,7 @@ SOURCE_DIRECTORY="$1"
 INSTRUCTION="${2:-all}"  
 
 # Finding last character, to identify whether INSTRUCTION is "all", a specific test case or all testcases for a given instructiuon
-LAST_CHARECTER="${INSTRUCTION: -1}"
+LAST_CHARACTER="${INSTRUCTION: -1}"
 
 # Used to specify all files that are test cases 
 # For INSTRUCTION == "all"
@@ -24,7 +24,7 @@ TESTCASES_INSTR="test/1-assembly/""${INSTRUCTION}""*.asm.txt"
 # Identifying which option INSTRUCTION is
 if [[ ${INSTRUCTION} != "all" ]]; then
     
-    if [[ ${LAST_CHARECTER} =~ [0-9] ]]; then
+    if [[ ${LAST_CHARACTER} =~ [0-9] ]]; then
         >&2 echo "Running testcase ${INSTRUCTION} only"
 # Running specific test case
         ./test/run_one_testcase.sh ${SOURCE_DIRECTORY} ${INSTRUCTION}
