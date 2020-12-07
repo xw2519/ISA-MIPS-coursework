@@ -12,3 +12,23 @@ Data log to track changes and testing progress:
 - 'addiu3' passed
 - 'addiu4' passed
 - 'addu1' failed - needs to load content instead of digit
+
+-----------------------------------------------
+3/12/2020:
+-----------------------------------------------
+- Renamed the register write signals
+- 'addiu' now supports negative numbers
+- 'addu' failed - problem more complicated related to the following
+- Binary files require first 8 lines to be all '00' otherwise will not function correctly
+
+-----------------------------------------------
+4/12/2020:
+-----------------------------------------------
+- 'addu' works 
+- Fixed instructions to correspond to line 5120 
+- 'lw' works
+- 'and' and 'andi' works
+- Padded the python file to fit with 8192 constraint
+
+
+

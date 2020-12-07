@@ -1,16 +1,15 @@
-# addu1
-# addu
-# add
-# 13
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+addu1
+addu
+simple addition
+0x0000000f
 
 
-addiu $8, $8, 13
-addu $2, $0, $8
+addiu $8, $8, 15
+addu $2, $5, $8
 jr $0
-
-# Expected: 13
-
-----------------------------------
-# 2508000d
-# 00081021
-# 00000008

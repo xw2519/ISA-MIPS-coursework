@@ -39,9 +39,9 @@ module mips_cpu_harvard
     logic [31:0] read_data_a;
     logic [31:0] read_data_b;
 
-    logic        write_enable_c;
-    logic [4:0]  write_addr_c;
-    logic [31:0] write_data_c;
+    logic        regfile_write_enable;
+    logic [4:0]  regfile_write_addr;
+    logic [31:0] regfile_write_data;
 
     // PC definitions
     logic [31:0] pc_reg;
@@ -60,6 +60,37 @@ module mips_cpu_harvard
     logic [63:0] product;
     logic [31:0] quotient;
     logic [31:0] remainder;
+
+    /* Sub-module declaration */
+
+    mips_cpu_alu alu(
+        .alu_control    (alu_control),
+        .alu_shift_amt  (alu_shift_amt),
+        .alu_a          (read_data_a),
+        .alu_b          (alu_b),
+        .zero           (zero),
+        .equal          (equal),
+        .negative       (negative),
+        .alu_out        (alu_result)
+    );
+
+    mips_cpu_register_file reg_file(
+        .clk            (clk),
+        .clk_enable     (clk_enable),
+        .reset          (reset),
+        .register_v0    (register_v0),
+
+        /* Read ports */
+        .read_addr_a    (ir_reg[25:21]),
+        .read_data_a    (read_data_a),
+        .read_addr_b    (ir_reg[20:16]),
+        .read_data_b    (read_data_b),
+
+        /* Write ports */
+        .regfile_write_addr   (regfile_write_addr),
+        .regfile_write_data   (regfile_write_data),
+        .regfile_write_enable (regfile_write_enable)
+    );
 
     /* --- Supported opcodes --- */
     typedef enum logic[5:0] {
@@ -139,39 +170,9 @@ module mips_cpu_harvard
         BLTZAL = 5'b10000
     */
 
-    /* Sub-module declarations */
-    mips_cpu_alu alu(
-        .alu_control    (alu_control),
-        .alu_shift_amt  (alu_shift_amt),
-        .alu_a          (read_data_a),
-        .alu_b          (alu_b),
-        .zero           (zero),
-        .equal          (equal),
-        .negative       (negative),
-        .alu_out        (alu_result)
-    );
-
-    mips_cpu_register_file reg_file(
-        .clk            (clk),
-        .clk_enable     (clk_enable),
-        .reset          (reset),
-        .register_v0    (register_v0),
-
-        /* Read ports */
-        .read_addr_a    (ir_reg[25:21]),
-        .read_data_a    (read_data_a),
-        .read_addr_b    (ir_reg[20:16]),
-        .read_data_b    (read_data_b),
-
-        /* Write ports */
-        .write_addr_c   (write_addr_c),
-        .write_enable_c (write_enable_c),
-        .write_data_c   (write_data_c)
-    );
-
     /* --- CPU connections --- */
-    always @(*)
-    begin
+    always @(*) begin
+
         instr_address = pc_reg;
         data_address  = alu_result & 32'hFFFFFFFC;
 
@@ -199,9 +200,9 @@ module mips_cpu_harvard
             alu_b -> ALU port 'b' input, 'Rt' or sign-extended immediate
 
         Connections to Register File:
-            write_addr_c - Address of destination register - 'Rd' or 'Rt'
-            write_data_c - Data to be written to destination register: ALU output or PC or data read from memory
-            write_enable_c - Enable write to register file
+            regfile_write_addr - Address of destination register - 'Rd' or 'Rt'
+            regfile_write_data - Data to be written to destination register: ALU output or PC or data read from memory
+            regfile_write_enable - Enable write to register file
 
         Internal registers:
             pc_in - next value of PC
@@ -211,17 +212,22 @@ module mips_cpu_harvard
 
         // R-type register
         if (ir_reg[31:26] == R_TYPE) begin
-            data_write = 0;
-            data_read = 0;
+
+            // No memory accesses occur
+            data_write     = 0;
+            data_read      = 0;
             data_writedata = 0;
 
+            // ALU control
             alu_b = read_data_b;
 
-            write_addr_c = (ir_reg[5:0] == F_JALR) ? 5'b11111 : ir_reg[15:11];
-            write_data_c = (ir_reg[5:0] == F_JALR) ? (pc_reg + 4) : alu_result;
-            write_enable_c = ~(ir_reg[5:0] == F_JR);
+            // Register file control
+            regfile_write_addr   =  (ir_reg[5:0] == F_JALR) ? 5'b11111 : ir_reg[15:11];
+            regfile_write_data   =  (ir_reg[5:0] == F_JALR) ? (pc_reg + 4) : alu_result;
+            regfile_write_enable = ~(ir_reg[5:0] == F_JR);
 
-            pc_in = (ir_reg[5:1] == 5'b00100) ? read_data_a : (pc_reg + 4);   // If the instruction is JR or JALR, jump to Rs.
+            // PC control
+            pc_in = (ir_reg[5:1] == 5'b00100) ? read_data_a : (pc_reg + 4);   // If instruction 'JR' or 'JALR', jump to 'Rs'.
 
             if ((ir_reg[5:0] == F_MULT) || (ir_reg[5:0] == F_MULTU)) begin
                 hi_in = product[63:32];
@@ -239,19 +245,19 @@ module mips_cpu_harvard
             end
 
             case(ir_reg[5:0])
-                F_AND     : alu_control = AND;
-                F_OR      : alu_control = OR;
-                F_SLL     : alu_control = SLL;
-                F_SLLV    : alu_control = SLL;
-                F_SLT     : alu_control = SLT;
-                F_SLTU    : alu_control = SLTU;
-                F_SRA     : alu_control = SRA;
-                F_SRAV    : alu_control = SRA;
-                F_SRL     : alu_control = SRL;
-                F_SRLV    : alu_control = SRL;
-                F_SUBU    : alu_control = SUBU;
-                F_XOR     : alu_control = XOR;
-                default   : alu_control = ADDU;
+                F_AND   : alu_control = AND;
+                F_OR    : alu_control = OR;
+                F_SLL   : alu_control = SLL;
+                F_SLLV  : alu_control = SLL;
+                F_SLT   : alu_control = SLT;
+                F_SLTU  : alu_control = SLTU;
+                F_SRA   : alu_control = SRA;
+                F_SRAV  : alu_control = SRA;
+                F_SRL   : alu_control = SRL;
+                F_SRLV  : alu_control = SRL;
+                F_SUBU  : alu_control = SUBU;
+                F_XOR   : alu_control = XOR;
+                default : alu_control = ADDU;
             endcase
         end
 
@@ -264,9 +270,9 @@ module mips_cpu_harvard
             alu_control = ADDU;
             alu_b = read_data_b;
 
-            write_addr_c = 5'b11111;
-            write_data_c = pc_reg;
-            write_enable_c = ir_reg[20];
+            regfile_write_addr   = 5'b11111;
+            regfile_write_data   = pc_reg;
+            regfile_write_enable = ir_reg[20];
 
             pc_in = (ir_reg[16] ^ negative) ? (pc_reg + {{14{ir_reg[15]}}, ir_reg[15:0], 2'b00}) : (pc_reg + 4);
             hi_in = hi_reg;
@@ -280,12 +286,12 @@ module mips_cpu_harvard
 
             alu_b = ((ir_reg[31:26] == BEQ) || (ir_reg[31:26] == BNE)) ? ir_reg[20:16] : {{16{ir_reg[15]}}, ir_reg[15:0]};
 
-            write_addr_c = (ir_reg[31:26] == JAL) ? 5'b11111 : ir_reg[20:16];
-            write_enable_c = ((ir_reg[31:26] == ADDIU) || (ir_reg[31:26] == ANDI)  || (ir_reg[31:26] == JAL) ||
-                              (ir_reg[31:26] == LB)    || (ir_reg[31:26] == LBU)   || (ir_reg[31:26] == LH)  ||
-                              (ir_reg[31:26] == LHU)   || (ir_reg[31:26] == LUI)   || (ir_reg[31:26] == LW)  ||
-                              (ir_reg[31:26] == LWL)   || (ir_reg[31:26] == LWR)   || (ir_reg[31:26] == ORI) ||
-                              (ir_reg[31:26] == SLTI)  || (ir_reg[31:26] == SLTIU) || (ir_reg[31:26] == XORI));
+            regfile_write_addr   = (ir_reg[31:26] == JAL) ? 5'b11111 : ir_reg[20:16];
+            regfile_write_enable = ((ir_reg[31:26] == ADDIU) || (ir_reg[31:26] == ANDI)  || (ir_reg[31:26] == JAL) ||
+                                    (ir_reg[31:26] == LB)    || (ir_reg[31:26] == LBU)   || (ir_reg[31:26] == LH)  ||
+                                    (ir_reg[31:26] == LHU)   || (ir_reg[31:26] == LUI)   || (ir_reg[31:26] == LW)  ||
+                                    (ir_reg[31:26] == LWL)   || (ir_reg[31:26] == LWR)   || (ir_reg[31:26] == ORI) ||
+                                    (ir_reg[31:26] == SLTI)  || (ir_reg[31:26] == SLTIU) || (ir_reg[31:26] == XORI));
             hi_in = hi_reg;
             lo_in = lo_reg;
 
@@ -305,16 +311,16 @@ module mips_cpu_harvard
             endcase
 
             case(ir_reg[31:26])
-                JAL     : write_data_c = pc_reg + 4;
-                LB      : write_data_c = {{24{data_readdata[7]}}, data_readdata[7:0]};
-                LBU     : write_data_c = {{24'h000000}, data_readdata[7:0]};
-                LH      : write_data_c = {{16{data_readdata[15]}}, data_readdata[15:0]};
-                LHU     : write_data_c = {{16'h0000}, data_readdata[15:0]};
-                LUI     : write_data_c = {{16'h0000}, ir_reg[15:0]} << 16;
-                LW      : write_data_c = data_readdata;
-                LWL     : write_data_c = {data_readdata[15:0], read_data_b[15:0]};
-                LWR     : write_data_c = {read_data_b[31:16], data_readdata[31:16]};
-                default : write_data_c = alu_result;
+                JAL     : regfile_write_data = pc_reg + 4;
+                LB      : regfile_write_data = {{24{data_readdata[7]}}, data_readdata[7:0]};
+                LBU     : regfile_write_data = {{24'h000000}, data_readdata[7:0]};
+                LH      : regfile_write_data = {{16{data_readdata[15]}}, data_readdata[15:0]};
+                LHU     : regfile_write_data = {{16'h0000}, data_readdata[15:0]};
+                LUI     : regfile_write_data = {{16'h0000}, ir_reg[15:0]} << 16;
+                LW      : regfile_write_data = data_readdata;
+                LWL     : regfile_write_data = {data_readdata[15:0], read_data_b[15:0]};
+                LWR     : regfile_write_data = {read_data_b[31:16], data_readdata[31:16]};
+                default : regfile_write_data = alu_result;
             endcase
 
             case(ir_reg[31:26])
@@ -322,16 +328,17 @@ module mips_cpu_harvard
                 BGTZ    : pc_in = ((~negative) && ~(zero)) ? (pc_reg + ({{14{ir_reg[15]}}, ir_reg[15:0], 2'b00})) : pc_reg + 4;
                 BLEZ    : pc_in = (negative || zero) ? (pc_reg + ({{14{ir_reg[15]}}, ir_reg[15:0], 2'b00})) : pc_reg + 4;
                 BNE     : pc_in = ~(equal) ? (pc_reg + ({{14{ir_reg[15]}}, ir_reg[15:0], 2'b00})) : pc_reg + 4;
-                J       : pc_in = pc_reg + {{6{ir_reg[25]}}, ir_reg[25:0]};
-                JAL     : pc_in = pc_reg + {{6{ir_reg[25]}}, ir_reg[25:0]};
+                J       : pc_in = {pc_reg[31:28], ir_reg[25:0], 2'b00};
+                JAL     : pc_in = {pc_reg[31:28], ir_reg[25:0], 2'b00};
                 default : pc_in = pc_reg + 4;
             endcase
         end
+
     end
 
     /* --- CPU states --- */
-    always_ff @(posedge clk)
-    begin
+    always_ff @(posedge clk) begin
+
         if(reset) begin
             pc_reg <= 32'hBFC00000;
             active <= 1;
@@ -347,6 +354,7 @@ module mips_cpu_harvard
             hi_reg <= hi_in;
             lo_reg <= lo_in;
         end
+
     end
 
 endmodule

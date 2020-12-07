@@ -20,14 +20,15 @@ module mips_cpu_bus_tb;
     logic [31:0] address;
 
     /* Sub-module declarations */
-    RAM_8x8192_bus #(RAM_INIT_FILE) ramInst(
-        clk, 
-        write, 
-        read, 
-        writedata, 
-        address, 
-        byteenable, 
-        readdata
+    RAM_8x8192_avalon_mapped #(RAM_INIT_FILE) ramInst(
+        clk,
+		address,
+		write,
+		read,
+		waitrequest,
+		writedata,
+		byteenable,
+		readdata
     );
 
     mips_cpu_bus cpuInst(

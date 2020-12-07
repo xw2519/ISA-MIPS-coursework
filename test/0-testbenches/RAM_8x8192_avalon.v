@@ -1,4 +1,4 @@
-module RAM(
+module RAM_8x8192_avalon(
 
 input logic clk,
 input logic[31:0] address,

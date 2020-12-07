@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+and1
+and
+bitwise AND
+0x0000002c
+
+addiu $13, $16, 300
+addiu $19, $17, 60
+and $2, $13, $19
+jr $0

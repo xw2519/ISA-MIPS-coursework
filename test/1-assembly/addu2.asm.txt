@@ -1,19 +1,16 @@
-# addu2
-# addu
-# 254
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+addu2
+addu
+addition
+0x0000fffe
 
 
-addiu $20, $20, 0x7fff
-sll $20, $20, 16
-addiu $20, $20, 0xffff
+addiu $20, $20, 32767
+addiu $21, $21, 65535
 addu $2, $20, $20
 jr $0
-
-#Expected: 254
-
-----------------------------------
-# 28947FFF
-# 0294000F
-# 2894FFFF
-# 02941021
-# 00000008
