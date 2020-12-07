@@ -1,5 +1,6 @@
 module mips_cpu_bus(
     /* Standard signals */
+
     input  logic         clk,
     input  logic         reset,
     output logic         active,
@@ -76,6 +77,7 @@ module mips_cpu_bus(
 
     always_ff @(posedge clk) begin
         if (reset) begin
+
             instr_reg      <= 0;
             data_reg       <= 0;
             instr_addr_reg <= 0;

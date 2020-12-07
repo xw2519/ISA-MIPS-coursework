@@ -20,12 +20,13 @@ Case_ID=$(awk 'NR==7' ${ASSEM_DIR}/${TEST_CASE}.asm.txt)
 Case_Instr=$(awk 'NR==8' ${ASSEM_DIR}/${TEST_CASE}.asm.txt)
 Case_Comment=$(awk 'NR==9' ${ASSEM_DIR}/${TEST_CASE}.asm.txt)
 
+
 # Redirect output to stder (&2) so that it seperate from genuine outputs
 # >&2 echo "Testing instructions: ${TEST_CASE}"
 
 # >&2 echo "1 - Compiling test-bench"
 iverilog -Wall -g 2012 \
-    -s mips_cpu_bus_tb ${TESTBENCH_DIR}/RAM_8x8192_bus.v ${TESTBENCH_DIR}/mips_cpu_bus_tb.v ${SOURCE_DIR}/mips_cpu_*.v \
+    -s mips_cpu_bus_tb ${TESTBENCH_DIR}/RAM_8x8192_avalon_mapped.v ${TESTBENCH_DIR}/mips_cpu_bus_tb.v ${SOURCE_DIR}/mips_cpu_*.v \
     -P mips_cpu_bus_tb.RAM_INIT_FILE=\"${BIN_DIR}/${TEST_CASE}.hex.txt\" \
     -o ${SIMUL_DIR}/mips_cpu_bus_tb_${TEST_CASE}
 

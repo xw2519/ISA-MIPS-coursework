@@ -1,5 +1,6 @@
 module mips_cpu_harvard
 (
+
     /* Standard signals */
     input  logic        clk,
     input  logic        reset,
@@ -10,6 +11,7 @@ module mips_cpu_harvard
     input  logic        clk_enable,
 
     /* Combinatorial read access to instructions */
+
     input  logic [31:0] instr_readdata,
     output logic [31:0] instr_address,
 
