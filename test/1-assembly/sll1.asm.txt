@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+sll1
+sll
+shift left logical
+0x00000028
+
+addi $3, $3, 5
+sll $2, $3, 3
+jr $0
