@@ -4,12 +4,11 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-sll2
-sll
-shift left logical
-0x00000140
+sra1
+sra
+shift right word arithmetic
+0x00000005
 
-addi $3, $3, 10
-sll $4, $3, 2
-sll $2, $3, 3
+addiu $3, $3, 80
+sra $2, $3, 4
 jr $0

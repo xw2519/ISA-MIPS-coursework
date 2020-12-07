@@ -4,11 +4,11 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-sll1
-sll
-shift left logical
-0x00000028
+sra2
+sra
+edge case testing sra
+0xFFFFFFFF
 
-addiu $3, $3, 5
-sll $2, $3, 3
+addiu $3, $3, 65535
+sra $2, $3, 31
 jr $0

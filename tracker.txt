@@ -31,4 +31,11 @@ Data log to track changes and testing progress:
 - Padded the python file to fit with 8192 constraint
 
 
+-----------------------------------------------
+7/12/2020:
+-----------------------------------------------
+- Created test files for sll and sllv and moved to 1-assembly
+- 'sll' and 'sllv' works
+- Created test files and reference files for sra
+- 'sra' works
 

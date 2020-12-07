@@ -4,11 +4,12 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-sll1
-sll
-shift left logical
-0x00000028
+sllv1
+sllv
+shift left logical variable
+0x00000020
 
-addiu $3, $3, 5
-sll $2, $3, 3
+addiu $3, $3, 2
+addiu $4, $4, 4
+sllv $2, $3, $4
 jr $0

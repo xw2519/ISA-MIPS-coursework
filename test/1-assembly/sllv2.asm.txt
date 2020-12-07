@@ -7,9 +7,11 @@
 sllv1
 sllv
 shift left logical variable
-0x00000010
+0x00000040
 
-addi $3, $3, 2
-addi $4, $4, 4
+addiu $3, $3, 2
+addiu $4, $4, 4
+sllv $2, $3, $4
+addiu $4, $4, 1
 sllv $2, $3, $4
 jr $0
