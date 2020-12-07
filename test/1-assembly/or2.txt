@@ -1,0 +1,14 @@
+#or2
+#or
+#am9717
+#Simple or operation
+#255
+#
+#
+
+addiu $16, $0, 65535
+addiu $17, $0, 38
+or $2, $16, $17
+jr $0
+
+#Expected: 255

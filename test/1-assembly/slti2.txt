@@ -1,0 +1,14 @@
+#slti2
+#slti
+#am9717
+#Case rs < imm 
+#1
+#
+#
+
+lui $18, -2
+slti $2, $18, 30
+jr $0
+
+#Expected: 1
+

@@ -1,0 +1,14 @@
+#sra1
+#sra
+#am9717
+#Simples SRA function
+#1
+#
+#
+
+addiu $16, $16, 120
+sra $2, $16, 6
+jr $0
+
+#Expected: 1
+

@@ -1,0 +1,14 @@
+#sltiu1
+#sltiu
+#am9717
+#Case rs > rt 
+#0
+#
+#
+
+lui $18, 0xFFFF
+sltiu $2, $18, 55
+jr $0
+
+#Expected: 0
+

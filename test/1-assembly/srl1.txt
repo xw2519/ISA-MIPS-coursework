@@ -1,0 +1,15 @@
+#srl1
+#srl
+#am9717
+#Simples SRL function
+#3
+#
+#
+
+addiu $16, $16, 120
+addu $16, $16, $16
+srl $2, $16, 6
+jr $0
+
+#Expected: 3
+

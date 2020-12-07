@@ -1,0 +1,17 @@
+#sh4
+#sh
+#ta2617
+#Check offset sign extension
+#32
+#
+#
+
+addi $20, $20, 0x2
+sll $20, $20, 28
+addi $20, $20, 20
+addi $16, $16, 0x20
+sh $16, -2($20)
+lh $2, -2($20)
+jr $0
+
+#Expected: 32

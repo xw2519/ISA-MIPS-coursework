@@ -1,0 +1,15 @@
+#div6
+#div
+#am9717
+#negative division result in HI
+#255
+#
+#
+
+addi $16, $16, -241
+addi $17, $17, 6
+div $16, $17 
+mfhi $2
+jr $0
+
+#Expected: -1 (255)

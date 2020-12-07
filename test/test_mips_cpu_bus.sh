@@ -1,41 +1,17 @@
 #!/bin/bash
 
-#effectivly turning on warnings, may want to be changed if we want
-# to continue testing if one test case has faild
-set -eou pipefail 
-
-SOURCE_DIRECTORY="$1"
+# Capture the first two command line parameters to specify
+# "SOURCE_DIR" argument that takes source directory, "rtl" in our case
+# "INSTRUCTION" argument that takes an instruction to test, test all by default
+SOURCE_DIR="$1"   
 INSTRUCTION="${2:-all}"  
 
-#finding last charecter
-LC="${INSTRUCTION: -1}"
+#g++ ../utils/hex_gen.cpp -o ../test/bin/hex_generator
+#echo ${INSTRUCTION} | ../bin/hex_generator > ../test/2-binary/test.hex.txt
 
-
-
-#used to specify all files that are test cases
-TESTCASES="ISA-MIPS-coursework/test/test_case_collection/*.txt"
-
-#Speciific instructions 
-
-if [[ ${INSTRUCTION} != "all" ]]; then
+iverilog -Wall -g 2012 \
+    -s mips_cpu_bus_tb test/0-testbenches/RAM_8x8192_bus.v test/0-testbenches/mips_cpu_bus_tb.v ${SOURCE_DIR}/mips_cpu_*.v \
+    -P mips_cpu_bus_tb.RAM_INIT_FILE=\"test/2-binary/addu1.hex.txt\" \
+    -o test/3-simulator/mips_bus_test
     
-    if [[ ${LC} =~ [0-9] ]]; then
-        #Running specific test case
-        ./run_one_testcase.sh ${SOURCE_DIRECTORY} ${INSTRUCTION}
-    else 
-        #run all testcases with that name (all testcases for one instruction)
-    TESTCASES_S="ISA-MIPS-coursework/test/test_case_collection/ ${INSTRUCTION} *.txt" 
-       for i in ${TESTCASES_S}; do 
-            TESTNAME_S=$(basename ${i} .txt)
-            ./run_one_testcase.sh ${SOURCE_DIRECTORY} ${TESTNAME_S}
-        done
-    fi
-
-fi
-
-
-
-
-
-
-
+test/3-simulator/mips_bus_test

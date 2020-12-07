@@ -1,0 +1,15 @@
+#sh3
+#sh
+#ta2617
+#Store to ADDR_INSTR
+#245
+#
+#
+
+addi $20, $20, 0x1
+sll $20, $20, 28
+sh $16, 0($20)
+lb $2, 0($20)
+jr $0
+
+#Expected: -11 (245)

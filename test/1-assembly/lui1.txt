@@ -1,0 +1,15 @@
+#lui1
+#lui
+#am9717
+#Simple LUI function
+#245
+#
+#
+
+lui $17, 8038
+addiu $16, $16, 10
+sw $16, 4($17)
+jr $0
+
+#Expected: 245
+

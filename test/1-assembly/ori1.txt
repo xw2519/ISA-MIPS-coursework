@@ -1,0 +1,13 @@
+#ori1
+#ori
+#am9717
+#Simple ori operation
+#28
+#
+#
+
+addiu $16, $0, 20
+ori $2, $16, 12
+jr $0
+
+#Expected: 28

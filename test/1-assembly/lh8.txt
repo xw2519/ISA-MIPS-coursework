@@ -1,0 +1,14 @@
+#lh8
+#lh
+#ta2617
+#calls GETC misaligned
+#245
+#W
+#
+
+addi $20, $20, 0x3
+sll $20, $20, 28
+lh $2, 1($20)
+jr $0
+
+#Expected: exit: -11 (245)

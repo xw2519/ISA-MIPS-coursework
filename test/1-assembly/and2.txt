@@ -1,0 +1,14 @@
+#and2
+#and
+#am9717
+#And with nothing
+#0
+#
+#
+
+addiu $16, $16, 0xFFFF
+addiu $17, $17, 0x0
+and $2, $16, $17
+jr $0
+
+#Expected: 0

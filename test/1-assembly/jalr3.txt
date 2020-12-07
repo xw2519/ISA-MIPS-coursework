@@ -1,0 +1,15 @@
+#jalr3
+#jalr
+#ta2617
+#Jump misaligned
+#245
+#
+#
+
+lui $16, 0x1000
+addi $16, $16, 23
+jalr $20, $16
+sll $0, $0, 0
+jr $0
+
+#Expected: -11 (245)

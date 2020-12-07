@@ -1,0 +1,13 @@
+#INTERNAL2
+#INTERNAL
+#ta2617
+#Checks the zero register is unchaged
+#0
+#
+#
+
+addi $0, $0, 20
+add $2, $2, $0
+jr $0
+
+#Expected: 0

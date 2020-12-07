@@ -1,0 +1,15 @@
+#srlv2
+#srlv
+#am9717
+#Edge case of SRLV function
+#31
+#
+#
+
+addiu $16, $16, 255
+addiu $17, $17, 3
+srlv $2, $16, $17
+jr $0
+
+#Expected: 31
+

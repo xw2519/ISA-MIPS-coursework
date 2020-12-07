@@ -1,0 +1,15 @@
+#sll2
+#sll
+#am9717
+#Multiple SLL functions
+#80
+#
+#
+
+addi $16, $16, 5
+sll $2, $16, 2
+sll $2, $2, 2
+jr $0
+
+#Expected: 80
+

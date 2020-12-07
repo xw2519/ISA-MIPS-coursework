@@ -1,0 +1,16 @@
+#lhu1
+#lhu
+#ta2617
+#Normal load from data memory
+#70
+#
+#
+
+addi $20, $20, 0x2
+sll $20, $20, 28
+addi $16, $16, 70
+sw $16, 4($20)
+lhu $2, 6($20)
+jr $0
+
+#Expected: 70

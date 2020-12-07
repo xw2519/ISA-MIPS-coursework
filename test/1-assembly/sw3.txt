@@ -1,0 +1,16 @@
+#sw3
+#sw
+#ta2617
+#Attemps to store to instruction memory
+#245
+#
+#
+
+addi $20, $20, 0x1
+sll $20, $20, 28
+addi $16, $16, 35
+sw $16, 0($20)
+sll $0, $0, 0
+jr $0
+
+#Expected: -11 (245)

@@ -1,0 +1,28 @@
+#lwr1
+#lwr
+#ta2617
+#Loads a full word
+#10
+#
+#
+
+addi $20, $20, 0x2
+sll $20, $20, 28
+lui $16, 0x0403
+addi $16, $16, 0x0201
+sw $16, 20($20)
+lwr $17, 23($20)
+sll $0, $0, 0
+andi $2, $17, 0xff
+srl $18, $17, 8
+andi $18, $18, 0xff
+add $2, $2, $18
+srl $18, $17, 16
+andi $18, $18, 0xff
+add $2, $2, $18
+srl $18, $17, 24
+andi $18, $18, 0xff
+add $2, $2, $18
+jr $0
+
+#Expected: 10

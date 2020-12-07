@@ -1,0 +1,17 @@
+#mult5
+#mult
+#ta2617
+#Negate -2^31
+#8
+#
+#
+
+addiu $16, $16, 1
+sll $16, $16, 31
+addi $17, $17, -1
+mult $16, $17
+mflo $2
+srl $2, $2, 28
+jr $0
+
+#Expected: 8

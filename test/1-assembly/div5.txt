@@ -1,0 +1,15 @@
+#div5
+#div
+#am9717
+#negative division result in LO
+#216
+#
+#
+
+addi $16, $16, -241
+addi $17, $17, 6
+div $16, $17 
+mflo $2
+jr $0
+
+#Expected: -40 (216)

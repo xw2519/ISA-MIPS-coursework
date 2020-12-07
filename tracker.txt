@@ -1,0 +1,14 @@
+-----------------------------------------------
+Data log to track changes and testing progress:
+-----------------------------------------------
+
+-----------------------------------------------
+2/12/2020:
+-----------------------------------------------
+- Test case collection moved to '1-assembly'
+- 'add1' passed
+- 'addiu1' passed
+- 'addiu2' failed - 'addiu' needs to support addition of negative numbers
+- 'addiu3' passed
+- 'addiu4' passed
+- 'addu1' failed - needs to load content instead of digit

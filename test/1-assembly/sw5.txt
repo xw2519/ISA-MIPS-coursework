@@ -1,0 +1,15 @@
+#sw5
+#sw
+#ta2617
+#PUTC
+#0
+#
+#p
+
+addi $20, $20, 0x3
+sll $20, $20, 28
+addi $16, $16, 0x70
+sw $16, 4($20)
+jr $0
+
+#Expected: Exit: 0 stdout: p

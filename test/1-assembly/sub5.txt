@@ -1,0 +1,13 @@
+#sub5
+#sub
+#ta2617
+#Checks 0 - 2^31
+#246
+#
+#
+
+lui $16, 0x8000
+sub $2, $0, $16
+jr $0
+
+#Expected: exit: -10 (246)

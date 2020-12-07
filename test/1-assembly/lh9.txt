@@ -1,0 +1,18 @@
+#lh9
+#lh
+#ta2617
+#Checks sign extension
+#1
+#
+#
+
+addi $20, $20, 0x2
+sll $20, $20, 28
+addi $16, $16, 0x8000
+sw $16, 4($20)
+lh $2, 6($20)
+sll $0, $0, 0
+srl $2, $2, 31
+jr $0
+
+#Expected: 1

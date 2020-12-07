@@ -1,0 +1,14 @@
+#sh5
+#sb
+#ta2617
+#Store at corner case
+#245
+#
+#
+
+addi $20, $20, 0x24
+sll $20, $20, 24
+sh $16, 0($20)
+jr $0
+
+#Expected: -11 (245)

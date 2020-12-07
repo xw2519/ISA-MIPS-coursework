@@ -1,0 +1,12 @@
+#mflo1
+#mtlo
+#ta2617
+#Checks load from LO
+#0
+#
+#
+
+mflo $2
+jr $0
+
+#Expected: 0

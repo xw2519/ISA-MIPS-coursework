@@ -1,0 +1,17 @@
+#sllv2
+#sllv
+#am9717
+#Multiple SLLV functions
+#80
+#
+#
+
+addiu $16, $16, 5
+addiu $17, $17, 2
+sllv $2, $16, $17
+add $17, $17, $17
+sllv $2, $16, $17
+jr $0
+
+#Expected: 80
+

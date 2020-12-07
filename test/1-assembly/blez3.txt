@@ -1,0 +1,18 @@
+#blez3
+#blez
+#am9717
+#branch with delay (delay skips line 6)
+#3
+#
+#
+
+addi $2, $2, 3
+addi $2, $2, -4
+blez $2, 4
+addi $2, $2, 1
+addi $2, $2, 2
+addi $2, $2, 1
+jr $0
+sll $0, $0, 0
+
+#Expected: 3

@@ -1,0 +1,13 @@
+#mtlo1
+#mtlo
+#ta2617
+#Checks store to LO
+#0
+#
+#
+
+addiu $16, $16, 100
+mtlo $16
+jr $0
+
+#Expected: 0

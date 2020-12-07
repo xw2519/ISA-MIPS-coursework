@@ -1,0 +1,16 @@
+#j1
+#j
+#ta2617
+#Normal jump (should skip line 10)
+#10
+#
+#
+
+j 12
+addi $20, $20, 0x1
+addi $2, $2, 5
+addi $16, $16, 10
+add $2, $2, $16
+jr $0
+
+#Expected: 10

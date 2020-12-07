@@ -1,0 +1,15 @@
+#lwr5
+#lwr
+#ta2617
+#Load from ADDR_GETC
+#97
+#a
+#
+
+addi $20, $20, 0x3
+sll $20, $20, 28
+lwr $2, 3($20)
+sll $0, $0, 0
+jr $0
+
+#Expected: a (97)

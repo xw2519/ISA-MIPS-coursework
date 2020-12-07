@@ -1,0 +1,17 @@
+#lw1
+#lw
+#ta2617
+#Normal load from data memory
+#35
+#
+#
+
+addi $20, $20, 0x2
+sll $20, $20, 28
+addi $16, $16, 35
+sw $16, 4($20)
+lw $2, 4($20)
+sll $0, $0, 0
+jr $0
+
+#Expected: 35

@@ -1,0 +1,12 @@
+#INTERNAL3
+#INTERNAL
+#ta2617
+#No PC = 0 at end
+#245
+#
+#
+
+addi $16, $16, 20
+add $2, $2, $16
+
+#Expected: -11 (245)

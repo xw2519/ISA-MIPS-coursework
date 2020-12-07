@@ -1,0 +1,17 @@
+#beq1
+#beq
+#ta2617
+#Case rs == rt (should skip line 9)
+#35
+#
+#
+
+addiu $16, $16, 35
+addiu $17, $17, 35
+beq $16, $17, 8
+sll $0, $0, 0
+addu $2, $0, $16
+addu $2, $2, $16
+jr $0
+
+#Expected: 35

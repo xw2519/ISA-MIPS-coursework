@@ -1,0 +1,17 @@
+#multu1
+#multu
+#am9717
+#Check result in HI
+#254
+#
+#
+
+lui $4, 65535
+ori $4, $4, 65535
+lui $5, 65535
+ori $5, $5, 65535
+multu $4, $5
+mfhi $2 
+jr $0
+
+#Expected: 254

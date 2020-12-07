@@ -1,0 +1,18 @@
+#jr3
+#jr
+#ta2617
+#Jump to misaligned mem
+#245
+#
+#
+
+addi $20, $20, 0x2
+sll $20, $20, 28
+addi $20, $20, 2
+jr $20
+addi $2, $2, 5
+addi $16, $16, 10
+add $2, $2, $16
+jr $0
+
+#Expected: -11 (245)

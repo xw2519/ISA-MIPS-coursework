@@ -1,0 +1,36 @@
+#INTERNAL1
+#INTERNAL
+#am9717
+#Many nops and one instruction
+#20
+#
+#
+
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+sll $0, $0, 0
+addi $2, $2, 20
+jr $0
+
+#Expected: 20
+

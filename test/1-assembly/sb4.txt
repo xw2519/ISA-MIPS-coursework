@@ -1,0 +1,15 @@
+#sb4
+#sb
+#ta2617
+#Check putc (m)
+#0
+#
+#m
+
+addi $20, $20, 0x3
+sll $20, $20, 28
+addi $16, $16, 0x6d
+sb $16, 7($20)
+jr $0
+
+#Expected: exit:0   stdout:m

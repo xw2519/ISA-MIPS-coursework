@@ -1,0 +1,19 @@
+#bltz1
+#bltz
+#am9717
+#normal branching operation 
+#7
+#
+#
+
+addi $2, $2, 3
+addi $2, $2, -3
+addi $2, $2, -1
+bltz $2, 4
+addi $2, $2, 3
+add $2, $2, $2
+addi $2, $2, 3 
+jr $0
+sll $0, $0, 0
+
+#Expected: 7
