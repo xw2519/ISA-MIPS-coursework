@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+srav1	
+srav
+shift word arithmetic right variable 
+0x00000005
+
+addiu $3, $3, 80
+addiu $5, $5, 4
+srav $2, $3, $5
+jr $0
