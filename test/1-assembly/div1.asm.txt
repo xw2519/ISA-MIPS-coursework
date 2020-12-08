@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+div1
+div
+normal 8 divide 4
+0x00000002
+
+addiu $20, $20, 8
+addiu $21, $21, 4
+div $20, $21
+mflo $2
+jr $0
+

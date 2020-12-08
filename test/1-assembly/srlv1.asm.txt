@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+srlv1
+srlv
+shift right logical variable
+0x00000005
+
+
+addiu $3, $3, 80
+addiu $4, $4, 4
+srlv $2, $3, $4
+jr $0

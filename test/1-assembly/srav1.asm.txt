@@ -4,7 +4,7 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-srav1	
+srav1
 srav
 shift word arithmetic right variable 
 0x00000005

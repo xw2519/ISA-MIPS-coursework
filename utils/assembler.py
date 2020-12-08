@@ -142,7 +142,7 @@ def asm_to_hex(asm_dir, hex_dir):
         elif line[0].upper() in ['DIV', 'DIVU', 'MULT', 'MULTU']:
             Rs = int(line[1])
             Rt = int(line[2])
-            hex_line = hex(int(opcode + '0000000000' + to_bin(Rd,5) + '00000' + funct_codes[line[0].upper()],2))
+            hex_line = hex(int(opcode + '0000000000' + to_bin(Rs,5) + '00000' + funct_codes[line[0].upper()],2))
         elif line[0].upper() in ['MFHI', 'MFLO']:
             Rd = int(line[1])
             hex_line = hex(int(opcode + '0000000000' + to_bin(Rd,5) + '00000' + funct_codes[line[0].upper()],2))

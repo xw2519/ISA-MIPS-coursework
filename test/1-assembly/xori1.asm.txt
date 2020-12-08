@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+xori1
+xori
+normal case
+0000004e
+
+
+addiu $3, $3, 80
+xori $2, $3, 30 
+jr $0
+
