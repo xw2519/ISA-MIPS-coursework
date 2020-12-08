@@ -172,6 +172,7 @@ module mips_cpu_harvard
 
     /* --- CPU connections --- */
     always @(*) begin
+        active = (~(pc_reg == 32'h00000000) || reset);
 
         instr_address = pc_reg;
         data_address  = alu_result & 32'hFFFFFFFC;
@@ -180,9 +181,9 @@ module mips_cpu_harvard
         alu_shift_amt = (ir_reg[5:2] == 4'h1) ? read_data_a[4:0] : ir_reg[10:6];
 
         // NOTE: Not synthesisable, they have to be implemented later.
-        product   = (ir_reg[5:0] == F_MULTU) ? (read_data_a * read_data_b) : ($signed(read_data_a) * $signed(read_data_b));
-        quotient  = (ir_reg[5:0] == F_DIVU)  ? (read_data_a / read_data_b) : ($signed(read_data_a) / $signed(read_data_b));
-        remainder = (ir_reg[5:0] == F_DIVU)  ? (read_data_a % read_data_b) : ($signed(read_data_a) % $signed(read_data_b));
+        product   = (ir_reg[5:0] == F_MULTU) ? ($unsigned(read_data_a) * $unsigned(read_data_b)) : ($signed(read_data_a) * $signed(read_data_b));
+        quotient  = (ir_reg[5:0] == F_DIVU)  ? ($unsigned(read_data_a) / $unsigned(read_data_b)) : ($signed(read_data_a) / $signed(read_data_b));
+        remainder = (ir_reg[5:0] == F_DIVU)  ? ($unsigned(read_data_a) % $unsigned(read_data_b)) : ($signed(read_data_a) % $signed(read_data_b));
 
         /*
         IF-ELSEIF-ELSE structure decoding and executing instructions
@@ -341,7 +342,6 @@ module mips_cpu_harvard
 
         if(reset) begin
             pc_reg <= 32'hBFC00000;
-            active <= 1;
             ir_reg <= 0;
             hi_reg <= 0;
             lo_reg <= 0;
@@ -349,7 +349,6 @@ module mips_cpu_harvard
 
         else if(clk_enable) begin
             pc_reg <= pc_in;
-            active <= ~(pc_reg == 32'h00000000);
             ir_reg <= instr_readdata;
             hi_reg <= hi_in;
             lo_reg <= lo_in;
