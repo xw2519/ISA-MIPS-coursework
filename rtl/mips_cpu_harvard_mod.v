@@ -1,4 +1,4 @@
-module mips_cpu_harvard
+module mips_cpu_harvard_mod
 (
 
     /* Standard signals */
@@ -19,6 +19,7 @@ module mips_cpu_harvard
     input  logic [31:0] data_readdata,
     output logic        data_write,
     output logic        data_read,
+    output logic [3:0]  data_byteenable,
     output logic [31:0] data_writedata,
     output logic [31:0] data_address
 );
@@ -215,9 +216,10 @@ module mips_cpu_harvard
         if (ir_reg[31:26] == R_TYPE) begin
 
             // No memory accesses occur
-            data_write     = 0;
-            data_read      = 0;
-            data_writedata = 0;
+            data_write      = 0;
+            data_read       = 0;
+            data_byteenable = 4'h0;
+            data_writedata  = 0;
 
             // ALU control
             alu_b = read_data_b;
@@ -272,9 +274,10 @@ module mips_cpu_harvard
 
         // Conditional branches
         else if (ir_reg[31:26] == BR_Z) begin
-            data_write = 0;
-            data_read  = 0;
-            data_writedata = 0;
+            data_write      = 0;
+            data_read       = 0;
+            data_byteenable = 4'h0;
+            data_writedata  = 0;
 
             alu_control = ADDU;
             alu_b = read_data_b;
@@ -314,6 +317,10 @@ module mips_cpu_harvard
             endcase
 
             if (ir_reg[31:26] == SB) begin
+                data_byteenable[0] = (alu_result[1:0] == 0);
+                data_byteenable[1] = (alu_result[1:0] == 1);
+                data_byteenable[2] = (alu_result[1:0] == 2);
+                data_byteenable[3] = (alu_result[1:0] == 3);
                 data_writedata[7:0]   = (alu_result[1:0] == 0) ? read_data_b[7:0] : 8'h00;
                 data_writedata[15:8]  = (alu_result[1:0] == 1) ? read_data_b[7:0] : 8'h00;
                 data_writedata[23:16] = (alu_result[1:0] == 2) ? read_data_b[7:0] : 8'h00;
@@ -321,10 +328,12 @@ module mips_cpu_harvard
             end
 
             else if (ir_reg[31:26] == SH) begin
+                data_byteenable = alu_result[1] ? 4'b1100 : 4'b0011;
                 data_writedata = alu_result[1] ? {read_data_b[15:0], {16'h0000}} : {{16'h0000}, read_data_b[15:0]};
             end
 
             else begin
+                data_byteenable = 4'hF;
                 data_writedata = read_data_b;
             end
 
