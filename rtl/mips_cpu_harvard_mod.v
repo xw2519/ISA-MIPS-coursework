@@ -19,7 +19,7 @@ module mips_cpu_harvard_mod
     input  logic [31:0] data_readdata,
     output logic        data_write,
     output logic        data_read,
-    output logic  [3:0]  data_byteenable,
+    output logic [3:0]  data_byteenable,
     output logic [31:0] data_writedata,
     output logic [31:0] data_address
 );
@@ -249,10 +249,10 @@ module mips_cpu_harvard_mod
             end
 
             case(ir_reg[5:0])
-                F_JALR  : write_data_c = (pc_reg + 4);
-                F_MFHI  : write_data_c = hi_reg;
-                F_MFLO  : write_data_c = lo_reg;
-                default : write_data_c = alu_result;
+                F_JALR  : regfile_write_data = (pc_reg + 4);
+                F_MFHI  : regfile_write_data = hi_reg;
+                F_MFLO  : regfile_write_data = lo_reg;
+                default : regfile_write_data = alu_result;
             endcase
 
             case(ir_reg[5:0])
