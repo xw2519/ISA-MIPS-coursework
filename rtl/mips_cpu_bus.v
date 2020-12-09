@@ -32,7 +32,7 @@ module mips_cpu_bus(
     logic [31:0]  instr_read;
     logic [31:0]  data_addr;
     logic [31:0]  data_read;
-    
+
     /* these are sequential, updated in always_ff */
     logic [1:0]   state;
 
@@ -45,8 +45,6 @@ module mips_cpu_bus(
 
 
     always @(*) begin
-        byteenable = 4'hF;   // changing this would require changing the declaration for mips_cpu_harvard
-
         // Determines next state - state only changes if 'waitrequest' is low
         if (instr_addr_reg != instr_addr) begin
             next_state = INSTR_FETCH;
@@ -93,7 +91,7 @@ module mips_cpu_bus(
     end
 
     /* Sub-module declaration */
-    mips_cpu_harvard harvard_cpu(
+    mips_cpu_harvard_mod harvard_cpu(
         .clk            (clk),
         .reset          (reset),
         .active         (active),
@@ -106,6 +104,7 @@ module mips_cpu_bus(
 
         .data_readdata  (data_read),
         .data_write     (data_write),
+        .data_byteenable(byteenable),
         .data_read      (data_read_en),
         .data_writedata (writedata),
         .data_address   (data_addr)
