@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+slt5
+slt
+Slt same number
+0x00000000
+
+addiu $16, $16, 5
+addiu $17, $17, 5
+slt $2, 17, $16
+jr $0

@@ -42,3 +42,10 @@ Data log to track changes and testing progress:
 - 'div' failed
 - 'srlv' assember not correctly parsing
 - "Standard inconsistency" in loading RAM error for every loading
+
+-----------------------------------------------
+9/12/2020:
+-----------------------------------------------
+- slt working with test files and references
+- slt edge case fail
+- sltu working

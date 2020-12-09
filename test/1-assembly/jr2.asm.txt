@@ -1,0 +1,24 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+jr2
+jr
+normal jump register
+0x00000000
+
+addiu $19, $19, 11
+sll $19, $19, 4
+addiu $19, $19, 15
+sll $19, $19, 4
+addiu $19, $19, 12
+sll $19 $19 20
+addiu $19, $19, 44
+jr $19
+addiu $2, $2 5
+addiu $2, $2 5
+
+jr $0
+

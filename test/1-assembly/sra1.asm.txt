@@ -7,8 +7,8 @@
 sra1
 sra
 shift right word arithmetic
-0x00000005
+0x0000000a
 
 addiu $3, $3, 80
-sra $2, $3, 4
+sra $2, $3, 3
 jr $0

@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+sltu1
+sltu
+Set if less than unsigned
+0x00000001
+
+addiu $16, $16, 999
+addiu $17, $17, 1000
+sltu $2, $16, $17
+jr $0
