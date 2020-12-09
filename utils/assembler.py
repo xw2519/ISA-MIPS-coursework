@@ -183,7 +183,7 @@ def asm_to_hex(asm_dir, hex_dir):
 
     for i in range(8192 - (line_count + 5120)): hex_file.write('00\n')
 
-for filename in os.listdir('../test/1-assembly/'):
+for filename in os.listdir('test/1-assembly/'):
     if filename.endswith(".asm.txt"):
-        print(os.path.join('../test/1-assembly/', filename))
-        asm_to_hex(os.path.join('../test/1-assembly/', filename), os.path.join('../test/2-binary/', filename.replace('asm','hex')))
+       # print(os.path.join('test/1-assembly/', filename))
+        asm_to_hex(os.path.join('test/1-assembly/', filename), os.path.join('test/2-binary/', filename.replace('asm','hex')))
