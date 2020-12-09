@@ -6,8 +6,8 @@
 ---------------------------------------------------
 addiu3
 addiu
-Large constants
+Testing max range
 0xffffffff
 
-addiu $2, $2, 65535
+addiu $2, $2, -1
 jr $0
