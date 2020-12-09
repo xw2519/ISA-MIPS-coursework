@@ -40,5 +40,4 @@ Data log to track changes and testing progress:
 - 'sra' works
 - edge case 'sarv3' not working. The large value 65535 is sus
 - 'div' failed
-- 'srlv' assember not correctly parsing
 - "Standard inconsistency" in loading RAM error for every loading

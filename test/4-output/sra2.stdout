@@ -1,5 +1,4 @@
 Loading test/2-binary/sra2.hex.txt into RAM
-WARNING: test/0-testbenches/RAM_8x8192_avalon_mapped.v:24: $readmemh: Standard inconsistency, following 1364-2005.
 VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
 TB : INFO : register_v0=ffffffff
 TB : finished; active=0
