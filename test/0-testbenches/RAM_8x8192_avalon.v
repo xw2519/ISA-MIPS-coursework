@@ -14,7 +14,7 @@ output logic[31:0] readdata
 	parameter RAM_FILE = "";
 	logic [31:0] word;
 	reg [7:0] mem [8191:0];
-	
+
 	initial begin
 		integer i;
 		for (i=0;i<8192;i++) begin
@@ -22,12 +22,12 @@ output logic[31:0] readdata
 		end
 		if (RAM_FILE!="") begin
 			$display("Loading %s into RAM",RAM_FILE);
-			$readmemh(RAM_FILE,mem);
+			$readmemh(RAM_FILE, mem, 0, 8191);
 		end
 	end
-	
+
 	assign waitrequest = assert_waitrequest;
-	
+
 	always_ff @(negedge waitrequest) begin
 		if(read) begin
 			readdata <=  {mem[address+3],mem[address+2],mem[address+1],mem[address]};
@@ -46,6 +46,6 @@ output logic[31:0] readdata
 				mem[address+3] <= writedata[31:24];
 			end
 		end
-		
+
 	end
 endmodule

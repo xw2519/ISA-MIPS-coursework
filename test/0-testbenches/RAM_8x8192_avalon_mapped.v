@@ -21,10 +21,10 @@ output logic[31:0] readdata
 		end
 		if (RAM_FILE!="") begin
 			$display("Loading %s into RAM",RAM_FILE);
-			$readmemh(RAM_FILE,mem);
+			$readmemh(RAM_FILE, mem, 0, 8191);
 		end
 	end
-	
+
 	always @(*) begin
         case(address[31:24])
             8'h00   : mapped_address = address[12:0];
@@ -34,8 +34,8 @@ output logic[31:0] readdata
             default : mapped_address = address[12:0];
         endcase
     end
-	
-	
+
+
 	always_ff @(negedge waitrequest) begin
 		if(read) begin
 			readdata <=  {mem[mapped_address+3],mem[mapped_address+2],mem[mapped_address+1],mem[mapped_address]};
@@ -54,6 +54,6 @@ output logic[31:0] readdata
 				mem[mapped_address+3] <= writedata[31:24];
 			end
 		end
-		
+
 	end
 endmodule
