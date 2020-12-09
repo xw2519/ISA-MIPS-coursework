@@ -6,7 +6,7 @@
 ---------------------------------------------------
 div1
 div
-normal 8 divide 4
+normal 8 divide 4, quotient 
 0x00000002
 
 addiu $20, $20, 8
