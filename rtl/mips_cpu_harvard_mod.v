@@ -297,7 +297,7 @@ module mips_cpu_harvard_mod
             data_read  = ((ir_reg[31:26] == LB) || (ir_reg[31:26] == LBU) || (ir_reg[31:26] == LWL)  || (ir_reg[31:26] == LW) ||
                           (ir_reg[31:26] == LH) || (ir_reg[31:26] == LHU) || (ir_reg[31:26] == LWR)) && active;
 
-            alu_b = ((ir_reg[31:26] == BEQ) || (ir_reg[31:26] == BNE)) ? ir_reg[20:16] : {{16{ir_reg[15]}}, ir_reg[15:0]};
+            alu_b = ((ir_reg[31:26] == BEQ) || (ir_reg[31:26] == BNE)) ? read_data_b : {{16{ir_reg[15]}}, ir_reg[15:0]};
 
             regfile_write_addr   = (ir_reg[31:26] == JAL) ? 5'b11111 : ir_reg[20:16];
             regfile_write_enable = ((ir_reg[31:26] == ADDIU) || (ir_reg[31:26] == ANDI)  || (ir_reg[31:26] == JAL) ||

@@ -152,7 +152,7 @@ def asm_to_hex(asm_dir, hex_dir):
         elif line[0].upper() in ['BEQ', 'BNE']:
             Rs = int(line[1])
             Rt = int(line[2])
-            offset = int(line[3])
+            offset = int(line[3])//4
             hex_line = hex(int(opcode + to_bin(Rs,5) + to_bin(Rt,5) + to_bin(offset,16),2))
         elif line[0].upper() in ['BGEZ', 'BGEZAL', 'BGTZ', 'BLEZ', 'BLTZ', 'BLTZAL']:
             Rs = int(line[1])
