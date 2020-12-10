@@ -87,24 +87,30 @@ module mips_cpu_bus_tb;
     end
 
     /* Avalon interface */
-    always @(posedge read) // Uses waitrequest to cause fetch to take 3 cycles
+    always @(address or posedge read) // Uses waitrequest to cause fetch to take 3 cycles
     begin
-        waitrequest = 1;
-        // $display("TB : INFO : Waiting for FETCH; address=%h", address);
-        delayed_readdata = 32'hxxxxxxxx;
-        #25;
-        delayed_readdata = readdata;
-        // $display("TB : INFO : FETCH completed; readdata=%h \n", delayed_readdata);
-        waitrequest = 0;
+        if (read)
+        begin
+            waitrequest = 1;
+            // $display("TB : INFO : Waiting for FETCH; address=%h", address);
+            delayed_readdata = 32'hxxxxxxxx;
+            #25;
+            delayed_readdata = readdata;
+            // $display("TB : INFO : FETCH completed; readdata=%h \n", delayed_readdata);
+            waitrequest = 0;
+        end
     end
 
-    always @(posedge write)   // Uses waitrequest to make writes take 4 cycles
+    always @(address or posedge write)   // Uses waitrequest to make writes take 4 cycles
     begin
-        waitrequest = 1;
-        $display("TB : INFO : Waiting for WRITE; address=%h", address);
-        #35;
-        $display("TB : INFO : WRITE completed; writedata=%h \n", writedata);
-        waitrequest = 0;
+        if (write)
+            begin
+            waitrequest = 1;
+            //$display("TB : INFO : Waiting for WRITE; address=%h", address);
+            #35;
+            //$display("TB : INFO : WRITE completed; writedata=%h \n", writedata);
+            waitrequest = 0;
+        end
     end
 
 endmodule
