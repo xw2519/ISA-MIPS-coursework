@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lw1
+lw
+Normal operation
+0x2694000A
+
+addiu 	$20, $20, 10
+addiu 	$16, $16, 35
+lui $8, 49088
+lw 	$2, 0($8)
+jr 	$0

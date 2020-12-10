@@ -4,12 +4,14 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-# lw1
-# lw
-# Normal operation
-# 35
+beq2
+beq
+Branch should not take
+0x00000014
 
-addi 	$20, $20, 10
-addi 	$16, $16, 35
-lw 	$2, 3217031168($0)
-jr 	$0
+addiu $16, $16, 20
+addiu $18, $18, 10
+beq $16, $18, 8
+sll $0, $0, 0
+addu $2, $0, $16
+jr $0

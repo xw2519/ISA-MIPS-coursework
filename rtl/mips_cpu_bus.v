@@ -34,14 +34,14 @@ module mips_cpu_bus(
     logic [31:0]  data_read;
 
     /* these are sequential, updated in always_ff */
-    logic [1:0]   state;
 
       // these store values read from memory, needed to simulate combinatorial access to memory
     logic [31:0]  instr_reg;      // stores instruction read from memory
     logic [31:0]  data_reg;       // stores data read from memory
 
-       // stores previous instruction address, required to detect when the instruction address changes
+       // stores previous addresses, required to detect when addresses change
     logic [31:0]  instr_addr_reg;
+    logic [31:0]  data_addr_reg;
 
 
     always @(*) begin
@@ -50,7 +50,7 @@ module mips_cpu_bus(
             next_state = INSTR_FETCH;
         end
 
-        else if (data_read_en) begin
+        else if (data_read_en && (data_addr_reg != data_addr)) begin
             next_state = DATA_FETCH;
         end
 
@@ -66,8 +66,8 @@ module mips_cpu_bus(
         write   = (next_state == DATA_WRITE);
         read    = ((next_state == INSTR_FETCH) || (next_state == DATA_FETCH));
 
-        instr_read = (state==INSTR_FETCH) ? readdata : instr_reg;
-        data_read  = (state==DATA_FETCH) ? readdata : data_reg;
+        instr_read = (next_state==INSTR_FETCH) ? readdata : instr_reg;
+        data_read  = (next_state==DATA_FETCH)  ? readdata : data_reg;
 
         // Harvard cpu will be stalled when 'waitrequest' is high or if fetch is required
         clk_enable = (~waitrequest && (next_state[0] != 0));
@@ -75,18 +75,17 @@ module mips_cpu_bus(
 
     always_ff @(posedge clk) begin
         if (reset) begin
-
             instr_reg      <= 0;
             data_reg       <= 0;
             instr_addr_reg <= 0;
-            state          <= WAITING;
+            data_addr_reg  <= 0;
         end
 
         else if (~waitrequest) begin
-            instr_addr_reg <= instr_addr;
-            data_reg       <= (state==DATA_FETCH) ? readdata : data_reg;
-            instr_reg      <= (state==INSTR_FETCH) ? readdata : instr_reg;
-            state          <= next_state;
+            instr_addr_reg <= (next_state==INSTR_FETCH) ? instr_addr : instr_addr_reg;
+            data_addr_reg  <= (next_state==DATA_FETCH) ? data_addr : data_addr_reg;
+            data_reg       <= (next_state==DATA_FETCH) ? readdata : data_reg;
+            instr_reg      <= (next_state==INSTR_FETCH) ? readdata : instr_reg;
         end
     end
 

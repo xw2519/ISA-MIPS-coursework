@@ -15,10 +15,9 @@ addiu $19, $19, 15
 sll $19, $19, 4
 addiu $19, $19, 12
 sll $19 $19 20
-addiu $19, $19, 44
+addiu $19, $19, 40
 jr $19
 addiu $2, $2 5
 addiu $2, $2 5
 
 jr $0
-
