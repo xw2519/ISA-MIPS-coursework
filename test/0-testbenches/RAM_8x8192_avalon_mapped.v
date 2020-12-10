@@ -26,18 +26,17 @@ output logic[31:0] readdata
 	end
 
 	always @(*) begin
-        case(address[31:24])
-            8'h00   : mapped_address = address[12:0];
-            8'h80   : mapped_address = address[12:0] + 13'h0400;
-            8'hBF   : mapped_address = address[12:0] + 13'h1400;
-            8'hFF   : mapped_address = {{1'h1}, address[11:0]};
-            default : mapped_address = address[12:0];
-        endcase
-    end
+      case(address[31:24])
+          8'h00   : mapped_address = address[12:0];
+          8'h80   : mapped_address = address[12:0] + 13'h0400;
+          8'hBF   : mapped_address = address[12:0] + 13'h1400;
+          8'hFF   : mapped_address = {{1'h1}, address[11:0]};
+          default : mapped_address = address[12:0];
+      endcase
+  end
 
 
 	always_ff @(posedge clk) begin
-		assert(~(read && write));
 		if(read) begin
 			readdata <=  {mem[mapped_address+3],mem[mapped_address+2],mem[mapped_address+1],mem[mapped_address]};
 		end
