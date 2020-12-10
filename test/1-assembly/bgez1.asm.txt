@@ -6,7 +6,7 @@
 ---------------------------------------------------
 bgez1
 bgez
-Branch should take, greater than
+branch greater
 0x00000023
 
 addiu $17, $17, 4

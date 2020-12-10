@@ -63,7 +63,6 @@ module mips_cpu_harvard_mod
     logic [31:0] remainder;
 
     /* Sub-module declaration */
-
     mips_cpu_alu alu(
         .alu_control    (alu_control),
         .alu_shift_amt  (alu_shift_amt),
@@ -239,8 +238,8 @@ module mips_cpu_harvard_mod
             end
 
             else if ((ir_reg[5:0] == F_DIV) || (ir_reg[5:0] == F_DIVU)) begin
-                hi_in = remainder;
-                lo_in = quotient;
+                hi_in = remainder; // mod
+                lo_in = quotient;  // div
             end
 
             else begin
