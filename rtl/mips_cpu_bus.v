@@ -50,7 +50,7 @@ module mips_cpu_bus(
             next_state = INSTR_FETCH;
         end
 
-        else if (data_read_en) begin
+        else if (data_read_en && state != DATA_FETCH) begin
             next_state = DATA_FETCH;
         end
 

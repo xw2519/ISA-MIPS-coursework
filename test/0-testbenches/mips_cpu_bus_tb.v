@@ -32,16 +32,16 @@ module mips_cpu_bus_tb;
     );
 
     mips_cpu_bus cpuInst(
-        clk, 
-        reset, 
-        active, 
+        clk,
+        reset,
+        active,
         register_v0,
-        waitrequest, 
-        delayed_readdata, 
-        write, 
+        waitrequest,
+        delayed_readdata,
+        write,
         read,
-        byteenable, 
-        writedata, 
+        byteenable,
+        writedata,
         address
     );
 

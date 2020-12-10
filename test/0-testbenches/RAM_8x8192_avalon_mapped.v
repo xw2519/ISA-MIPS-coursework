@@ -36,7 +36,8 @@ output logic[31:0] readdata
     end
 
 
-	always_ff @(negedge waitrequest) begin
+	always_ff @(posedge clk) begin
+		assert(~(read && write));
 		if(read) begin
 			readdata <=  {mem[mapped_address+3],mem[mapped_address+2],mem[mapped_address+1],mem[mapped_address]};
 		end
