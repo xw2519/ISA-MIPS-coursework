@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+beq2
+beq
+Branch should not take
+0x00000014
+
+addiu $16, $16, 20
+addiu $18, $18, 10
+beq $16, $18, 8
+sll $0, $0, 0
+addu $2, $0, $16
+jr $0

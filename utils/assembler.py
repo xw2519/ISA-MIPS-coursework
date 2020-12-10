@@ -156,7 +156,7 @@ def asm_to_hex(asm_dir, hex_dir):
             hex_line = hex(int(opcode + to_bin(Rs,5) + to_bin(Rt,5) + to_bin(offset,16),2))
         elif line[0].upper() in ['BGEZ', 'BGEZAL', 'BGTZ', 'BLEZ', 'BLTZ', 'BLTZAL']:
             Rs = int(line[1])
-            offset = int(line[2])
+            offset = int(line[2])//4
             hex_line = hex(int(opcode + to_bin(Rs,5) + br_z_codes[line[0].upper()] + to_bin(offset,16),2))
         elif line[0].upper() in ['J', 'JAL']:
             target = int(line[1])
