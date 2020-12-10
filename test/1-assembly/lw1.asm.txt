@@ -4,12 +4,13 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-# lw1
-# lw
-# Normal operation
-# 35
+lw1
+lw
+Normal operation
+35
 
-addi 	$20, $20, 10
-addi 	$16, $16, 35
-lw 	$2, 3217031168($0)
+addiu 	$20, $20, 10
+addiu 	$16, $16, 35
+lui $8, 49088
+lw 	$2, 0($8)
 jr 	$0
