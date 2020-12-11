@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+andi2
+andi
+sign extension test 2
+0x0000fff8
+
+addiu $8, $8, -3
+andi $2, $8, -8
+jr $0
