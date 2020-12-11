@@ -164,7 +164,7 @@ def asm_to_hex(asm_dir, hex_dir):
         elif line[0].upper() in ['JR', 'JALR']:
             Rs = int(line[1])
             if len(line) == 3: Rd = int(line[2])
-            else: Rd = 0
+            else: Rd = 31
             hex_line = hex(int(opcode + to_bin(Rs,5) + '00000' + to_bin(Rd,5) + '00000' + funct_codes[line[0].upper()],2))
         elif line[0].upper() in ['LB', 'LBU', 'LH', 'LHU', 'LW', 'LWL', 'LWR', 'SB', 'SH', 'SW']:
             Rt = int(line[1])

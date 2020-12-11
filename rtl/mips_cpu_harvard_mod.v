@@ -222,7 +222,7 @@ module mips_cpu_harvard_mod
             alu_b = read_data_b;
 
             // Register file control
-            regfile_write_addr   =  (ir_reg[5:0] == F_JALR) ? 5'b11111 : ir_reg[15:11];
+            regfile_write_addr   =  ir_reg[15:11];
             regfile_write_data   =  (ir_reg[5:0] == F_JALR) ? (pc_reg + 4) : alu_result;
             regfile_write_enable = ~((ir_reg[5:0] == F_JR)    || (ir_reg[5:0] == F_DIV)  || (ir_reg[5:0] == F_DIVU)  || (ir_reg[5:0] == F_MULT) ||
                                      (ir_reg[5:0] == F_MULTU) || (ir_reg[5:0] == F_MTHI) || (ir_reg[5:0] == F_MTLO)) && active;
