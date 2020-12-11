@@ -4,8 +4,8 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-mult4
-mult
+multu4
+multu
 multiply unsigned -1 by 6 lo reg check
 0xfffffffa
 
@@ -14,4 +14,3 @@ addiu $21, $21, 6
 multu $20, $21
 mflo $2
 jr $0
-

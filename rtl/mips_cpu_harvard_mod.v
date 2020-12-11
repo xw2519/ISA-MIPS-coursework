@@ -59,8 +59,7 @@ module mips_cpu_harvard_mod
 
     // Internal signals
     logic [63:0] product;
-    logic [31:0] quotient;
-    logic [31:0] remainder;
+    logic [63:0] u_product;
 
     /* Sub-module declaration */
     mips_cpu_alu alu(
@@ -181,9 +180,8 @@ module mips_cpu_harvard_mod
         alu_shift_amt = (ir_reg[5:2] == 4'h1) ? read_data_a[4:0] : ir_reg[10:6];
 
         // NOTE: Not synthesisable, they have to be implemented later.
-        product   = (ir_reg[5:0] == F_MULTU) ? ($unsigned(read_data_a) * $unsigned(read_data_b)) : ($signed(read_data_a) * $signed(read_data_b));
-        quotient  = (ir_reg[5:0] == F_DIVU)  ? ($unsigned(read_data_a) / $unsigned(read_data_b)) : ($signed(read_data_a) / $signed(read_data_b));
-        remainder = (ir_reg[5:0] == F_DIVU)  ? ($unsigned(read_data_a) % $unsigned(read_data_b)) : ($signed(read_data_a) % $signed(read_data_b));
+        product   = $signed(read_data_a)   * $signed(read_data_b);
+        u_product = $unsigned(read_data_a) * $unsigned(read_data_b);
 
         /*
         IF-ELSEIF-ELSE structure decoding and executing instructions
@@ -232,20 +230,23 @@ module mips_cpu_harvard_mod
             // PC control
             pc_in = (ir_reg[5:1] == 5'b00100) ? read_data_a : (pc_reg + 4);   // If instruction 'JR' or 'JALR', jump to 'Rs'.
 
-            if ((ir_reg[5:0] == F_MULT) || (ir_reg[5:0] == F_MULTU)) begin
-                hi_in = product[63:32];
-                lo_in = product[31:0];
-            end
+            case(ir_reg[5:0])
+                F_MTHI  : hi_in = read_data_a;
+                F_MULT  : hi_in = product[63:32];
+                F_MULTU : hi_in = u_product[63:32];
+                F_DIV   : hi_in = $signed(read_data_a)   % $signed(read_data_b);
+                F_DIVU  : hi_in = $unsigned(read_data_a) % $unsigned(read_data_b);
+                default : hi_in = hi_reg;
+            endcase
 
-            else if ((ir_reg[5:0] == F_DIV) || (ir_reg[5:0] == F_DIVU)) begin
-                hi_in = remainder; // mod
-                lo_in = quotient;  // div
-            end
-
-            else begin
-                hi_in = (ir_reg[5:0] == F_MTHI) ? read_data_a : hi_reg;
-                lo_in = (ir_reg[5:0] == F_MTLO) ? read_data_a : lo_reg;
-            end
+            case(ir_reg[5:0])
+                F_MTLO  : lo_in = read_data_a;
+                F_MULT  : lo_in = product[31:0];
+                F_MULTU : lo_in = u_product[31:0];
+                F_DIV   : lo_in = $signed(read_data_a)   / $signed(read_data_b);
+                F_DIVU  : lo_in = $unsigned(read_data_a) / $unsigned(read_data_b);
+                default : lo_in = lo_reg;
+            endcase
 
             case(ir_reg[5:0])
                 F_JALR  : regfile_write_data = (pc_reg + 4);
