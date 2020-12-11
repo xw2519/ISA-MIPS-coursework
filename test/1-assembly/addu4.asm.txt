@@ -6,10 +6,10 @@
 ---------------------------------------------------
 addu3
 addu
-pos and neg addition
-0x0000000d
+neg and neg addition
+0xfffffab8
 
-addiu $22, $22, 20
-addiu $24, $24, -7
+addiu $22, $22, -352
+addiu $24, $24, -1000
 addu $2, $22, $24
 jr $0
