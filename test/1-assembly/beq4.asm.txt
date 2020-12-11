@@ -1,0 +1,19 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+beq2
+beq
+branch to itself no infinite loop
+0x00000065
+
+addiu $3, $3, 1
+addiu $16, $16, 20
+addiu $18, $18, 20
+beq $16, $18, -4
+addiu $18, $18, 10
+addu $2, $16, $18
+addu $2, $2, $3
+jr $0
