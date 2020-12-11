@@ -7,10 +7,10 @@
 addu2
 addu
 addition
-0x0000fffe
+0x00009998
 
 
 addiu $20, $20, 32767
-addiu $21, $21, 65535
-addu $2, $20, $20
+addiu $21, $21, 6553
+addu $2, $21, $20
 jr $0

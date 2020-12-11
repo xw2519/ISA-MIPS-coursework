@@ -18,7 +18,6 @@ rm -rf test/4-output/${TEST_CASE}* # Remove all previous output of specific test
 python3 utils/assembler.py
 
 
-
 # Extract assembly file parameters
 Case_ID=$(awk 'NR==7' ${ASSEM_DIR}/${TEST_CASE}.asm.txt)
 Case_Instr=$(awk 'NR==8' ${ASSEM_DIR}/${TEST_CASE}.asm.txt)

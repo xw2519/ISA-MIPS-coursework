@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+addu3
+addu
+pos and neg addition
+0x0000000d
+
+addiu $22, $22, 20
+addiu $24, $24, -7
+addu $2, $22, $24
+jr $0

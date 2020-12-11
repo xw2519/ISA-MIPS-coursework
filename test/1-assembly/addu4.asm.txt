@@ -4,13 +4,12 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-lw1
-lw
-Normal operation
-0x2694000A
+addu3
+addu
+neg and neg addition
+0xfffffab8
 
-addiu 	$20, $20, 10
-addiu 	$16, $16, 35
-lui $8, 49088
-lw 	$2, 0($8)
-jr 	$0
+addiu $22, $22, -352
+addiu $24, $24, -1000
+addu $2, $22, $24
+jr $0

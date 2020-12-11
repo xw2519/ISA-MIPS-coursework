@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+addu3
+addu
+Same register 
+0x00000c84
+
+addiu $22, $22, 801
+addu $2, $22, $22
+addu $2, $2, $2
+jr $0
