@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+and2
+and
+and all 1s
+0xffffffff
+
+
+addiu $11, $11, -1
+addiu $14, $14, -1
+and $2, $11, $14
+jr $0
