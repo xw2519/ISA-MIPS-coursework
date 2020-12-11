@@ -59,11 +59,9 @@ module mips_cpu_harvard_mod
 
     // Internal signals
     logic [63:0] product;
-    logic [31:0] quotient;
-    logic [31:0] remainder;
+    logic [63:0] u_product;
 
     /* Sub-module declaration */
-
     mips_cpu_alu alu(
         .alu_control    (alu_control),
         .alu_shift_amt  (alu_shift_amt),
@@ -182,9 +180,8 @@ module mips_cpu_harvard_mod
         alu_shift_amt = (ir_reg[5:2] == 4'h1) ? read_data_a[4:0] : ir_reg[10:6];
 
         // NOTE: Not synthesisable, they have to be implemented later.
-        product   = (ir_reg[5:0] == F_MULTU) ? ($unsigned(read_data_a) * $unsigned(read_data_b)) : ($signed(read_data_a) * $signed(read_data_b));
-        quotient  = (ir_reg[5:0] == F_DIVU)  ? ($unsigned(read_data_a) / $unsigned(read_data_b)) : ($signed(read_data_a) / $signed(read_data_b));
-        remainder = (ir_reg[5:0] == F_DIVU)  ? ($unsigned(read_data_a) % $unsigned(read_data_b)) : ($signed(read_data_a) % $signed(read_data_b));
+        product   = $signed(read_data_a)   * $signed(read_data_b);
+        u_product = $unsigned(read_data_a) * $unsigned(read_data_b);
 
         /*
         IF-ELSEIF-ELSE structure decoding and executing instructions
@@ -233,20 +230,23 @@ module mips_cpu_harvard_mod
             // PC control
             pc_in = (ir_reg[5:1] == 5'b00100) ? read_data_a : (pc_reg + 4);   // If instruction 'JR' or 'JALR', jump to 'Rs'.
 
-            if ((ir_reg[5:0] == F_MULT) || (ir_reg[5:0] == F_MULTU)) begin
-                hi_in = product[63:32];
-                lo_in = product[31:0];
-            end
+            case(ir_reg[5:0])
+                F_MTHI  : hi_in = read_data_a;
+                F_MULT  : hi_in = product[63:32];
+                F_MULTU : hi_in = u_product[63:32];
+                F_DIV   : hi_in = $signed(read_data_a)   % $signed(read_data_b);
+                F_DIVU  : hi_in = $unsigned(read_data_a) % $unsigned(read_data_b);
+                default : hi_in = hi_reg;
+            endcase
 
-            else if ((ir_reg[5:0] == F_DIV) || (ir_reg[5:0] == F_DIVU)) begin
-                hi_in = remainder;
-                lo_in = quotient;
-            end
-
-            else begin
-                hi_in = (ir_reg[5:0] == F_MTHI) ? read_data_a : hi_reg;
-                lo_in = (ir_reg[5:0] == F_MTLO) ? read_data_a : lo_reg;
-            end
+            case(ir_reg[5:0])
+                F_MTLO  : lo_in = read_data_a;
+                F_MULT  : lo_in = product[31:0];
+                F_MULTU : lo_in = u_product[31:0];
+                F_DIV   : lo_in = $signed(read_data_a)   / $signed(read_data_b);
+                F_DIVU  : lo_in = $unsigned(read_data_a) / $unsigned(read_data_b);
+                default : lo_in = lo_reg;
+            endcase
 
             case(ir_reg[5:0])
                 F_JALR  : regfile_write_data = (pc_reg + 4);
@@ -322,34 +322,56 @@ module mips_cpu_harvard_mod
                 data_byteenable[1] = (alu_result[1:0] == 1);
                 data_byteenable[2] = (alu_result[1:0] == 2);
                 data_byteenable[3] = (alu_result[1:0] == 3);
-                data_writedata[7:0]   = (alu_result[1:0] == 0) ? read_data_b[7:0] : 8'h00;
+                data_writedata[7:0]   = (alu_result[1:0] == 0) ? read_data_b[7:0] : 8'h00;      // could remove mux, redundant because of byteenable
                 data_writedata[15:8]  = (alu_result[1:0] == 1) ? read_data_b[7:0] : 8'h00;
                 data_writedata[23:16] = (alu_result[1:0] == 2) ? read_data_b[7:0] : 8'h00;
                 data_writedata[31:24] = (alu_result[1:0] == 3) ? read_data_b[7:0] : 8'h00;
             end
-
             else if (ir_reg[31:26] == SH) begin
                 data_byteenable = alu_result[1] ? 4'b1100 : 4'b0011;
-                data_writedata = alu_result[1] ? {read_data_b[15:0], {16'h0000}} : {{16'h0000}, read_data_b[15:0]};
+                data_writedata = alu_result[1] ? {read_data_b[15:0], {16'h0000}} : {{16'h0000}, read_data_b[15:0]}; // could remove mux, redundant because of byteenable
             end
-
             else begin
                 data_byteenable = 4'hF;
                 data_writedata = read_data_b;
             end
 
-            case(ir_reg[31:26])
-                JAL     : regfile_write_data = pc_reg + 4;
-                LB      : regfile_write_data = {{24{data_readdata[7]}}, data_readdata[7:0]};
-                LBU     : regfile_write_data = {{24'h000000}, data_readdata[7:0]};
-                LH      : regfile_write_data = {{16{data_readdata[15]}}, data_readdata[15:0]};
-                LHU     : regfile_write_data = {{16'h0000}, data_readdata[15:0]};
-                LUI     : regfile_write_data = {{16'h0000}, ir_reg[15:0]} << 16;
-                LW      : regfile_write_data = data_readdata;
-                LWL     : regfile_write_data = {data_readdata[15:0], read_data_b[15:0]};
-                LWR     : regfile_write_data = {read_data_b[31:16], data_readdata[31:16]};
-                default : regfile_write_data = alu_result;
-            endcase
+            if ((ir_reg[31:26] == LB) || (ir_reg[31:26] == LBU)) begin
+                case(alu_result[1:0])
+                    0 : regfile_write_data = {{24{(ir_reg[31:26] == LB) && data_readdata[ 7]}}, data_readdata[ 7: 0]};
+                    1 : regfile_write_data = {{24{(ir_reg[31:26] == LB) && data_readdata[15]}}, data_readdata[15: 8]};
+                    2 : regfile_write_data = {{24{(ir_reg[31:26] == LB) && data_readdata[23]}}, data_readdata[23:16]};
+                    3 : regfile_write_data = {{24{(ir_reg[31:26] == LB) && data_readdata[31]}}, data_readdata[31:24]};
+                endcase
+            end
+            else if (ir_reg[31:26] == LWL) begin
+                case(alu_result[1:0])
+                    0 : regfile_write_data = {data_readdata[ 7:0], read_data_b[23:0]};
+                    1 : regfile_write_data = {data_readdata[15:0], read_data_b[15:0]};
+                    2 : regfile_write_data = {data_readdata[23:0], read_data_b[ 7:0]};
+                    3 : regfile_write_data = data_readdata;
+                endcase
+            end
+            else if (ir_reg[31:26] == LWR) begin
+                case(alu_result[1:0])
+                    0 : regfile_write_data = data_readdata;
+                    1 : regfile_write_data = {read_data_b[31:24], data_readdata[31: 8]};
+                    2 : regfile_write_data = {read_data_b[31:16], data_readdata[31:16]};
+                    3 : regfile_write_data = {read_data_b[31: 8], data_readdata[31:24]};
+                endcase
+            end
+            else if ((ir_reg[31:26] == LH) || (ir_reg[31:26] == LHU)) begin
+                regfile_write_data[31:16] = {16{(ir_reg[31:26] == LH) && (alu_result[1] ? data_readdata[31] : data_readdata[15])}};
+                regfile_write_data[15:0]  = alu_result[1] ? data_readdata[31:16] : data_readdata[15:0];
+            end
+            else begin
+                case(ir_reg[31:26])
+                    JAL     : regfile_write_data = pc_reg + 4;
+                    LUI     : regfile_write_data = {{16'h0000}, ir_reg[15:0]} << 16;
+                    LW      : regfile_write_data = data_readdata;
+                    default : regfile_write_data = alu_result;
+                endcase
+            end
 
             case(ir_reg[31:26])
                 BEQ     : pc_in = equal ? (pc_reg + ({{14{ir_reg[15]}}, ir_reg[15:0], 2'b00})) : pc_reg + 4;

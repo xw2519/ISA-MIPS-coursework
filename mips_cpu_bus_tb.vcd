@@ -1,5 +1,5 @@
 $date
-	Thu Dec 10 07:49:43 2020
+	Fri Dec 11 02:56:39 2020
 $end
 $version
 	Icarus Verilog
@@ -75,17 +75,16 @@ $var reg 32 R lo_reg [31:0] $end
 $var reg 32 S pc_in [31:0] $end
 $var reg 32 T pc_reg [31:0] $end
 $var reg 64 U product [63:0] $end
-$var reg 32 V quotient [31:0] $end
-$var reg 5 W regfile_write_addr [4:0] $end
-$var reg 32 X regfile_write_data [31:0] $end
-$var reg 1 Y regfile_write_enable $end
-$var reg 32 Z remainder [31:0] $end
+$var reg 5 V regfile_write_addr [4:0] $end
+$var reg 32 W regfile_write_data [31:0] $end
+$var reg 1 X regfile_write_enable $end
+$var reg 64 Y u_product [63:0] $end
 $scope module alu $end
-$var wire 32 [ alu_b [31:0] $end
-$var wire 4 \ alu_control [3:0] $end
-$var wire 5 ] alu_shift_amt [4:0] $end
-$var wire 32 ^ alu_a [31:0] $end
-$var reg 32 _ alu_out [31:0] $end
+$var wire 32 Z alu_b [31:0] $end
+$var wire 4 [ alu_control [3:0] $end
+$var wire 5 \ alu_shift_amt [4:0] $end
+$var wire 32 ] alu_a [31:0] $end
+$var reg 32 ^ alu_out [31:0] $end
 $var reg 1 E equal $end
 $var reg 1 D negative $end
 $var reg 1 @ zero $end
@@ -93,44 +92,43 @@ $upscope $end
 $scope module reg_file $end
 $var wire 1 ) clk $end
 $var wire 1 6 clk_enable $end
-$var wire 5 ` read_addr_a [4:0] $end
-$var wire 5 a read_addr_b [4:0] $end
-$var wire 5 b regfile_write_addr [4:0] $end
-$var wire 32 c regfile_write_data [31:0] $end
-$var wire 1 Y regfile_write_enable $end
+$var wire 5 _ read_addr_a [4:0] $end
+$var wire 5 ` read_addr_b [4:0] $end
+$var wire 5 a regfile_write_addr [4:0] $end
+$var wire 32 b regfile_write_data [31:0] $end
+$var wire 1 X regfile_write_enable $end
 $var wire 1 + reset $end
-$var reg 32 d read_data_a [31:0] $end
-$var reg 32 e read_data_b [31:0] $end
-$var reg 32 f register_v0 [31:0] $end
-$var integer 32 g i [31:0] $end
+$var reg 32 c read_data_a [31:0] $end
+$var reg 32 d read_data_b [31:0] $end
+$var reg 32 e register_v0 [31:0] $end
+$var integer 32 f i [31:0] $end
 $upscope $end
 $upscope $end
 $upscope $end
 $scope module ramInst $end
-$var wire 32 h address [31:0] $end
-$var wire 4 i byteenable [3:0] $end
+$var wire 32 g address [31:0] $end
+$var wire 4 h byteenable [3:0] $end
 $var wire 1 ) clk $end
 $var wire 1 % read $end
 $var wire 1 , waitrequest $end
 $var wire 1 " write $end
-$var wire 32 j writedata [31:0] $end
-$var reg 13 k mapped_address [12:0] $end
-$var reg 32 l readdata [31:0] $end
+$var wire 32 i writedata [31:0] $end
+$var reg 13 j mapped_address [12:0] $end
+$var reg 32 k readdata [31:0] $end
 $scope begin $unm_blk_1 $end
-$var integer 32 m i [31:0] $end
+$var integer 32 l i [31:0] $end
 $upscope $end
 $upscope $end
 $upscope $end
 $enddefinitions $end
 #0
 $dumpvars
-b10000000000000 m
-bx l
-bx00 k
-bx j
-b1111 i
-bx00 h
-bx g
+b10000000000000 l
+bx k
+bx00 j
+bx i
+b1111 h
+bx00 g
 bx f
 bx e
 bx d
@@ -141,11 +139,11 @@ bx `
 bx _
 bx ^
 bx ]
-b0 \
-bx [
+bx \
+b0 [
 bx Z
-xY
-bx X
+bx Y
+xX
 bx W
 bx V
 bx U
@@ -206,35 +204,36 @@ $end
 b0 !
 b0 .
 b0 L
-b0 j
+b0 i
+b0 Y
 b0 U
 0D
 1@
 b0 B
-b0 e
-b0 C
-b0 ^
 b0 d
+b0 C
+b0 ]
+b0 c
 b0 #
 b0 /
 b0 A
-b0 f
+b0 e
 1(
 1+
 1)
 #20
 0)
 #30
-b0 X
-b0 c
+b0 W
+b0 b
 b0 3
 b0 J
 1E
 b0 F
-b0 _
+b0 ^
 b0 G
-b0 [
-b1010000000000 k
+b0 Z
+b1010000000000 j
 1,
 06
 b0 8
@@ -242,36 +241,37 @@ b0 >
 1%
 b10111111110000000000000000000000 '
 b10111111110000000000000000000000 5
-b10111111110000000000000000000000 h
+b10111111110000000000000000000000 g
 b10 =
+b0 _
 b0 `
-b0 a
 b111 H
-b111 \
+b111 [
 b0 Q
 b0 M
 b10111111110000000000000000000100 S
-1Y
-b0 W
-b0 b
+1X
+b0 V
+b0 a
 b0 &
 b0 4
 b0 K
-b0 i
+b0 h
 02
 01
+b0 Y
 b0 U
 b0 I
-b0 ]
+b0 \
 b10111111110000000000000000000000 0
 b10111111110000000000000000000000 O
 0D
 1@
 b0 B
-b0 e
-b0 C
-b0 ^
 b0 d
+b0 C
+b0 ]
+b0 c
 0+
 b0 7
 b0 :
@@ -281,13 +281,13 @@ b0 R
 b0 N
 b0 P
 b10111111110000000000000000000000 T
-b100000 g
+b100000 f
 1)
 #40
 0)
 #50
 b100100011000110000000001010000 $
-b100100011000110000000001010000 l
+b100100011000110000000001010000 k
 1)
 #55
 b100100011000110000000001010000 ;
@@ -298,12 +298,12 @@ b100100011000110000000001010000 -
 #60
 0)
 #70
-b0 k
+b0 j
 16
 0%
 b0 '
 b0 5
-b0 h
+b0 g
 b11 =
 b100100011000110000000001010000 <
 b10111111110000000000000000000000 :
@@ -313,38 +313,38 @@ b10111111110000000000000000000000 :
 #90
 bx ;
 bx ?
-b1010000 X
-b1010000 c
+b1010000 W
+b1010000 b
 b1010000 3
 b1010000 J
-b1010000000100 k
+b1010000000100 j
 bx *
 bx -
 1,
 0E
 b1010000 F
-b1010000 _
+b1010000 ^
 06
 1%
 b10111111110000000000000000000100 '
 b10111111110000000000000000000100 5
-b10111111110000000000000000000100 h
+b10111111110000000000000000000100 g
 b10 =
+b11 _
 b11 `
-b11 a
 b10111111110000000000000000001000 S
 b1111 &
 b1111 4
 b1111 K
-b1111 i
+b1111 h
 b0 H
-b0 \
-b11 W
-b11 b
+b0 [
+b11 V
+b11 a
 b1010000 G
-b1010000 [
+b1010000 Z
 b1 I
-b1 ]
+b1 \
 b10111111110000000000000000000100 0
 b10111111110000000000000000000100 O
 b100100011000110000000001010000 P
@@ -354,7 +354,7 @@ b10111111110000000000000000000100 T
 0)
 #110
 b111000011000100000000000011110 $
-b111000011000100000000000011110 l
+b111000011000100000000000011110 k
 1)
 #115
 b111000011000100000000000011110 ;
@@ -365,12 +365,12 @@ b111000011000100000000000011110 -
 #120
 0)
 #130
-b1010000 k
+b1010000 j
 16
 0%
 b1010000 '
 b1010000 5
-b1010000 h
+b1010000 g
 b11 =
 b111000011000100000000000011110 <
 b10111111110000000000000000000100 :
@@ -380,7 +380,7 @@ b10111111110000000000000000000100 :
 #150
 bx ;
 bx ?
-b1010000001000 k
+b1010000001000 j
 bx *
 bx -
 1,
@@ -388,27 +388,26 @@ bx -
 1%
 b10111111110000000000000000001000 '
 b10111111110000000000000000001000 5
-b10111111110000000000000000001000 h
+b10111111110000000000000000001000 g
 b10 =
-b10 a
+b10 `
 b10111111110000000000000000001100 S
-b1001110 X
-b1001110 c
+b1001110 W
+b1001110 b
 b0 !
 b0 .
 b0 L
-b0 j
+b0 i
 b100 H
-b100 \
-b10 W
-b10 b
+b100 [
+b10 V
+b10 a
 b11110 G
-b11110 [
-bx Z
-bx V
+b11110 Z
+b0 Y
 b0 U
 b0 I
-b0 ]
+b0 \
 b1001100 3
 b1001100 J
 b10111111110000000000000000001000 0
@@ -416,12 +415,12 @@ b10111111110000000000000000001000 O
 0E
 0@
 b1001110 F
-b1001110 _
+b1001110 ^
 b0 B
-b0 e
+b0 d
 b1010000 C
-b1010000 ^
-b1010000 d
+b1010000 ]
+b1010000 c
 b111000011000100000000000011110 P
 b10111111110000000000000000001000 T
 1)
@@ -429,7 +428,7 @@ b10111111110000000000000000001000 T
 0)
 #170
 b1000 $
-b1000 l
+b1000 k
 1)
 #175
 b1000 ;
@@ -440,12 +439,12 @@ b1000 -
 #180
 0)
 #190
-b1001100 k
+b1001100 j
 16
 0%
 b1001100 '
 b1001100 5
-b1001100 h
+b1001100 g
 b11 =
 b1000 <
 b10111111110000000000000000001000 :
@@ -455,45 +454,45 @@ b10111111110000000000000000001000 :
 #210
 bx ;
 bx ?
-b1010000001100 k
+b1010000001100 j
 bx *
 bx -
 1,
-b0 X
-b0 c
+b0 W
+b0 b
 b0 3
 b0 J
 06
 1%
 b10111111110000000000000000001100 '
 b10111111110000000000000000001100 5
-b10111111110000000000000000001100 h
+b10111111110000000000000000001100 g
 b10 =
 1E
 1@
 b0 F
-b0 _
-b0 C
 b0 ^
-b0 d
+b0 C
+b0 ]
+b0 c
 b1001110 #
 b1001110 /
 b1001110 A
-b1001110 f
+b1001110 e
+b0 _
 b0 `
-b0 a
 b0 H
-b0 \
-b0 S
-0Y
-b0 W
-b0 b
-b0 G
 b0 [
+b0 S
+0X
+b0 V
+b0 a
+b0 G
+b0 Z
 b0 &
 b0 4
 b0 K
-b0 i
+b0 h
 b10111111110000000000000000001100 0
 b10111111110000000000000000001100 O
 b1000 P
@@ -503,7 +502,7 @@ b10111111110000000000000000001100 T
 0)
 #230
 b0 $
-b0 l
+b0 k
 1)
 #235
 b0 ;
@@ -514,12 +513,12 @@ b0 -
 #240
 0)
 #250
-b0 k
+b0 j
 16
 0%
 b0 '
 b0 5
-b0 h
+b0 g
 b11 =
 b0 <
 b10111111110000000000000000001100 :
@@ -536,7 +535,7 @@ bx -
 1%
 b10 =
 b111 H
-b111 \
+b111 [
 b100 S
 b0 0
 b0 O
