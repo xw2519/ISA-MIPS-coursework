@@ -40,6 +40,7 @@ set +e
 ${SIMUL_DIR}/mips_cpu_bus_tb_${TEST_CASE} > ${OUT_DIR}/${TEST_CASE}.stdout
 
 
+
 # >&2 echo "3 - Extracting ouputs from CPU"
 Reg_output="TB : INFO : register_v0="
 Active_flag="TB : finished; active=" # To be added in later
