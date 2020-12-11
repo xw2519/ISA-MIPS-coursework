@@ -48,3 +48,11 @@ Data log to track changes and testing progress:
 - slt working with test files and references
 - slt edge case fail
 - sltu working
+
+
+-----------------------------------------------
+11/12/2020:
+-----------------------------------------------
+- testing jalr
+
+
