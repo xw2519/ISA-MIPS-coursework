@@ -10,5 +10,5 @@ sign extension
 0x00000000
 
 addiu $8, $9, 65535
-andi $8, $8, 0
+andi $2, $8, 0
 jr $0
