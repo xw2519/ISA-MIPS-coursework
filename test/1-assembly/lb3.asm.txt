@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lb3
+lb
+normal operation loading 3rd byte 
+0x0000001e
+
+addiu $20, $20, 7891
+addiu $16, $16, 20
+sll $20, $20, 8
+sw $20, 0($16)
+lb $2, 2($16)
+jr $0

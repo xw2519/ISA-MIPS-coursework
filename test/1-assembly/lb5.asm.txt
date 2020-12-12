@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lb5
+lb
+sign extention of bits 
+0xfffffff7
+
+addiu $20, $20, -7
+addiu $16, $16, 3000
+sw $20, 0($16)
+lb $2, 0($16)
+jr $0
