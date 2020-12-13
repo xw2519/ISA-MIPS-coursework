@@ -4,16 +4,11 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-lb6
+lb8
 lb
-negative offsets
-0x00000014
+loading pre excisting value 
+0x0000000
 
-addiu $20, $20, 5232
-addiu $21, $21, 4123
-addiu $16, $16, 3000
-addiu $15, $15, 2996
-sw $20, 0($15)
-sw $21, 0($16)
-lb $2, -3($16)
+addiu $20, $20, 20
+lb $2, 3($20)
 jr $0

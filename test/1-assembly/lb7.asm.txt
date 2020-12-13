@@ -4,16 +4,16 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-lb6
+lb7
 lb
-negative offsets
+Offsetting to following word
 0x00000014
 
 addiu $20, $20, 5232
 addiu $21, $21, 4123
-addiu $16, $16, 3000
-addiu $15, $15, 2996
+addiu $15, $15, 3000
+addiu $16, $16, 3004
 sw $20, 0($15)
 sw $21, 0($16)
-lb $2, -3($16)
+lb $2, 5($15)
 jr $0
