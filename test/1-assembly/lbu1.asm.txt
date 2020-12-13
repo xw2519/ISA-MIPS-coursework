@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lb1
+lb
+normal operation loading LSB byte 
+0x0000005f
+
+addiu $20, $20, 25439
+addiu $16, $16, 20
+sw $20, 0($16)
+lbu $2, 0($16)
+jr $0
