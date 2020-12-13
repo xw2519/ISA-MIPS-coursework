@@ -4,7 +4,7 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-addu3
+addu4
 addu
 neg and neg addition
 0xfffffab8

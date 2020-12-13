@@ -1,19 +1,21 @@
 module RAM_8x8192_avalon_mapped(
-
-input logic clk,
-input logic[31:0] address,
-input logic write,
-input logic read,
-input logic waitrequest,
-input logic[31:0] writedata,
-input logic[3:0] byteenable,
-output logic[31:0] readdata
-
+		input  logic        clk,
+		input  logic [31:0] address,
+		input  logic        write,
+		input  logic        read,
+		input  logic        waitrequest,
+		input  logic [31:0] writedata,
+		input  logic [3:0]  byteenable,
+		output logic [31:0] readdata
 );
 	parameter RAM_FILE = "";
+
 	logic [31:0] word;
-	reg [7:0] mem [8191:0];
-	logic[12:0] mapped_address;
+	logic [12:0] mapped_address;
+	logic        write_clk_sync;
+
+	reg   [7:0]  mem[8191:0];
+
 	initial begin
 		integer i;
 		for (i=0;i<8192;i++) begin
@@ -44,25 +46,29 @@ Only memory accesses to these addresses in this range are guaranteed to give exp
   end
 
 
-	always_ff @(posedge clk) begin
+	always_ff @(negedge waitrequest) begin
 		if(read) begin
 			readdata <=  {mem[mapped_address+3],mem[mapped_address+2],mem[mapped_address+1],mem[mapped_address]};
 		end
-		else if(write) begin
-			if(byteenable[0]) begin
-				mem[mapped_address] <= writedata[7:0];
-			end
-			if(byteenable[1]) begin
-				mem[mapped_address+1] <= writedata[15:8];
-			end
-			if(byteenable[2]) begin
-				mem[mapped_address+2] <= writedata[23:16];
-			end
-			if(byteenable[3]) begin
-				mem[mapped_address+3] <= writedata[31:24];
-			end
-		//$display("RAM written to. Address : %h , data: %h",address,{mem[mapped_address+3],mem[mapped_address+2],mem[mapped_address+1],mem[mapped_address]});
-		end
-
+		write_clk_sync = write;
 	end
+
+	always_ff @(posedge clk) begin
+			if (write_clk_sync)  begin
+					if(byteenable[0]) begin
+						mem[mapped_address] <= writedata[7:0];
+					end
+					if(byteenable[1]) begin
+						mem[mapped_address+1] <= writedata[15:8];
+					end
+					if(byteenable[2]) begin
+						mem[mapped_address+2] <= writedata[23:16];
+					end
+					if(byteenable[3]) begin
+						mem[mapped_address+3] <= writedata[31:24];
+					end
+					write_clk_sync = 0;
+			end
+	end
+
 endmodule

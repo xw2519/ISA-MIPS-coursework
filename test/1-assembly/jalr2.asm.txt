@@ -4,12 +4,9 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-jalr1
+jalr2
 jalr
 jalr halt
-00000000
-
-
+0xbfc00008
 
 jalr $12 $2
-

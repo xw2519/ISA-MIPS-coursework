@@ -1,12 +1,11 @@
 module mips_cpu_bus(
     /* Standard signals */
-
     input  logic         clk,
     input  logic         reset,
     output logic         active,
     output logic [31:0]  register_v0,
 
-    /* Avalon memory mapped bus controller (master) */
+    /* Avalon memory mapped bus controller*/
     input  logic         waitrequest,
     input  logic [31:0]  readdata,
     output logic         write,
@@ -89,7 +88,7 @@ module mips_cpu_bus(
         end
     end
 
-    /* Sub-module declaration */
+    /* Harvard CPU declaration */
     mips_cpu_harvard_mod harvard_cpu(
         .clk            (clk),
         .reset          (reset),

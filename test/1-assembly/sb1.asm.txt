@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+sb1
+sb
+Negative store
+
+
+addiu $16, $16, 8
+addiu $2, $2, 20
+sb $2, 7($16)
+lb $2, 7($16)
+jr $0

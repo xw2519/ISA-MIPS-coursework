@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lhu1
+lhu
+normal operation loading lower half word  
+0x00005601
+
+addiu $20, $20, 22017
+addiu $16, $16, 20
+sw $20, 0($16)
+lhu $2, 0($16)
+jr $0
