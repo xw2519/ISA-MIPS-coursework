@@ -1,6 +1,5 @@
 module mips_cpu_bus(
     /* Standard signals */
-
     input  logic         clk,
     input  logic         reset,
     output logic         active,
@@ -89,7 +88,7 @@ module mips_cpu_bus(
         end
     end
 
-    /* Sub-module declaration */
+    /* Harvard CPU declaration */
     mips_cpu_harvard_mod harvard_cpu(
         .clk            (clk),
         .reset          (reset),
