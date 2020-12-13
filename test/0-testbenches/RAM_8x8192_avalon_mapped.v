@@ -25,13 +25,21 @@ output logic[31:0] readdata
 		end
 	end
 
+/* The memory is split into 4 parts in the 32-bit address space.
+Only memory accesses to these addresses in this range are guaranteed to give expected results.
+	32-bit address											: 			13-bit memory
+    Part 1: 0x00000000 -> 0x000003FF 	: 			0x0000 -> 0x03FF
+    Part 2: 0x80000000 -> 0x800007FF		: 			0x0400 -> 0xBFF
+    Part 3: 0xBFBFF800 -> 0xBFC007FF	:			0x0C00 -> 0x1BFF
+    Part 4: 0xFFFFFC00 -> 0xFFFFFFFF	:			0x1C00 -> 0x1FFF
+*/
 	always @(*) begin
       case(address[31:24])
-          8'h00   : mapped_address = address[12:0];
-          8'h80   : mapped_address = address[12:0] + 13'h0400;
-          8'hBF   : mapped_address = address[12:0] + 13'h1400;
-          8'hFF   : mapped_address = {{1'h1}, address[11:0]};
-          default : mapped_address = address[12:0];
+          8'h00   : mapped_address = address[12:0]; 						//Lowest 13 bits maps the address to Part 1 of the memory
+          8'h80   : mapped_address = address[12:0] + 13'h0400; 	//Lowest 13 bits + 0x0400  (0x0000 -> 0x0400)
+          8'hBF   : mapped_address = address[12:0] + 13'h1400;	//Lowest 13 bits - 0x0C00	(0x1800 -> 0x0C00) [-0x0C00 equivalent to + 0x1400 when only 13 bits wide, 0x1800 and not 0xF800 as 13 bits wide, not 16]
+          8'hFF   : mapped_address =  address[12:0];						//Lowest 13 bits (0x1C00 -> 0x1C00)
+          default : mapped_address = address[12:0];						
       endcase
   end
 
@@ -53,6 +61,7 @@ output logic[31:0] readdata
 			if(byteenable[3]) begin
 				mem[mapped_address+3] <= writedata[31:24];
 			end
+		//$display("RAM written to. Address : %h , data: %h",address,{mem[mapped_address+3],mem[mapped_address+2],mem[mapped_address+1],mem[mapped_address]});
 		end
 
 	end

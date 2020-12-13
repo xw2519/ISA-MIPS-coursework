@@ -4,6 +4,7 @@ module mips_cpu_bus_tb;
     parameter RAM_INIT_FILE = "";
     parameter TIMEOUT_CYCLES = 10000;
 
+
     logic        clk;
     logic        reset;
     logic        waitrequest;
