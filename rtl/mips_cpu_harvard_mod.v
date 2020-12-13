@@ -326,7 +326,7 @@ module mips_cpu_harvard_mod
             end
             else if (ir_reg[31:26] == SH) begin
                 data_byteenable = alu_result[1] ? 4'b1100 : 4'b0011;
-                data_writedata = alu_result[1] ? {read_data_b[15:0], {16'h0000}} : {{16'h0000}, read_data_b[15:0]}; // could remove mux, redundant because of byteenable
+                data_writedata  = alu_result[1] ? {read_data_b[15:0], {16'h0000}} : {{16'h0000}, read_data_b[15:0]}; // could remove mux, redundant because of byteenable
             end
             else begin
                 data_byteenable = 4'hF;
@@ -383,7 +383,7 @@ module mips_cpu_harvard_mod
 
     end
 
-    /* --- CPU states --- */
+    /* --- Clock assignment and CPU reset behaviour --- */
     always_ff @(posedge clk) begin
 
         if(reset) begin
