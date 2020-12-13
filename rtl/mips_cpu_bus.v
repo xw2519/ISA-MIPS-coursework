@@ -5,7 +5,7 @@ module mips_cpu_bus(
     output logic         active,
     output logic [31:0]  register_v0,
 
-    /* Avalon memory mapped bus controller (master) */
+    /* Avalon memory mapped bus controller*/
     input  logic         waitrequest,
     input  logic [31:0]  readdata,
     output logic         write,
