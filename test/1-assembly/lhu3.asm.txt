@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lhu2
+lhu
+zero extention
+0x00009a05
+
+addiu $20, $20, 39429
+addiu $16, $16, 3000
+sll $20, $20, 16
+sw $20, 0($16)
+lhu $2, 2($16)
+jr $0

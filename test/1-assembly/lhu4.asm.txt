@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lhu2
+lhu
+negative offset
+0x00005660
+
+addiu $20, $20, 22112
+addiu $16, $16, 3000
+addiu $17, $17, 3004
+sw $20, 0($16)
+lhu $2, -4($17)
+jr $0
