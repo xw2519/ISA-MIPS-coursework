@@ -4,10 +4,10 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-bgez2
+bgez4
 bgez
 dont branch
-0xffffffce
+0xffffff9c
 
 addiu $16, $16, 100
 bgez $16, -4

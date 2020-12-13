@@ -58,6 +58,7 @@ module mips_cpu_harvard_mod
     logic [31:0] lo_in;
 
     // Internal signals
+    logic [31:0] sign_extended_immediate;
     logic [63:0] product;
     logic [63:0] u_product;
 
@@ -175,6 +176,9 @@ module mips_cpu_harvard_mod
 
         instr_address = pc_reg;
         data_address  = alu_result & 32'hFFFFFFFC;
+
+        sign_extended_immediate = ((ir_reg[31:26] == ANDI) || (ir_reg[31:26] == ORI) || (ir_reg[31:26] == XORI)) ?
+                                  {{16'h0000}, ir_reg[15:0]} : {{16{ir_reg[15]}}, ir_reg[15:0]};
 
         // Choose between 'Rs' and 'shamt' for standard and variable shifts.
         alu_shift_amt = (ir_reg[5:2] == 4'h1) ? read_data_a[4:0] : ir_reg[10:6];
@@ -297,7 +301,7 @@ module mips_cpu_harvard_mod
             data_read  = ((ir_reg[31:26] == LB) || (ir_reg[31:26] == LBU) || (ir_reg[31:26] == LWL)  || (ir_reg[31:26] == LW) ||
                           (ir_reg[31:26] == LH) || (ir_reg[31:26] == LHU) || (ir_reg[31:26] == LWR)) && active;
 
-            alu_b = ((ir_reg[31:26] == BEQ) || (ir_reg[31:26] == BNE)) ? read_data_b : {{16{ir_reg[15]}}, ir_reg[15:0]};
+            alu_b = ((ir_reg[31:26] == BEQ) || (ir_reg[31:26] == BNE)) ? read_data_b : sign_extended_immediate;
 
             regfile_write_addr   = (ir_reg[31:26] == JAL) ? 5'b11111 : ir_reg[20:16];
             regfile_write_enable = ((ir_reg[31:26] == ADDIU) || (ir_reg[31:26] == ANDI)  || (ir_reg[31:26] == JAL) ||
