@@ -4,7 +4,7 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-and2
+and4
 and
 and all 1s
 0xffffffff

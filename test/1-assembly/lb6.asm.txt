@@ -4,7 +4,7 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-lb5
+lb6
 lb
 negative offsets
 0x00000014

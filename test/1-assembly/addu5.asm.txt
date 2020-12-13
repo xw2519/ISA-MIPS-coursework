@@ -4,9 +4,9 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-addu3
+addu5
 addu
-Same register 
+Same register
 0x00000c84
 
 addiu $22, $22, 801

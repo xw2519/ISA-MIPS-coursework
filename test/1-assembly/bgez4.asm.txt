@@ -4,7 +4,7 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-bgez2
+bgez4
 bgez
 dont branch
 0xffffffce
