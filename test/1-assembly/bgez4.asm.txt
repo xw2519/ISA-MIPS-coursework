@@ -6,8 +6,13 @@
 ---------------------------------------------------
 bgez4
 bgez
+<<<<<<< HEAD
 repeated branch
 0xffffffce
+=======
+loop using delay slot
+0xffffff9c
+>>>>>>> 90d87045855e824337eb1ade0bd2a338134846bf
 
 addiu $16, $16, 100
 bgez $16, -1
