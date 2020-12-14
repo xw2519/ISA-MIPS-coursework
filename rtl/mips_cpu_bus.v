@@ -33,6 +33,7 @@ module mips_cpu_bus(
     logic [31:0]  data_read;
 
     /* these are sequential, updated in always_ff */
+    logic [1:0]   prev_state;
 
       // these store values read from memory, needed to simulate combinatorial access to memory
     logic [31:0]  instr_reg;      // stores instruction read from memory
@@ -49,7 +50,7 @@ module mips_cpu_bus(
             next_state = INSTR_FETCH;
         end
 
-        else if (data_read_en && (data_addr_reg != data_addr)) begin
+        else if (data_read_en && prev_state != DATA_FETCH) begin
             next_state = DATA_FETCH;
         end
 
@@ -78,6 +79,7 @@ module mips_cpu_bus(
             data_reg       <= 0;
             instr_addr_reg <= 0;
             data_addr_reg  <= 0;
+            prev_state <= WAITING;
         end
 
         else if (~waitrequest) begin
@@ -85,6 +87,7 @@ module mips_cpu_bus(
             data_addr_reg  <= (next_state==DATA_FETCH) ? data_addr : data_addr_reg;
             data_reg       <= (next_state==DATA_FETCH) ? readdata : data_reg;
             instr_reg      <= (next_state==INSTR_FETCH) ? readdata : instr_reg;
+            prev_state <= next_state;
         end
     end
 
