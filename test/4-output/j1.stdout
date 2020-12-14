@@ -1,0 +1,4 @@
+Loading test/2-binary/j1.hex.txt into RAM
+VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
+FATAL: test/0-testbenches/mips_cpu_bus_tb.v:60: Simulation did not finish within       10000 cycles.
+       Time: 100000 Scope: mips_cpu_bus_tb

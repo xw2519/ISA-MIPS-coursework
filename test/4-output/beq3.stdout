@@ -1,0 +1,4 @@
+Loading test/2-binary/beq3.hex.txt into RAM
+VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
+TB : INFO : register_v0=0000003d
+TB : finished; active=0

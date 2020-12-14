@@ -4,13 +4,13 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-bgez2
+bgez4
 bgez
-dont branch
+repeated branch
 0xffffffce
 
 addiu $16, $16, 100
-bgez $16, -4
+bgez $16, -1
 addiu $16, $16, -50
 addu $2, $2, $16
 jr $0

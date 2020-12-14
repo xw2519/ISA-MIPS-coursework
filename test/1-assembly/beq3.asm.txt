@@ -12,7 +12,7 @@ signed offset
 addiu $3, $3, 1
 addiu $16, $16, 20
 addiu $18, $18, 20
-beq $16, $18, -12
+beq $16, $18, -3
 addiu $18, $18, 10
 addu $2, $16, $18
 addu $2, $2, $3

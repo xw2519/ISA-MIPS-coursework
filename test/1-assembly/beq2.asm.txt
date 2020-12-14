@@ -11,7 +11,7 @@ Branch should not take
 
 addiu $16, $16, 20
 addiu $18, $18, 10
-beq $16, $18, 8
+beq $16, $18, 2
 sll $0, $0, 0
 addu $2, $0, $16
 jr $0

@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+bgezal2
+bgezal
+branching and link equal to 0
+0x00000023
+
+addiu $16, $16, 35
+bgezal $17, 2
+addu $2, $0, $16
+addu $2, $2, $16
+jr $0

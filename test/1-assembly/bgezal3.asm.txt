@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+bgezal2
+bgezal
+dont branch and link
+0xffffffce
+
+addiu $16, $16, -100
+bgezal $16, 2
+addiu $16, $16, 50
+addu $2, $2, $16
+jr $0
