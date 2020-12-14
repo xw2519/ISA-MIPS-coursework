@@ -15,7 +15,7 @@ INSTRUCTION="${2:-all}"
 #   -Last character identifying whether "INSTRUCTION":
 #       - All test cases
 #       - Specific test case 
-LAST_CHARACTER="${INSTRUCTION: -1}"
+LAST_CHAR="${INSTRUCTION: -1}"
 
 
 
@@ -29,19 +29,42 @@ LAST_CHARACTER="${INSTRUCTION: -1}"
 
 if [[ ${INSTRUCTION} != "all" ]]; then # Identify which option "INSTRUCTION" is
     
-    #if [[ ${LAST_CHARACTER} =~ [0-9] ]]; then
-        # >&2 echo "Running testcase ${INSTRUCTION} only"
-        # Run specific test case
-    #    ./test/run_one_testcase.sh ${SOURCE_DIR} ${INSTRUCTION}
-    #else 
-        # Run all testcases of instruction (all testcases for one instruction)
-        # >&2 echo "Running all testcases for ${INSTRUCTION}"
-    #    for i in ${TESTCASES_INSTR}; do 
-    #        TESTNAME_INSTR=$(basename ${i} .asm.txt)
-    #        ./test/run_one_testcase.sh ${SOURCE_DIR} ${TESTNAME_INSTR}
-    #    done
-    #fi
-    echo "HI"
+    if [[ ${LAST_CHAR} =~ [0-9] ]]; then # Specific test case
+        
+        for TEST_FOLDER in ${ASSEM_DIR}/*; # Search for speciic test case and return TEST_TYPE
+        do
+            TEST_TYPE="$(basename -- $TEST_FOLDER)"
+
+            for TEST_FILE in ${TEST_FOLDER}/*;
+            do
+                TEST_CASE="$(basename -- ${TEST_FILE})"
+                TEST_CASE=${TEST_CASE//".asm.txt"/}
+
+                if [[ ${TEST_CASE} == ${INSTRUCTION} ]]; then
+                    ./test/run_one_testcase.sh ${SOURCE_DIR} ${TEST_CASE} ${TEST_TYPE}
+                fi
+            done
+        done
+
+    else # All testcases of an instruction
+
+        for TEST_FOLDER in ${ASSEM_DIR}/*; # Search for speciic test case and return TEST_TYPE
+        do
+            TEST_TYPE="$(basename -- $TEST_FOLDER)"
+
+            for TEST_FILE in ${TEST_FOLDER}/*;
+            do
+                TEST_CASE="$(basename -- ${TEST_FILE})"
+                TEST_CASE=${TEST_CASE//".asm.txt"/}
+
+                if [[ ${TEST_CASE::-1} == ${INSTRUCTION} ]]; then
+                    ./test/run_one_testcase.sh ${SOURCE_DIR} ${TEST_CASE} ${TEST_TYPE}
+                fi
+            done
+
+        done
+
+    fi
 
 else # Default case: Run all testcases
 
@@ -56,4 +79,5 @@ else # Default case: Run all testcases
         done
         
     done
+
 fi

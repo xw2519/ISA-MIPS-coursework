@@ -22,7 +22,7 @@ do
         INSTR_NAME="$(basename -- $i)"
         echo ${INSTR_NAME}
         INSTR_NAME=${INSTR_NAME//".asm.txt"/}
-        echo ${INSTR_NAME}
+        echo ${INSTR_NAME::-1}
         #./test/run_one_testcase.sh ${SOURCE_DIR} ${INSTR_NAME}
         exit 1
     done
