@@ -10,3 +10,4 @@ jump halt
 0x00000000
 
 j 0
+addiu $2, $2, 5

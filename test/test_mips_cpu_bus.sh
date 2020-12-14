@@ -17,16 +17,6 @@ INSTRUCTION="${2:-all}"
 #       - Specific test case 
 LAST_CHAR="${INSTRUCTION: -1}"
 
-
-
-# Specify all files that are test cases 
-# "INSTRUCTION" == "all"
-
-# "INSTRUCTION" == <instruction name>
-#TESTCASES_INSTR="test/1-assembly/""${INSTRUCTION}""*.asm.txt"
-
-
-
 if [[ ${INSTRUCTION} != "all" ]]; then # Identify which option "INSTRUCTION" is
     
     if [[ ${LAST_CHAR} =~ [0-9] ]]; then # Specific test case
@@ -34,7 +24,7 @@ if [[ ${INSTRUCTION} != "all" ]]; then # Identify which option "INSTRUCTION" is
         for TEST_FOLDER in ${ASSEM_DIR}/*; # Search for speciic test case and return TEST_TYPE
         do
             TEST_TYPE="$(basename -- $TEST_FOLDER)"
-
+            
             for TEST_FILE in ${TEST_FOLDER}/*;
             do
                 TEST_CASE="$(basename -- ${TEST_FILE})"
