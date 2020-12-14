@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+bltz3
+bltz
+dont branch
+0xffffffce
+
+addiu $16, $16, 100
+bltz $16, 2
+addiu $16, $16, -150
+addu $2, $2, $16
+jr $0

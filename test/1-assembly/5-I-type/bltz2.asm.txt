@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+bltz2
+bltz
+branching equal
+0x00000046
+
+addiu $16, $16, 35
+bltz $17, 4
+addu $2, $0, $16
+addu $2, $2, $16
+jr $0

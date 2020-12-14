@@ -4,13 +4,13 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-lhu6
-lhu
-unalined offset (expected error message)
-0x00000d5d
+bltzal3
+bltzal
+dont branch
+0xffffffce
 
-addiu $20, $20, 3421
-addiu $16, $16, 3000
-sw $20, 0($16)
-lhu $2, 1($16)
+addiu $16, $16, 100
+bltzal $16, 2
+addiu $16, $16, -150
+addu $2, $2, $16
 jr $0

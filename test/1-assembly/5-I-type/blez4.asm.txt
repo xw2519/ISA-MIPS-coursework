@@ -7,7 +7,7 @@
 blez4
 blez
 repeated branch
-0x00000032
+0x00000064
 
 addiu $16, $16, -100
 blez $16, -1

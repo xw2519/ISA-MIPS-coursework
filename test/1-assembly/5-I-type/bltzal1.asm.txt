@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+bltzal1
+bltzal
+branch less than
+0x00000023
+
+addiu $17, $17, -1
+bltzal $17, 2
+addiu $16, $16, 35
+addu $2, $0, $17
+addu $2, $0, $16
+jr $0

@@ -7,7 +7,7 @@
 bgezal4
 bgezal
 dont branch and link
-0xffffffce
+0xffffff9c
 
 addiu $16, $16, 100
 bgezal $16, -1
