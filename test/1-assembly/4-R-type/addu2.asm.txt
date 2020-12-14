@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+addu2
+addu
+addition
+0x00009998
+
+
+addiu $20, $20, 32767
+addiu $21, $21, 6553
+addu $2, $21, $20
+jr $0

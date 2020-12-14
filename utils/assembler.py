@@ -142,7 +142,7 @@ def asm_to_hex(asm_dir, hex_dir):
         elif line[0].upper() in ['DIV', 'DIVU', 'MULT', 'MULTU']:
             Rs = int(line[1])
             Rt = int(line[2])
-            hex_line = hex(int(opcode + '0000000000' + to_bin(Rd,5) + '00000' + funct_codes[line[0].upper()],2))
+            hex_line = hex(int(opcode + to_bin(Rs,5) + to_bin(Rt,5) + '0000000000' + funct_codes[line[0].upper()],2))
         elif line[0].upper() in ['MFHI', 'MFLO']:
             Rd = int(line[1])
             hex_line = hex(int(opcode + '0000000000' + to_bin(Rd,5) + '00000' + funct_codes[line[0].upper()],2))
@@ -164,7 +164,7 @@ def asm_to_hex(asm_dir, hex_dir):
         elif line[0].upper() in ['JR', 'JALR']:
             Rs = int(line[1])
             if len(line) == 3: Rd = int(line[2])
-            else: Rd = 0
+            else: Rd = 31
             hex_line = hex(int(opcode + to_bin(Rs,5) + '00000' + to_bin(Rd,5) + '00000' + funct_codes[line[0].upper()],2))
         elif line[0].upper() in ['LB', 'LBU', 'LH', 'LHU', 'LW', 'LWL', 'LWR', 'SB', 'SH', 'SW']:
             Rt = int(line[1])
@@ -183,7 +183,7 @@ def asm_to_hex(asm_dir, hex_dir):
 
     for i in range(8192 - (line_count + 5120)): hex_file.write('00\n')
 
-for filename in os.listdir('../test/1-assembly/'):
+for filename in os.listdir('test/1-assembly/'):
     if filename.endswith(".asm.txt"):
-        print(os.path.join('../test/1-assembly/', filename))
-        asm_to_hex(os.path.join('../test/1-assembly/', filename), os.path.join('../test/2-binary/', filename.replace('asm','hex')))
+       # print(os.path.join('test/1-assembly/', filename))
+        asm_to_hex(os.path.join('test/1-assembly/', filename), os.path.join('test/2-binary/', filename.replace('asm','hex')))

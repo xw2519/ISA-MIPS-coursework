@@ -1,12 +1,11 @@
 module mips_cpu_bus(
     /* Standard signals */
-
     input  logic         clk,
     input  logic         reset,
     output logic         active,
     output logic [31:0]  register_v0,
 
-    /* Avalon memory mapped bus controller (master) */
+    /* Avalon memory mapped bus controller*/
     input  logic         waitrequest,
     input  logic [31:0]  readdata,
     output logic         write,
@@ -32,27 +31,26 @@ module mips_cpu_bus(
     logic [31:0]  instr_read;
     logic [31:0]  data_addr;
     logic [31:0]  data_read;
-    
+
     /* these are sequential, updated in always_ff */
-    logic [1:0]   state;
+    logic [1:0]   prev_state;
 
       // these store values read from memory, needed to simulate combinatorial access to memory
     logic [31:0]  instr_reg;      // stores instruction read from memory
     logic [31:0]  data_reg;       // stores data read from memory
 
-       // stores previous instruction address, required to detect when the instruction address changes
+       // stores previous addresses, required to detect when addresses change
     logic [31:0]  instr_addr_reg;
+    logic [31:0]  data_addr_reg;
 
 
     always @(*) begin
-        byteenable = 4'hF;   // changing this would require changing the declaration for mips_cpu_harvard
-
         // Determines next state - state only changes if 'waitrequest' is low
         if (instr_addr_reg != instr_addr) begin
             next_state = INSTR_FETCH;
         end
 
-        else if (data_read_en) begin
+        else if (data_read_en && prev_state != DATA_FETCH) begin
             next_state = DATA_FETCH;
         end
 
@@ -68,8 +66,8 @@ module mips_cpu_bus(
         write   = (next_state == DATA_WRITE);
         read    = ((next_state == INSTR_FETCH) || (next_state == DATA_FETCH));
 
-        instr_read = (state==INSTR_FETCH) ? readdata : instr_reg;
-        data_read  = (state==DATA_FETCH) ? readdata : data_reg;
+        instr_read = (next_state==INSTR_FETCH) ? readdata : instr_reg;
+        data_read  = (next_state==DATA_FETCH)  ? readdata : data_reg;
 
         // Harvard cpu will be stalled when 'waitrequest' is high or if fetch is required
         clk_enable = (~waitrequest && (next_state[0] != 0));
@@ -77,23 +75,24 @@ module mips_cpu_bus(
 
     always_ff @(posedge clk) begin
         if (reset) begin
-
             instr_reg      <= 0;
             data_reg       <= 0;
             instr_addr_reg <= 0;
-            state          <= WAITING;
+            data_addr_reg  <= 0;
+            prev_state <= WAITING;
         end
 
         else if (~waitrequest) begin
-            instr_addr_reg <= instr_addr;
-            data_reg       <= (state==DATA_FETCH) ? readdata : data_reg;
-            instr_reg      <= (state==INSTR_FETCH) ? readdata : instr_reg;
-            state          <= next_state;
+            instr_addr_reg <= (next_state==INSTR_FETCH) ? instr_addr : instr_addr_reg;
+            data_addr_reg  <= (next_state==DATA_FETCH) ? data_addr : data_addr_reg;
+            data_reg       <= (next_state==DATA_FETCH) ? readdata : data_reg;
+            instr_reg      <= (next_state==INSTR_FETCH) ? readdata : instr_reg;
+            prev_state <= next_state;
         end
     end
 
-    /* Sub-module declaration */
-    mips_cpu_harvard harvard_cpu(
+    /* Harvard CPU declaration */
+    mips_cpu_harvard_mod harvard_cpu(
         .clk            (clk),
         .reset          (reset),
         .active         (active),
@@ -106,6 +105,7 @@ module mips_cpu_bus(
 
         .data_readdata  (data_read),
         .data_write     (data_write),
+        .data_byteenable(byteenable),
         .data_read      (data_read_en),
         .data_writedata (writedata),
         .data_address   (data_addr)

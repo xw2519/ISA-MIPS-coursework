@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+bgezal1
+bgezal
+branch greater and link
+0x00000024
+
+addiu $17, $17, 4
+bgezal $17, 2
+addiu $16, $16, 36
+addu $2, $0, $17
+addu $2, $0, $16
+jr $0

@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+addiu4
+addiu
+two negatives 
+0xfffffc01
+
+addiu $2, $2, -457
+addiu $2, $2, -566
+jr $0

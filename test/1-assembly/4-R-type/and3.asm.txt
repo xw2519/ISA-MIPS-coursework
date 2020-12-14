@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+and3
+and
+and neg value
+0x00000181
+
+
+addiu $11, $11, -123
+addiu $14, $14, 457
+and $2, $11, $14
+jr $0

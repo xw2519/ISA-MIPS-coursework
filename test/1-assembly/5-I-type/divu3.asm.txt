@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+divu3
+divu
+negative divide unsigned test case
+0x3ffffffe
+
+addiu $20, $20, -8
+addiu $21, $21, 4
+divu $20, $21
+mflo $2
+jr $0
+

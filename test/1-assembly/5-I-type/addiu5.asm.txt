@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+addiu5
+addiu
+loading from different registers
+0x000000cb
+
+addiu $5, $2, 80
+addiu $2, $2, 123
+jr $0

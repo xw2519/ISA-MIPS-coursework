@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+mthi1
+mthi
+regular move to hi
+0x00000006
+
+addiu $20, $20, 4
+addiu $21, $20, 2
+mthi $21
+mfhi $2
+jr $0
+

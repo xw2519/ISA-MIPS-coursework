@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+slt4
+slt
+Slt edge case 1
+0x00000001
+
+addiu $16, $16, -1
+addiu $17, $17, 1
+slt $2, $16, $17
+jr $0

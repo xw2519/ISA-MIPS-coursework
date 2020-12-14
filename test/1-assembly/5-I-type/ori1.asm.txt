@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+ori1
+ori
+normal ori
+0x00000054
+
+addiu $3, $3, 80
+ori $2, $3, 4
+jr $0

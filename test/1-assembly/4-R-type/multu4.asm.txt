@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+multu4
+multu
+multiply unsigned -1 by 6 lo reg check
+0xfffffffa
+
+addiu $20, $20, -1
+addiu $21, $21, 6
+multu $20, $21
+mflo $2
+jr $0

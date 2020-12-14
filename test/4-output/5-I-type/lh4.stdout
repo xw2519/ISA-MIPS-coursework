@@ -1,0 +1,13 @@
+Loading test/2-binary/5-I-type/lh4.hex.txt into RAM
+VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
+TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x26945660
+TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x26100bb8
+TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x26310bbc
+TB : INFO : RAM_ACCESS: Read from 0xbfc0000c, data: 0xae140000
+TB : INFO : RAM_ACCESS: Read from 0xbfc00010, data: 0x8622fffc
+TB : INFO : RAM_ACCESS: Write to 0x00000bb8, data: 0x00005660
+TB : INFO : RAM_ACCESS: Read from 0xbfc00014, data: 0x0000f808
+TB : INFO : RAM_ACCESS: Read from 0x00000bb8, data: 0x00005660
+TB : INFO : RAM_ACCESS: Read from 0xbfc00018, data: 0x00000000
+TB : INFO : register_v0=00005660
+TB : finished; active=0

@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+andi1
+andi
+bitwise AND immediate
+0x00000001
+
+addiu $27, $27, 11
+andi $2, $27, 21
+jr $0

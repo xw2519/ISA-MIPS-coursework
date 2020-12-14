@@ -1,0 +1,19 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+bgezal5
+bgezal
+branch and link register test
+0x00000001
+
+bgezal $16, 6
+addiu $2, $2, 1
+jr $0
+addiu $2, $2, 5
+addiu $2, $2, 5
+addiu $2, $2, 5
+jr $31
+

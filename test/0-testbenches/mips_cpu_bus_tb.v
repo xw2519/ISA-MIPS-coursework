@@ -1,8 +1,9 @@
 module mips_cpu_bus_tb;
 
     /* Parameter and logic declarations */
-    parameter RAM_INIT_FILE = "";
+    parameter RAM_INIT_FILE  = "";
     parameter TIMEOUT_CYCLES = 10000;
+
 
     logic        clk;
     logic        reset;
@@ -15,37 +16,37 @@ module mips_cpu_bus_tb;
     logic        read;
     logic [3:0]  byteenable;
     logic [31:0] readdata;
-    logic [31:0] delayed_readdata;
     logic [31:0] writedata;
     logic [31:0] address;
 
-    /* Sub-module declarations */
+    /* Connections to Memory */
     RAM_8x8192_avalon_mapped #(RAM_INIT_FILE) ramInst(
-        clk,
-		address,
-		write,
-		read,
-		waitrequest,
-		writedata,
-		byteenable,
-		readdata
+        .clk(clk),
+    		.address(address),
+    		.write(write),
+    		.read(read),
+    		.waitrequest(waitrequest),
+    		.writedata(writedata),
+    		.byteenable(byteenable),
+    		.readdata(readdata)
     );
 
+    /* Connections to Design Under Test */
     mips_cpu_bus cpuInst(
-        clk, 
-        reset, 
-        active, 
-        register_v0,
-        waitrequest, 
-        delayed_readdata, 
-        write, 
-        read,
-        byteenable, 
-        writedata, 
-        address
+        .clk(clk),
+        .reset(reset),
+        .active(active),
+        .register_v0(register_v0),
+        .waitrequest(waitrequest),
+        .readdata(readdata),
+        .write(write),
+        .read(read),
+        .byteenable(byteenable),
+        .writedata(writedata),
+        .address(address)
     );
 
-    /* Generate clock cycles */
+    /* Generate clock */
     initial begin
         $dumpfile("mips_cpu_bus_tb.vcd");
         $dumpvars(0, mips_cpu_bus_tb);
@@ -61,8 +62,7 @@ module mips_cpu_bus_tb;
     end
 
     /* Simulate RESET and instructions */
-    initial
-    begin
+    initial begin
         waitrequest = 0;
 
         reset <= 0;
@@ -87,24 +87,24 @@ module mips_cpu_bus_tb;
     end
 
     /* Avalon interface */
-    always @(posedge read) // Uses waitrequest to cause fetch to take 3 cycles
-    begin
-        waitrequest = 1;
-        // $display("TB : INFO : Waiting for FETCH; address=%h", address);
-        delayed_readdata = 32'hxxxxxxxx;
-        #25;
-        delayed_readdata = readdata;
-        // $display("TB : INFO : FETCH completed; readdata=%h \n", delayed_readdata);
-        waitrequest = 0;
+    always @(address or posedge read) begin  // Uses waitrequest to cause fetch to take 3 cycles
+        if (read) begin
+            waitrequest = 1;
+            // $display("TB : INFO : Waiting for FETCH; address=%h", address);
+            #25;
+            // $display("TB : INFO : FETCH completed; readdata=%h \n", delayed_readdata);
+            waitrequest = 0;
+        end
     end
 
-    always @(posedge write)   // Uses waitrequest to make writes take 4 cycles
-    begin
-        waitrequest = 1;
-        $display("TB : INFO : Waiting for WRITE; address=%h", address);
-        #35;
-        $display("TB : INFO : WRITE completed; writedata=%h \n", writedata);
-        waitrequest = 0;
+    always @(address or posedge write) begin  // Uses waitrequest to make writes take 4 cycles
+        if (write) begin
+            waitrequest = 1;
+            //$display("TB : INFO : Waiting for WRITE; address=%h", address);
+            #35;
+            //$display("TB : INFO : WRITE completed; writedata=%h \n", writedata);
+            waitrequest = 0;
+        end
     end
 
 endmodule

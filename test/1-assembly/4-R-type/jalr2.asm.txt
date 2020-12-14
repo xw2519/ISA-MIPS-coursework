@@ -1,0 +1,12 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+jalr2
+jalr
+jalr halt
+0xbfc00008
+
+jalr $12 $2

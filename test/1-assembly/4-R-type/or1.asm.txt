@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+or1
+or
+normal or
+0x0000005e
+
+addiu $3, $3, 80
+addiu $4, $4, 30
+or $2, $3, $4
+jr $0

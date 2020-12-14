@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+j2
+j
+jump to skip an instruction
+0x00000004
+
+j 66060291
+addiu $2 $2 1
+addiu $2 $2 2
+addiu $2 $2 3
+jr $0

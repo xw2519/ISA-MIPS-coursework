@@ -7,7 +7,7 @@ module mips_cpu_harvard_mod
     output logic        active,
     output logic [31:0] register_v0,
 
-    /* New clock enable. See below */
+    /* Clock enable, only update state if asserted */
     input  logic        clk_enable,
 
     /* Combinatorial read access to instructions */
@@ -44,6 +44,8 @@ module mips_cpu_harvard_mod
     logic [4:0]  regfile_write_addr;
     logic [31:0] regfile_write_data;
 
+    /* --- Internal definitions --- */
+
     // PC definitions
     logic [31:0] pc_reg;
     logic [31:0] pc_in;
@@ -58,12 +60,11 @@ module mips_cpu_harvard_mod
     logic [31:0] lo_in;
 
     // Internal signals
+    logic [31:0] sign_extended_immediate;
     logic [63:0] product;
-    logic [31:0] quotient;
-    logic [31:0] remainder;
+    logic [63:0] u_product;
 
-    /* Sub-module declaration */
-
+    /* Sub-module declarations */
     mips_cpu_alu alu(
         .alu_control    (alu_control),
         .alu_shift_amt  (alu_shift_amt),
@@ -87,7 +88,7 @@ module mips_cpu_harvard_mod
         .read_addr_b    (ir_reg[20:16]),
         .read_data_b    (read_data_b),
 
-        /* Write ports */
+        /* Write port */
         .regfile_write_addr   (regfile_write_addr),
         .regfile_write_data   (regfile_write_data),
         .regfile_write_enable (regfile_write_enable)
@@ -122,7 +123,7 @@ module mips_cpu_harvard_mod
         XORI   = 6'b001110
     } opcode_t;
 
-    /* --- ALU functions --- */
+    /* --- ALU function codes --- */
     typedef enum logic[5:0] {
         F_ADDU  = 6'b100001,
         F_AND   = 6'b100100,
@@ -149,7 +150,7 @@ module mips_cpu_harvard_mod
         F_XOR   = 6'b100110
     } alu_function_t;
 
-    /* --- ALU opcodes --- */
+    /* --- ALU control codes --- */
     typedef enum logic[3:0] {
         ADDU = 4'h0,
         SUBU = 4'h1,
@@ -163,31 +164,24 @@ module mips_cpu_harvard_mod
         SLTU = 4'h9
     } alu_control_t;
 
-    /*
-    --- Values of Rt for zero conditional branches ---
-        BGEZ   = 5'b00001,
-        BGEZAL = 5'b10001,
-        BLTZ   = 5'b00000,
-        BLTZAL = 5'b10000
-    */
-
-    /* --- CPU connections --- */
+    /* --- CPU combinatorial connections --- */
     always @(*) begin
         active = (~(pc_reg == 32'h00000000) || reset);
 
         instr_address = pc_reg;
         data_address  = alu_result & 32'hFFFFFFFC;
 
+        sign_extended_immediate = ((ir_reg[31:26] == ANDI) || (ir_reg[31:26] == ORI) || (ir_reg[31:26] == XORI)) ?
+                                  {{16'h0000}, ir_reg[15:0]} : {{16{ir_reg[15]}}, ir_reg[15:0]};
+
         // Choose between 'Rs' and 'shamt' for standard and variable shifts.
         alu_shift_amt = (ir_reg[5:2] == 4'h1) ? read_data_a[4:0] : ir_reg[10:6];
 
-        // NOTE: Not synthesisable, they have to be implemented later.
-        product   = (ir_reg[5:0] == F_MULTU) ? ($unsigned(read_data_a) * $unsigned(read_data_b)) : ($signed(read_data_a) * $signed(read_data_b));
-        quotient  = (ir_reg[5:0] == F_DIVU)  ? ($unsigned(read_data_a) / $unsigned(read_data_b)) : ($signed(read_data_a) / $signed(read_data_b));
-        remainder = (ir_reg[5:0] == F_DIVU)  ? ($unsigned(read_data_a) % $unsigned(read_data_b)) : ($signed(read_data_a) % $signed(read_data_b));
+        product   = $signed(read_data_a)   * $signed(read_data_b);
+        u_product = $unsigned(read_data_a) * $unsigned(read_data_b);
 
         /*
-        IF-ELSEIF-ELSE structure decoding and executing instructions
+        IF-ELSEIF-ELSE structure for decoding and executing instructions
             - R-type instructions
             - Conditional branches
             - I-type and J-type instructions
@@ -212,7 +206,7 @@ module mips_cpu_harvard_mod
             lo_in - next value of 'lo' register
         */
 
-        // R-type register
+        // R-type instructions
         if (ir_reg[31:26] == R_TYPE) begin
 
             // No memory accesses occur
@@ -221,11 +215,11 @@ module mips_cpu_harvard_mod
             data_byteenable = 4'h0;
             data_writedata  = 0;
 
-            // ALU control
+            // ALU input B is always Rt
             alu_b = read_data_b;
 
-            // Register file control
-            regfile_write_addr   =  (ir_reg[5:0] == F_JALR) ? 5'b11111 : ir_reg[15:11];
+            // Register file connections
+            regfile_write_addr   =  ir_reg[15:11];
             regfile_write_data   =  (ir_reg[5:0] == F_JALR) ? (pc_reg + 4) : alu_result;
             regfile_write_enable = ~((ir_reg[5:0] == F_JR)    || (ir_reg[5:0] == F_DIV)  || (ir_reg[5:0] == F_DIVU)  || (ir_reg[5:0] == F_MULT) ||
                                      (ir_reg[5:0] == F_MULTU) || (ir_reg[5:0] == F_MTHI) || (ir_reg[5:0] == F_MTLO)) && active;
@@ -233,20 +227,23 @@ module mips_cpu_harvard_mod
             // PC control
             pc_in = (ir_reg[5:1] == 5'b00100) ? read_data_a : (pc_reg + 4);   // If instruction 'JR' or 'JALR', jump to 'Rs'.
 
-            if ((ir_reg[5:0] == F_MULT) || (ir_reg[5:0] == F_MULTU)) begin
-                hi_in = product[63:32];
-                lo_in = product[31:0];
-            end
+            case(ir_reg[5:0])
+                F_MTHI  : hi_in = read_data_a;
+                F_MULT  : hi_in = product[63:32];
+                F_MULTU : hi_in = u_product[63:32];
+                F_DIV   : hi_in = $signed(read_data_a)   % $signed(read_data_b);
+                F_DIVU  : hi_in = $unsigned(read_data_a) % $unsigned(read_data_b);
+                default : hi_in = hi_reg;
+            endcase
 
-            else if ((ir_reg[5:0] == F_DIV) || (ir_reg[5:0] == F_DIVU)) begin
-                hi_in = remainder;
-                lo_in = quotient;
-            end
-
-            else begin
-                hi_in = (ir_reg[5:0] == F_MTHI) ? read_data_a : hi_reg;
-                lo_in = (ir_reg[5:0] == F_MTLO) ? read_data_a : lo_reg;
-            end
+            case(ir_reg[5:0])
+                F_MTLO  : lo_in = read_data_a;
+                F_MULT  : lo_in = product[31:0];
+                F_MULTU : lo_in = u_product[31:0];
+                F_DIV   : lo_in = $signed(read_data_a)   / $signed(read_data_b);
+                F_DIVU  : lo_in = $unsigned(read_data_a) / $unsigned(read_data_b);
+                default : lo_in = lo_reg;
+            endcase
 
             case(ir_reg[5:0])
                 F_JALR  : regfile_write_data = (pc_reg + 4);
@@ -294,9 +291,10 @@ module mips_cpu_harvard_mod
         // I-type and J-type instructions
         else begin
             data_write = (ir_reg[31:26] == SB) || (ir_reg[31:26] == SH) || (ir_reg[31:26] == SW) && active;
-            data_read  = (ir_reg[31:26] == LB) && active;
+            data_read  = ((ir_reg[31:26] == LB) || (ir_reg[31:26] == LBU) || (ir_reg[31:26] == LWL)  || (ir_reg[31:26] == LW) ||
+                          (ir_reg[31:26] == LH) || (ir_reg[31:26] == LHU) || (ir_reg[31:26] == LWR)) && active;
 
-            alu_b = ((ir_reg[31:26] == BEQ) || (ir_reg[31:26] == BNE)) ? ir_reg[20:16] : {{16{ir_reg[15]}}, ir_reg[15:0]};
+            alu_b = ((ir_reg[31:26] == BEQ) || (ir_reg[31:26] == BNE)) ? read_data_b : sign_extended_immediate;
 
             regfile_write_addr   = (ir_reg[31:26] == JAL) ? 5'b11111 : ir_reg[20:16];
             regfile_write_enable = ((ir_reg[31:26] == ADDIU) || (ir_reg[31:26] == ANDI)  || (ir_reg[31:26] == JAL) ||
@@ -321,34 +319,56 @@ module mips_cpu_harvard_mod
                 data_byteenable[1] = (alu_result[1:0] == 1);
                 data_byteenable[2] = (alu_result[1:0] == 2);
                 data_byteenable[3] = (alu_result[1:0] == 3);
-                data_writedata[7:0]   = (alu_result[1:0] == 0) ? read_data_b[7:0] : 8'h00;
+                data_writedata[7:0]   = (alu_result[1:0] == 0) ? read_data_b[7:0] : 8'h00;      // could remove mux, redundant because of byteenable
                 data_writedata[15:8]  = (alu_result[1:0] == 1) ? read_data_b[7:0] : 8'h00;
                 data_writedata[23:16] = (alu_result[1:0] == 2) ? read_data_b[7:0] : 8'h00;
                 data_writedata[31:24] = (alu_result[1:0] == 3) ? read_data_b[7:0] : 8'h00;
             end
-
             else if (ir_reg[31:26] == SH) begin
                 data_byteenable = alu_result[1] ? 4'b1100 : 4'b0011;
-                data_writedata = alu_result[1] ? {read_data_b[15:0], {16'h0000}} : {{16'h0000}, read_data_b[15:0]};
+                data_writedata  = alu_result[1] ? {read_data_b[15:0], {16'h0000}} : {{16'h0000}, read_data_b[15:0]}; // could remove mux, redundant because of byteenable
             end
-
             else begin
                 data_byteenable = 4'hF;
                 data_writedata = read_data_b;
             end
 
-            case(ir_reg[31:26])
-                JAL     : regfile_write_data = pc_reg + 4;
-                LB      : regfile_write_data = {{24{data_readdata[7]}}, data_readdata[7:0]};
-                LBU     : regfile_write_data = {{24'h000000}, data_readdata[7:0]};
-                LH      : regfile_write_data = {{16{data_readdata[15]}}, data_readdata[15:0]};
-                LHU     : regfile_write_data = {{16'h0000}, data_readdata[15:0]};
-                LUI     : regfile_write_data = {{16'h0000}, ir_reg[15:0]} << 16;
-                LW      : regfile_write_data = data_readdata;
-                LWL     : regfile_write_data = {data_readdata[15:0], read_data_b[15:0]};
-                LWR     : regfile_write_data = {read_data_b[31:16], data_readdata[31:16]};
-                default : regfile_write_data = alu_result;
-            endcase
+            if ((ir_reg[31:26] == LB) || (ir_reg[31:26] == LBU)) begin
+                case(alu_result[1:0])
+                    0 : regfile_write_data = {{24{(ir_reg[31:26] == LB) && data_readdata[ 7]}}, data_readdata[ 7: 0]};
+                    1 : regfile_write_data = {{24{(ir_reg[31:26] == LB) && data_readdata[15]}}, data_readdata[15: 8]};
+                    2 : regfile_write_data = {{24{(ir_reg[31:26] == LB) && data_readdata[23]}}, data_readdata[23:16]};
+                    3 : regfile_write_data = {{24{(ir_reg[31:26] == LB) && data_readdata[31]}}, data_readdata[31:24]};
+                endcase
+            end
+            else if (ir_reg[31:26] == LWL) begin
+                case(alu_result[1:0])
+                    0 : regfile_write_data = {data_readdata[ 7:0], read_data_b[23:0]};
+                    1 : regfile_write_data = {data_readdata[15:0], read_data_b[15:0]};
+                    2 : regfile_write_data = {data_readdata[23:0], read_data_b[ 7:0]};
+                    3 : regfile_write_data = data_readdata;
+                endcase
+            end
+            else if (ir_reg[31:26] == LWR) begin
+                case(alu_result[1:0])
+                    0 : regfile_write_data = data_readdata;
+                    1 : regfile_write_data = {read_data_b[31:24], data_readdata[31: 8]};
+                    2 : regfile_write_data = {read_data_b[31:16], data_readdata[31:16]};
+                    3 : regfile_write_data = {read_data_b[31: 8], data_readdata[31:24]};
+                endcase
+            end
+            else if ((ir_reg[31:26] == LH) || (ir_reg[31:26] == LHU)) begin
+                regfile_write_data[31:16] = {16{(ir_reg[31:26] == LH) && (alu_result[1] ? data_readdata[31] : data_readdata[15])}};
+                regfile_write_data[15:0]  = alu_result[1] ? data_readdata[31:16] : data_readdata[15:0];
+            end
+            else begin
+                case(ir_reg[31:26])
+                    JAL     : regfile_write_data = pc_reg + 4;
+                    LUI     : regfile_write_data = {{16'h0000}, ir_reg[15:0]} << 16;
+                    LW      : regfile_write_data = data_readdata;
+                    default : regfile_write_data = alu_result;
+                endcase
+            end
 
             case(ir_reg[31:26])
                 BEQ     : pc_in = equal ? (pc_reg + ({{14{ir_reg[15]}}, ir_reg[15:0], 2'b00})) : pc_reg + 4;
@@ -363,7 +383,7 @@ module mips_cpu_harvard_mod
 
     end
 
-    /* --- CPU states --- */
+    /* --- Clock assignment and CPU reset behaviour --- */
     always_ff @(posedge clk) begin
 
         if(reset) begin

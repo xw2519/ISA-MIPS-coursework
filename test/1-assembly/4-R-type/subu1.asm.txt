@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+subu1
+subu
+normal case
+00000005
+
+
+addiu $3, $7, 10
+addiu $5, $6, 5
+subu $2, $3, $5
+jr $0
+

@@ -1,0 +1,19 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lbu7
+lbu
+Offsetting to following word
+0x00000014
+
+addiu $20, $20, 5232
+addiu $21, $21, 4123
+addiu $15, $15, 3000
+addiu $16, $16, 3004
+sw $20, 0($15)
+sw $21, 0($16)
+lbu $2, 5($15)
+jr $0

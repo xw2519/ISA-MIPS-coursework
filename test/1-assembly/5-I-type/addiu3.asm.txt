@@ -1,0 +1,13 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+addiu3
+addiu
+Testing max range
+0xffffffff
+
+addiu $2, $2, -1
+jr $0
