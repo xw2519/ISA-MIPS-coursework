@@ -2,11 +2,7 @@ Loading test/2-binary/beq2.hex.txt into RAM
 VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
 TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x26100014
 TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x2652000a
-<<<<<<< HEAD
-TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x12120000
-=======
 TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x12120002
->>>>>>> 90d87045855e824337eb1ade0bd2a338134846bf
 TB : INFO : RAM_ACCESS: Read from 0xbfc0000c, data: 0x00000000
 TB : INFO : RAM_ACCESS: Read from 0xbfc00010, data: 0x00101021
 TB : INFO : RAM_ACCESS: Read from 0xbfc00014, data: 0x0000f808

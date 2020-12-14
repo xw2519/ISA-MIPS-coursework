@@ -1,20 +1,10 @@
 Loading test/2-binary/bgez1.hex.txt into RAM
 VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
 TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x26310004
-<<<<<<< HEAD
-TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x06210000
-TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x26100023
-TB : INFO : RAM_ACCESS: Read from 0xbfc0000c, data: 0x00111021
-TB : INFO : RAM_ACCESS: Read from 0xbfc00010, data: 0x00101021
-TB : INFO : RAM_ACCESS: Read from 0xbfc00014, data: 0x0000f808
-TB : INFO : RAM_ACCESS: Read from 0xbfc00018, data: 0x00000000
-TB : INFO : register_v0=00000046
-=======
 TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x06210002
 TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x26100023
 TB : INFO : RAM_ACCESS: Read from 0xbfc00010, data: 0x00101021
 TB : INFO : RAM_ACCESS: Read from 0xbfc00014, data: 0x0000f808
 TB : INFO : RAM_ACCESS: Read from 0xbfc00018, data: 0x00000000
 TB : INFO : register_v0=00000023
->>>>>>> 90d87045855e824337eb1ade0bd2a338134846bf
 TB : finished; active=0
