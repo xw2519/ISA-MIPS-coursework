@@ -4,7 +4,7 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-lb5
+lb6
 lb
 negative offsets
 0x00000014
@@ -12,7 +12,7 @@ negative offsets
 addiu $20, $20, 5232
 addiu $21, $21, 4123
 addiu $16, $16, 3000
-addiu $15, $16, -1
+addiu $15, $15, 2996
 sw $20, 0($15)
 sw $21, 0($16)
 lb $2, -3($16)

@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lhu5
+lhu
+offsetting to following word
+0x00000d5d
+
+addiu $20, $20, 3421
+addiu $16, $16, 3000
+addiu $17, $17, 3004
+sw $20, 0($17)
+lhu $2, 4($16)
+jr $0
