@@ -46,28 +46,47 @@ Only memory accesses to these addresses in this range are guaranteed to give exp
   end
 
 
-	always_ff @(negedge waitrequest) begin
+	always@(negedge waitrequest) begin
 		if(read) begin
 			readdata <=  {mem[mapped_address+3],mem[mapped_address+2],mem[mapped_address+1],mem[mapped_address]};
+			$display("TB : INFO : RAM_ACCESS: Read from 0x%h, data: 0x%h",address, {mem[mapped_address+3],mem[mapped_address+2],mem[mapped_address+1],mem[mapped_address]});
 		end
 		write_clk_sync = write;
 	end
 
-	always_ff @(posedge clk) begin
+	always@(posedge clk) begin
 			if (write_clk_sync)  begin
-					if(byteenable[0]) begin
-						mem[mapped_address] <= writedata[7:0];
+				$write("TB : INFO : RAM_ACCESS: Write to 0x%h, data: 0x",address);
+					if(byteenable[3]) begin
+						mem[mapped_address+3] <= writedata[31:24];
+						$write("%h",writedata[31:24]);
 					end
-					if(byteenable[1]) begin
-						mem[mapped_address+1] <= writedata[15:8];
+					else begin
+					$write("xx");
 					end
 					if(byteenable[2]) begin
 						mem[mapped_address+2] <= writedata[23:16];
+						$write("%h",writedata[23:16]);
 					end
-					if(byteenable[3]) begin
-						mem[mapped_address+3] <= writedata[31:24];
+					else begin
+					$write("xx");
+					end
+					if(byteenable[1]) begin
+						mem[mapped_address+1] <= writedata[15:8];
+						$write("%h",writedata[15:8]);
+					end
+					else begin
+					$write("xx");
+					end
+					if(byteenable[0]) begin
+						mem[mapped_address] <= writedata[7:0];
+						$display("%h",writedata[7:0]);
+					end
+					else begin
+					$display("xx");
 					end
 					write_clk_sync = 0;
+					
 			end
 	end
 
