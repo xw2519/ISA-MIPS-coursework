@@ -4,7 +4,7 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-lhu2
+lhu6
 lhu
 unalined offset (expected error message)
 0x00000d5d
