@@ -7,7 +7,7 @@
 sb1
 sb
 Negative store
-
+0x00000014
 
 addiu $16, $16, 8
 addiu $2, $2, 20
