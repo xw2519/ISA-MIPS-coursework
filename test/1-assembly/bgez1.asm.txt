@@ -10,7 +10,7 @@ branch greater
 0x00000023
 
 addiu $17, $17, 4
-bgez $17, 8
+bgez $17, 2
 addiu $16, $16, 35
 addu $2, $0, $17
 addu $2, $0, $16

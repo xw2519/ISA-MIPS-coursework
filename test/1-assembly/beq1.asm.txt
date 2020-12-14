@@ -11,7 +11,7 @@ Branch should be taken
 
 addiu $16, $16, 35
 addiu $17, $17, 35
-beq $16, $17, 8
+beq $16, $17, 2
 addu $2, $0, $16
 addu $2, $2, $16
 jr $0
