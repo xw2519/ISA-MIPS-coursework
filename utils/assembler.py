@@ -1,4 +1,5 @@
 import os
+import sys
 
 opcodes = {'ADDIU'  : '001001',
            'ADDU'   : '000000',
@@ -89,6 +90,8 @@ br_z_codes = {
 def to_bin(n,l): return bin(n & 2**l - 1)[2:].zfill(l)
 
 def asm_to_hex(asm_dir, hex_dir):
+    try: v = (sys.argv[3] == '-v')
+    except: v = False
     asm_file = open(asm_dir)
     hex_file = open(hex_dir,'w')
     asm_in = asm_file.readlines()
@@ -173,7 +176,7 @@ def asm_to_hex(asm_dir, hex_dir):
             hex_line = hex(int(opcode + to_bin(Rs,5) + to_bin(Rt,5) + to_bin(offset,16),2))
         hex_line = hex_line.split('x')[-1].zfill(8) + 'h'
 
-        # print(hex_line)
+        if v: print(', '.join(line).ljust(20, ' '), hex_line)
 
         for i in range(4):
             # print(hex_line[-2*i-3:-2*i-1])
@@ -183,7 +186,7 @@ def asm_to_hex(asm_dir, hex_dir):
 
     for i in range(8192 - (line_count + 5120)): hex_file.write('00\n')
 
-for filename in os.listdir('test/1-assembly/'):
+for filename in os.listdir(sys.argv[1]):
     if filename.endswith(".asm.txt"):
-       # print(os.path.join('test/1-assembly/', filename))
-        asm_to_hex(os.path.join('test/1-assembly/', filename), os.path.join('test/2-binary/', filename.replace('asm','hex')))
+        print(os.path.join(sys.argv[1], filename))
+        asm_to_hex(os.path.join(sys.argv[1], filename), os.path.join(sys.argv[2], filename.replace('asm','hex')))
