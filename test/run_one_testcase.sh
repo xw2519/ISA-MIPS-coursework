@@ -23,6 +23,7 @@ rm -rf test/4-output/${TEST_TYPE}/${TEST_CASE}*
 
 # Assembling all testcase files in test/1-assembly with the file extention .asm.txt
 # python3 utils/assembler.py
+#./test/assembler.sh
 
 # Extract assembly file parameters
 Case_ID=$(awk 'NR==7' ${ASSEM_DIR}/${TEST_TYPE}/${TEST_CASE}.asm.txt)
@@ -46,7 +47,8 @@ ${SIMUL_DIR}/${TEST_TYPE}/mips_cpu_bus_tb_${TEST_CASE} > ${OUT_DIR}/${TEST_TYPE}
 
 # >&2 echo "3 - Extracting ouputs from CPU"
 Reg_output="TB : INFO : register_v0="
-Active_flag="TB : finished; active=" # To be added in later
+Active_flag="TB : finished; active=" 
+RAM_accesses="TB : INFO : RAM_ACCESS:"
 Nothing=""
 
 # Look at lines containing only phrases in Reg_output and Active_flag 
@@ -56,6 +58,15 @@ set -e
 
 # Replace "TB : INFO : register_v0=" and "TB : finished; active=" with ""
 sed -e "s/${Reg_output}/${Nothing}/g; s/${Active_flag}/${Nothing}/g" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out-lines > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out
+
+# Look at lines containing RAM accesses
+#set +e 
+#grep "${RAM_accesses}" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}_RAM_accesses.out-lines
+#set -e 
+
+# Replace "TB : INFO : RAM_ACCESS:" with ""
+#sed -e "s/${RAM_accesses}/${Nothing}/g" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}_RAM_accesses.out-lines > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}_RAM_accesses.out
+
 
 # >&2 echo "4 - Comparing output with reference"
 set +e 
