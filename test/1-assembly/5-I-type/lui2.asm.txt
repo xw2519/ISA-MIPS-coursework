@@ -6,7 +6,7 @@
 ---------------------------------------------------
 lui2
 lui
-sign extention
+checking immediate is not sign extented
 0xf9570000
 
 lui $2, 2391

@@ -7,7 +7,7 @@
 lui1
 lui
 Normal operation
-0x15f00000
+0x150f0000
 
 lui $2, 5391
 jr $0
