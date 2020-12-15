@@ -1,0 +1,13 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lui2
+lui
+sign extention
+0xf9570000
+
+lui $2, 2391
+jr $0
