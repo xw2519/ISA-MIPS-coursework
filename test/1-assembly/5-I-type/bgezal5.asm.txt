@@ -7,7 +7,7 @@
 bgezal5
 bgezal
 branch and link register test
-0x00000001
+0x00000006
 
 bgezal $16, 5
 addiu $2, $2, 1
@@ -16,4 +16,3 @@ addiu $2, $2, 5
 addiu $2, $2, 5
 addiu $2, $2, 5
 jr $31
-

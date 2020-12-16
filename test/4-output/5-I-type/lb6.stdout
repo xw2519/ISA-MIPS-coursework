@@ -12,5 +12,6 @@ TB : INFO : RAM_ACCESS: Write to 0x00000bb8, data: 0x0000101b
 TB : INFO : RAM_ACCESS: Read from 0xbfc0001c, data: 0x0000f808
 TB : INFO : RAM_ACCESS: Read from 0x00000bb4, data: 0x00001470
 TB : INFO : RAM_ACCESS: Read from 0xbfc00020, data: 0x00000000
+TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000
 TB : INFO : register_v0=00000014
 TB : finished; active=0
