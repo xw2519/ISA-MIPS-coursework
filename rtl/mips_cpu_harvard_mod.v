@@ -166,8 +166,6 @@ module mips_cpu_harvard_mod
 
     /* --- CPU combinatorial connections --- */
     always @(*) begin
-        active = (~(pc_reg == 32'h00000000) || reset);
-
         instr_address = pc_reg;
         data_address  = alu_result & 32'hFFFFFFFC;
 
@@ -391,6 +389,7 @@ module mips_cpu_harvard_mod
             ir_reg <= 0;
             hi_reg <= 0;
             lo_reg <= 0;
+            active <= 1;
         end
 
         else if(clk_enable) begin
@@ -398,6 +397,7 @@ module mips_cpu_harvard_mod
             ir_reg <= instr_readdata;
             hi_reg <= hi_in;
             lo_reg <= lo_in;
+            active <= ~(pc_reg == 32'h00000000);
         end
 
     end
