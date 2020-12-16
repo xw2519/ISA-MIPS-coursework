@@ -5,7 +5,7 @@
 # expected ouput
 ---------------------------------------------------
 lbu1
-lb
+lbu
 normal operation loading LSB byte
 0x0000005f
 
