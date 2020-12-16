@@ -63,6 +63,7 @@ else # Default case: Run all testcases
         TEST_TYPE="$(basename -- $TEST_FOLDER)"
 
         for i in ${TEST_FOLDER}/*.asm.txt; do 
+            
             TEST_CASE="$(basename -- $i)"
             TEST_CASE=${TEST_CASE//".asm.txt"/} # Remove ".asm.txt"
             ./test/run_one_testcase.sh ${SOURCE_DIR} ${TEST_CASE} ${TEST_TYPE}

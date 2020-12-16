@@ -22,7 +22,6 @@ TEST_TYPE="$3"
 rm -rf test/4-output/${TEST_TYPE}/${TEST_CASE}* 
 
 # Assembling all testcase files in test/1-assembly with the file extention .asm.txt
-# python3 utils/assembler.py
 #./test/assembler.sh
 
 # Extract assembly file parameters
