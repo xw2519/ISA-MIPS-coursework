@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lwl1
+lwl
+load word left
+0xffff0000
+
+addiu $3 $3 -2
+addiu $4 $4 12
+sw $3 12($9)
+lwl $2 0($4)
+jr $0
