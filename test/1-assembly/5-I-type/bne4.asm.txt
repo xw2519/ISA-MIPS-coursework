@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+bne4
+bne
+not loading values into registers
+0x00000003
+
+bne $15, $16, -3
+addiu $16, $16, 2482
+addiu $2, $2, 1
+addiu $2, $2, 1
+addiu $2, $2, 1
+jr $0
