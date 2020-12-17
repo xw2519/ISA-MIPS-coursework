@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+sh2
+sh
+Testing the maximum limit of bytes
+0x00002711
+
+addiu $16, $16, 8
+addiu $2, $2, 10001
+sh $2, -5($16)
+lh $2, -5($16)
+jr $0
