@@ -1,0 +1,19 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+bne3
+bne
+negative branch
+0x00000003
+
+addiu $15, $15, 2482
+addiu $16, $16, 1241
+bne $15, $16, -3
+addiu $16, $16, 2482
+addiu $2, $2, 1
+addiu $2, $2, 1
+addiu $2, $2, 1
+jr $0

@@ -1,0 +1,19 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+bne2
+bne
+Normal dont branch operation
+0x00000003
+
+addiu $15, $15, 2483
+addiu $16, $16, 2483
+bne $15, $16, 3
+addiu $3, $3, 3
+addiu $2, $2, 1
+addiu $2, $2, 1
+addiu $2, $2, 1
+jr $0
