@@ -1,0 +1,22 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+bgez5
+bgez
+big branch
+0x00000003
+
+addiu $16, $16, 100
+bgez $16, 5
+addiu $2, $2, 1
+addiu $2, $2, 1
+addiu $2, $2, 1
+addiu $2, $2, 1
+addiu $2, $2, 1
+addiu $2, $2, 1
+addiu $2, $2, 1
+addiu $2, $2, 1
+jr $0
