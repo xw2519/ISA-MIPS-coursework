@@ -1,6 +1,5 @@
 module mips_cpu_harvard_mod
 (
-
     /* Standard signals */
     input  logic        clk,
     input  logic        reset,
@@ -393,11 +392,11 @@ module mips_cpu_harvard_mod
         end
 
         else if(clk_enable) begin
-            pc_reg <= active ? pc_in : pc_reg;
+            pc_reg <= (pc_reg != 32'h00000000) ? pc_in : pc_reg;
             ir_reg <= instr_readdata;
             hi_reg <= hi_in;
             lo_reg <= lo_in;
-            active <= ~(pc_reg == 32'h00000000);
+            active <= (pc_reg != 32'h00000000);
         end
 
     end

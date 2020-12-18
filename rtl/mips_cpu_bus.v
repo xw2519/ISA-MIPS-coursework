@@ -31,17 +31,17 @@ module mips_cpu_bus(
     logic [31:0]  instr_read;
     logic [31:0]  data_addr;
     logic [31:0]  data_read;
+    logic         delayed;
 
     /* these are sequential, updated in always_ff */
-    logic [1:0]   prev_state;
+    logic [1:0]   state;
 
-      // these store values read from memory, needed to simulate combinatorial access to memory
+    // these store values read from memory, needed to simulate combinatorial access to memory
     logic [31:0]  instr_reg;      // stores instruction read from memory
     logic [31:0]  data_reg;       // stores data read from memory
 
-       // stores previous addresses, required to detect when addresses change
+    // stores previous addresses, required to detect when addresses change
     logic [31:0]  instr_addr_reg;
-    logic [31:0]  data_addr_reg;
 
 
     always @(*) begin
@@ -50,7 +50,7 @@ module mips_cpu_bus(
             next_state = INSTR_FETCH;
         end
 
-        else if (data_read_en && prev_state != DATA_FETCH) begin
+        else if (data_read_en && state != DATA_FETCH) begin
             next_state = DATA_FETCH;
         end
 
@@ -62,32 +62,51 @@ module mips_cpu_bus(
             next_state = WAITING;
         end
 
+        // Harvard cpu will be stalled when 'waitrequest' is high or if fetch is required
+        clk_enable = (~waitrequest && (next_state[0] != 0));
+
         address = (next_state == INSTR_FETCH) ? instr_addr : data_addr;
         write   = (next_state == DATA_WRITE);
         read    = ((next_state == INSTR_FETCH) || (next_state == DATA_FETCH));
 
-        instr_read = (next_state==INSTR_FETCH) ? readdata : instr_reg;
-        data_read  = (next_state==DATA_FETCH)  ? readdata : data_reg;
+        if (waitrequest || delayed) begin
+            instr_read = (next_state==INSTR_FETCH) ? readdata : instr_reg;
+            data_read  = (next_state==DATA_FETCH)  ? readdata : data_reg;
+        end
 
-        // Harvard cpu will be stalled when 'waitrequest' is high or if fetch is required
-        clk_enable = (~waitrequest && (next_state[0] != 0));
+        else begin
+            instr_read = (state==INSTR_FETCH) ? readdata : instr_reg;
+            data_read  = (state==DATA_FETCH)  ? readdata : data_reg;
+        end
     end
 
     always_ff @(posedge clk) begin
         if (reset) begin
+            state          <= WAITING;
+            delayed        <= 0;
             instr_reg      <= 0;
             data_reg       <= 0;
             instr_addr_reg <= 0;
-            data_addr_reg  <= 0;
-            prev_state <= WAITING;
         end
 
         else if (~waitrequest) begin
+            state          <= next_state;
+
             instr_addr_reg <= (next_state==INSTR_FETCH) ? instr_addr : instr_addr_reg;
-            data_addr_reg  <= (next_state==DATA_FETCH) ? data_addr : data_addr_reg;
-            data_reg       <= (next_state==DATA_FETCH) ? readdata : data_reg;
-            instr_reg      <= (next_state==INSTR_FETCH) ? readdata : instr_reg;
-            prev_state <= next_state;
+
+            if (delayed) begin
+                data_reg   <= (next_state==DATA_FETCH)  ? readdata : data_reg;
+                instr_reg  <= (next_state==INSTR_FETCH) ? readdata : instr_reg;
+            end
+
+            else begin
+                data_reg   <= (state==DATA_FETCH)  ? readdata : data_reg;
+                instr_reg  <= (state==INSTR_FETCH) ? readdata : instr_reg;
+            end
+        end
+
+        else begin
+            delayed        <= waitrequest;
         end
     end
 
