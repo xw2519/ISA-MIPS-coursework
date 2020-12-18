@@ -6,11 +6,13 @@
 ---------------------------------------------------
 lwr1
 lwr
-load word right
-0x0000fffe
+Load the full word
+0x07040201
 
-addiu $3 $3 -2
-addiu $4 $4 12
-sw $3 12($9)
-lwr $2 0($4)
-jr $0
+lui $16, 1796
+addiu $16, $16, 513
+sw $16, 12($0)
+
+lwr $2, 12($0)
+
+jr $31

@@ -63,10 +63,8 @@ module mips_cpu_bus_tb;
 
     /* Simulate RESET and instructions */
     initial begin
-        waitrequest = 0;
-
         reset <= 0;
-
+        waitrequest <= 0;
         @(posedge clk);
         reset <= 1;
 
@@ -85,26 +83,4 @@ module mips_cpu_bus_tb;
         $display("TB : finished; active=0");
         $finish;
     end
-
-    /* Avalon interface */
-    always @(address or posedge read) begin  // Uses waitrequest to cause fetch to take 3 cycles
-        if (read) begin
-            waitrequest = 1;
-            // $display("TB : INFO : Waiting for FETCH; address=%h", address);
-            #25;
-            // $display("TB : INFO : FETCH completed; readdata=%h \n", delayed_readdata);
-            waitrequest = 0;
-        end
-    end
-
-    always @(address or posedge write) begin  // Uses waitrequest to make writes take 4 cycles
-        if (write) begin
-            waitrequest = 1;
-            //$display("TB : INFO : Waiting for WRITE; address=%h", address);
-            #35;
-            //$display("TB : INFO : WRITE completed; writedata=%h \n", writedata);
-            waitrequest = 0;
-        end
-    end
-
 endmodule

@@ -4,15 +4,15 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-lwl1
-lwl
-Load the lsB as msB
-0x01000000
+lwr4
+lwr
+Load the msB as the lsB
+0x00000007
 
 lui $16, 1796
 addiu $16, $16, 513
 sw $16, 12($0)
 
-lwl $2, 12($0)
+lwr $2, 15($0)
 
 jr $31

@@ -12,7 +12,6 @@ module RAM_8x8192_avalon_mapped(
 
 	logic [31:0] word;
 	logic [12:0] mapped_address;
-	logic        write_clk_sync;
 
 	reg   [7:0]  mem[8191:0];
 
@@ -41,21 +40,18 @@ Only memory accesses to these addresses in this range are guaranteed to give exp
           8'h80   : mapped_address = address[12:0] + 13'h0400; 	//Lowest 13 bits + 0x0400  (0x0000 -> 0x0400)
           8'hBF   : mapped_address = address[12:0] + 13'h1400;	//Lowest 13 bits - 0x0C00	(0x1800 -> 0x0C00) [-0x0C00 equivalent to + 0x1400 when only 13 bits wide, 0x1800 and not 0xF800 as 13 bits wide, not 16]
           8'hFF   : mapped_address =  address[12:0];						//Lowest 13 bits (0x1C00 -> 0x1C00)
-          default : mapped_address = address[12:0];						
+          default : mapped_address = address[12:0];
       endcase
   end
 
 
-	always@(negedge waitrequest) begin
-		if(read) begin
-			readdata <=  {mem[mapped_address+3],mem[mapped_address+2],mem[mapped_address+1],mem[mapped_address]};
-			$display("TB : INFO : RAM_ACCESS: Read from 0x%h, data: 0x%h",address, {mem[mapped_address+3],mem[mapped_address+2],mem[mapped_address+1],mem[mapped_address]});
-		end
-		write_clk_sync = write;
-	end
 
 	always@(posedge clk) begin
-			if (write_clk_sync)  begin
+			if(read) begin
+			readdata <=  {mem[mapped_address+3],mem[mapped_address+2],mem[mapped_address+1],mem[mapped_address]};
+			$display("TB : INFO : RAM_ACCESS: Read from 0x%h, data: 0x%h",address, {mem[mapped_address+3],mem[mapped_address+2],mem[mapped_address+1],mem[mapped_address]});
+			end
+			if (write)  begin
 				$write("TB : INFO : RAM_ACCESS: Write to 0x%h, data: 0x",address);
 					if(byteenable[3]) begin
 						mem[mapped_address+3] <= writedata[31:24];
@@ -85,8 +81,7 @@ Only memory accesses to these addresses in this range are guaranteed to give exp
 					else begin
 					$display("xx");
 					end
-					write_clk_sync = 0;
-					
+
 			end
 	end
 

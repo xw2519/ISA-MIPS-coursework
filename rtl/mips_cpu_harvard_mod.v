@@ -349,9 +349,9 @@ module mips_cpu_harvard_mod
             else if (ir_reg[31:26] == LWR) begin
                 case(alu_result[1:0])
                     2'h0 : regfile_write_data = data_readdata;
-                    2'h1 : regfile_write_data = {read_data_b[31: 8], data_readdata[31:24]};
+                    2'h1 : regfile_write_data = {read_data_b[31:24], data_readdata[31: 8]};
                     2'h2 : regfile_write_data = {read_data_b[31:16], data_readdata[31:16]};
-                    2'h3 : regfile_write_data = {read_data_b[31:24], data_readdata[31: 8]};
+                    2'h3 : regfile_write_data = {read_data_b[31: 8], data_readdata[31:24]};
                 endcase
             end
             else if ((ir_reg[31:26] == LH) || (ir_reg[31:26] == LHU)) begin
