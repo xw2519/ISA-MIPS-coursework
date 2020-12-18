@@ -1,0 +1,18 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+mfhi1
+mfhi 
+Normal operation using MULT
+0x00000077
+
+addiu $3, $3, 25000
+addiu $4, $4, 20000
+sll $3, $3, 5
+sll $4, $4, 5
+mult $4, $3
+mfhi $2
+jr $0

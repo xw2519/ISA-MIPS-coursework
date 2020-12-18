@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+mflo1
+mflo 
+Normal operation using MULT
+0x2b8e7ac6
+
+addiu $3, $3, 100
+addiu $4, $4, 20
+mult $4, $3
+mflo $2
+jr $0
