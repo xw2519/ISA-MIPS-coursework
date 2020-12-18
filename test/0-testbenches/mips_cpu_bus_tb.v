@@ -65,7 +65,7 @@ module mips_cpu_bus_tb;
     initial begin
         reset <= 0;
         waitrequest <= 0;
-        @(posedge clk);
+        @(posedge clk);     
         reset <= 1;
 
         @(posedge clk);
