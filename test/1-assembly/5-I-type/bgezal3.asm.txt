@@ -4,13 +4,14 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-bgezal2
+bgezal3
 bgezal
 dont branch and link
 0xffffffce
 
 addiu $16, $16, -100
-bgezal $16, 2
+bgezal $16, 3
 addiu $16, $16, 50
-addu $2, $2, $16
+addu $2, $2, -50
+addu $2, $2, -50
 jr $0
