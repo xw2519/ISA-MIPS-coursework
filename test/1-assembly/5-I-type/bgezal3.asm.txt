@@ -6,12 +6,12 @@
 ---------------------------------------------------
 bgezal3
 bgezal
-dont branch and link
-0xffffffce
+dont branch and link and dont execute branch delay slot 
+0xffffff9e
 
 addiu $16, $16, -100
 bgezal $16, 3
-addiu $16, $16, 50
-addu $2, $2, -50
-addu $2, $2, -50
+addiu $2, $2, -50
+addiu $2, $2, -50
+addiu $2, $2, -50
 jr $0
