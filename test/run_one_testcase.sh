@@ -32,7 +32,6 @@ Case_Comment=$(awk 'NR==9' ${ASSEM_DIR}/${TEST_TYPE}/${TEST_CASE}.asm.txt)
 
 # Redirect output to stder (&2) so that it seperated from genuine outputs
 # >&2 echo "Testing instructions: ${TEST_CASE}"
-
 # >&2 echo "1 - Compiling test-bench"
 iverilog -Wall -g 2012 \
     -s mips_cpu_bus_tb ${TESTBENCH_DIR}/RAM_8x8192_avalon_mapped.v ${TESTBENCH_DIR}/mips_cpu_bus_tb.v ${SOURCE_DIR}/mips_cpu_*.v \
@@ -51,12 +50,12 @@ RAM_accesses="TB : INFO : RAM_ACCESS:"
 Nothing=""
 
 # Look at lines containing only phrases in Reg_output and Active_flag 
-set +e 
-grep "${Reg_output}\|${Active_flag}" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out-lines
-set -e 
+# set +e 
+# grep "${Reg_output}\|${Active_flag}" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out-lines
+# set -e 
 
 # Replace "TB : INFO : register_v0=" and "TB : finished; active=" with ""
-sed -e "s/${Reg_output}/${Nothing}/g; s/${Active_flag}/${Nothing}/g" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out-lines > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out
+# sed -e "s/${Reg_output}/${Nothing}/g; s/${Active_flag}/${Nothing}/g" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out-lines > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out
 
 # Look at lines containing RAM accesses
 #set +e 
@@ -67,11 +66,18 @@ sed -e "s/${Reg_output}/${Nothing}/g; s/${Active_flag}/${Nothing}/g" ${OUT_DIR}/
 #sed -e "s/${RAM_accesses}/${Nothing}/g" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}_RAM_accesses.out-lines > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}_RAM_accesses.out
 
 
+# Check if contents in reference files are available in .stdout file
 # >&2 echo "4 - Comparing output with reference"
 set +e 
-diff -w ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}_diff_out
+diff -q <(sort -u ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt) \
+        <(grep -Fxf ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout | sort -u) \
+        > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}_diff_out
+
 RESULT=$?
 set -e
+
+last_line=tail -n -1 ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout
+echo "${last_line}"
 
 # Output formatting
 if [[ "${RESULT}" -ne 0 ]]; then 
