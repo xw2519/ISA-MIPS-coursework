@@ -1,0 +1,20 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+jal2
+jal
+link test
+0x00000008
+
+jal 66060294
+addiu $2 $2 1
+addiu $2 $2 1
+jr $1
+addiu $2 $2 2
+addiu $2 $2 3
+addiu $2 $2 3
+jr $31
+addiu $2 $2 1

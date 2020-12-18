@@ -1,0 +1,13 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+sltiu2
+sltiu
+both numbers equal
+0x00000000
+
+sltiu $2, $16, 0
+jr $0
