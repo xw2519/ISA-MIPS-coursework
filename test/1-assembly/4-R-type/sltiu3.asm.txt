@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+sltiu3
+sltiu
+sign extention
+0x00000001
+
+addiu $4, $4, 2521
+sltiu $2, $4, -10
+jr $0
