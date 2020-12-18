@@ -1,2 +1,2 @@
-02010000
-0
+TB : INFO : register_v0=02010000
+TB : Finished : active=0

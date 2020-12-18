@@ -1,2 +1,2 @@
-bfc00008
-0
+TB : INFO : register_v0=bfc00008
+TB : Finished : active=0

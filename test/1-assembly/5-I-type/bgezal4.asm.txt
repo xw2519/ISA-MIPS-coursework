@@ -6,7 +6,7 @@
 ---------------------------------------------------
 bgezal4
 bgezal
-branch and link negative offset
+dont branch and link
 0xffffff9c
 
 addiu $16, $16, 100

@@ -49,23 +49,6 @@ Active_flag="TB : finished; active="
 RAM_accesses="TB : INFO : RAM_ACCESS:"
 Nothing=""
 
-# Look at lines containing only phrases in Reg_output and Active_flag 
-# set +e 
-# grep "${Reg_output}\|${Active_flag}" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out-lines
-# set -e 
-
-# Replace "TB : INFO : register_v0=" and "TB : finished; active=" with ""
-# sed -e "s/${Reg_output}/${Nothing}/g; s/${Active_flag}/${Nothing}/g" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out-lines > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out
-
-# Look at lines containing RAM accesses
-#set +e 
-#grep "${RAM_accesses}" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}_RAM_accesses.out-lines
-#set -e 
-
-# Replace "TB : INFO : RAM_ACCESS:" with ""
-#sed -e "s/${RAM_accesses}/${Nothing}/g" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}_RAM_accesses.out-lines > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}_RAM_accesses.out
-
-
 # Check if contents in reference files are available in .stdout file
 # >&2 echo "4 - Comparing output with reference"
 set +e 
@@ -76,11 +59,13 @@ diff -q <(sort -u ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt) \
 RESULT=$?
 set -e
 
-last_line=tail -n -1 ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout
-echo "${last_line}"
+set +e 
+LAST_LINE=$(tail -n -1 "${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout")
+# >&2 echo "${LAST_LINE}"
+set -e
 
 # Output formatting
-if [[ "${RESULT}" -ne 0 ]]; then 
+if [ "${RESULT}" -ne 0 ] || [ "${LAST_LINE}" != "TB : Finished : active=0" ]; then 
     echo "${Case_ID} ${Case_Instr} Fail ${Case_Comment}"
 else
     echo "${Case_ID} ${Case_Instr} Pass ${Case_Comment}"
