@@ -1,0 +1,160 @@
+lb1 lb Pass normal operation loading LSB byte 
+lb2 lb Pass normal operation loading 2nd byte 
+lb3 lb Pass normal operation loading 3rd byte 
+lb4 lb Pass normal operation loading 4th byte 
+lb5 lb Pass sign extention of bits 
+lb6 lb Pass negative offsets
+lb7 lb Pass Offsetting to following word
+lb8 lb Pass loading pre excisting value 
+lbu1 lbu Pass normal operation loading LSB byte
+lbu2 lbu Pass normal operation loading 2nd byte 
+lbu3 lbu Pass normal operation loading 3rd byte 
+lbu4 lbu Pass normal operation loading 4th byte 
+lbu5 lbu Pass zero extention of bits 
+lbu6 lbu Pass negative offsets
+lbu7 lbu Pass Offsetting to following word
+lbu8 lbu Pass loading pre excisting value 
+lh1 lh Pass normal operation loading lower half word  
+lh2 lh Pass normal operation loading upper half word 
+lh3 lh Pass sign extention
+lh4 lh Pass negative offset
+lh5 lh Pass offsetting to following word
+lhu1 lhu Pass normal operation loading lower half word  
+lhu2 lhu Pass normal operation loading upper half word 
+lhu3 lhu Pass zero extention
+lhu4 lhu Pass negative offset
+lhu5 lhu Pass offsetting to following word
+lui1 lui Pass Normal operation
+lui2 lui Pass checking immediate is not sign extented
+lui3 lui Pass Check if all bits are used
+lw1 lw Pass basic
+lw2 lw Pass testing a regular load word
+lw3 lw Pass load word with a value output
+lwl1 lwl Pass Load the lsB as msB
+lwl2 lwl Pass Load 2 least significant bytes
+lwl3 lwl Pass Load 3 least significant bytes
+lwl4 lwl Pass Load a full word
+lwr1 lwr Pass Load the full word
+lwr2 lwr Pass Load 3 most significant bytes
+lwr3 lwr Pass Load 2 most significant bytes
+lwr4 lwr Pass Load the msB as the lsB
+addu1 addu Pass simple addition
+addu2 addu Pass addition
+addu3 addu Pass pos and neg addition
+addu4 addu Pass neg and neg addition
+addu5 addu Pass Same register
+and1 and Pass bitwise AND
+and2 and Pass and with 0
+and3 and Pass and neg value
+and4 and Pass and all 1s
+div1 div Pass normal 8 divide 4, quotient 
+div2 div Pass normal 8 divide 4, remainder 
+div3 div Pass negative divide test case
+div4 div Pass double negative divide test case
+divu1 divu Pass normal 16 divide usigned 4, quotient 
+divu2 divu Pass normal 16 divide unsigned 4, remainder 
+divu3 divu Pass negative divide unsigned test case
+divu4 divu Pass double negative divide unsigned test case 
+jalr1 jalr Pass jalr halt
+jalr2 jalr Pass jalr halt
+jr1 jr Pass HALT
+jr2 jr Pass normal jump register
+jr3 jr Pass DT special
+mfhi1 mfhi  Pass Normal operation using MULT
+mflo1 mflo  Pass Normal operation using MULT
+mthi1 mthi Pass regular move to hi
+mtlo1 mtlo Pass normal move to lo
+mult1 mult Pass normal 4 multiply 5 
+mult2 mult Pass normal 4 multiply 5 hi reg check
+mult3 mult Pass multiply by 0
+mult4 mult Pass multiply -1 by 6 lo reg check
+mult5 mult Pass multiply unsigned -1 by 6 hi reg check
+multu1 multu Pass normal 5 multiply 6
+multu2 multu Pass normal 4 multiply unsigned 5 hi reg check
+multu3 multu Pass multiply by 0
+multu4 multu Pass multiply unsigned -1 by 6 lo reg check
+multu5 multu Pass multiply unsigned -1 by 6 hi reg check
+or1 or Pass normal or
+sll1 sll Pass shift left logical
+sll2 sll Pass shift left logical
+sllv1 sllv Pass shift left logical variable
+sllv2 sllv Pass shift left logical variable
+slt1 slt Pass Set if less than 
+slt2 slt Pass Slt opposite
+slt3 slt Pass Slt negative
+slt4 slt Pass Slt edge case 1
+slt5 slt Pass Slt same number
+sltu1 sltu Pass Set if less than unsigned
+sltu2 sltu Pass Edge case
+sra1 sra Pass shift right word arithmetic
+sra2 sra Pass edge case testing sra
+srav1 srav Pass shift word arithmetic right variable 
+srav2 srav Pass edge case testing srav
+srav3 srav Pass edge case testing srav
+srl1 srl Pass shift right logical
+srl2 srl Pass duo shift right logical
+srlv1 srlv Pass shift right logical variable
+srlv2 srlv Pass shift right logical variable
+subu1 subu Pass normal case
+xor1 xor Pass normal case
+addiu1 addiu Pass Addition 
+addiu2 addiu Pass pos and neg addition 
+addiu3 addiu Pass Testing max range
+addiu4 addiu Pass two negatives 
+addiu5 addiu Pass loading from different registers
+andi1 andi Pass bitwise AND immediate
+andi2 andi Pass sign extension
+andi3 andi Pass sign extension test 2
+beq1 beq Pass Branch should be taken
+beq2 beq Pass Branch should not take
+beq3 beq Pass signed offset
+beq4 beq Pass branch to itself no infinite loop
+bgez1 bgez Pass branch greater
+bgez2 bgez Pass branching equal
+bgez3 bgez Pass dont branch
+bgez4 bgez Pass loop using delay slot
+bgez5 bgez Pass big branch
+bgezal1 bgezal Pass branch greater and link
+bgezal2 bgezal Pass branching and link equal to 0
+bgezal2 bgezal Pass dont branch and link
+bgezal4 bgezal Pass dont branch and link
+bgezal5 bgezal Pass branch and link register test
+bgtz1 bgtz Pass branch greater than 0
+bgtz2 bgtz Pass branching equal testcase
+bgtz3 bgtz Pass negative input to register
+bgtz4 bgtz Pass repeated branch
+blez1 blez Pass branch less than
+blez2 blez Pass branching equal
+blez3 blez Pass dont branch
+blez4 blez Pass repeated branch
+bltz1 bltz Pass branch less than
+bltz2 bltz Pass branching equal
+bltz3 bltz Pass dont branch
+bltz4 bltz Pass repeated branch
+bltzal1 bltzal Pass branch less than
+bltzal2 bltzal Pass branching equal
+bltzal3 bltzal Pass dont branch
+bltzal4 bltzal Pass repeated branch
+bltzal5 bltzal Pass branch and link register test
+bne1 bne Pass Normal branch operation
+bne2 bne Pass Normal dont branch operation
+bne3 bne Pass negative branch
+bne4 bne Pass not loading values into registers
+ori1 ori Pass normal ori
+sb1 sb Pass Negative store
+sb2 sb Pass Testing the maximum limit of bytes
+sh1 sh Pass Negative store
+sh2 sh Pass Testing the maximum limit of bytes
+sh2 sh Pass Testing the maximum limit of bytes
+slti1 slti Pass regular test
+slti2 slti Pass both numbers equal
+slti3 slti Pass negative numbers
+sltiu1 sltiu Pass regular test
+sltiu2 sltiu Pass both numbers equal
+sltiu3 sltiu Pass negative numbers unsigned 
+sw1 sw Pass Simple test
+xori1 xori Pass normal case
+j1 j Pass jump halt
+j2 j Pass jump to skip an instruction
+jal1 jal Pass jump to skip an instruction
+jal2 jal Pass link test
