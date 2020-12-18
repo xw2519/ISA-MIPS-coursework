@@ -80,7 +80,7 @@ module mips_cpu_bus_tb;
         end
 
         $display("TB : INFO : register_v0=%h", register_v0);
-        $display("TB : finished; active=0");
+        $display("TB : Finished : active=0");
         $finish;
     end
 endmodule
