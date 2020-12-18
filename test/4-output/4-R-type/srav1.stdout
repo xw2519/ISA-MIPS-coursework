@@ -1,0 +1,10 @@
+Loading test/2-binary/4-R-type/srav1.hex.txt into RAM
+VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
+TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x24630050
+TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x24a50004
+TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x00a31007
+TB : INFO : RAM_ACCESS: Read from 0xbfc0000c, data: 0x0000f808
+TB : INFO : RAM_ACCESS: Read from 0xbfc00010, data: 0x00000000
+TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000
+TB : INFO : register_v0=00000005
+TB : Finished : active=0
