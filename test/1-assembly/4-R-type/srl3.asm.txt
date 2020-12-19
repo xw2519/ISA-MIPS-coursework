@@ -4,12 +4,11 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-srl2
+srl3
 srl
-duo shift right logical
-0x00000012
+insert zero to negative value
+0x00ffff97
 
-addiu $3, $3, 600
-srl $4, $3, 2
-srl $2, $4, 3
+addiu $3, $3, -26728
+srl $2, $3, 8
 jr $0

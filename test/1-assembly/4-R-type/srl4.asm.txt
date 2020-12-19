@@ -4,12 +4,11 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-srl2
+srl4
 srl
-duo shift right logical
-0x00000012
+no shift
+0x00005CA0
 
-addiu $3, $3, 600
-srl $4, $3, 2
-srl $2, $4, 3
+addiu $3, $3, 23712
+srl $2, $3, 0
 jr $0
