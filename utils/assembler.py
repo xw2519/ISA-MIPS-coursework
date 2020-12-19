@@ -133,8 +133,8 @@ def asm_to_hex(asm_dir, hex_dir):
             raise Exception("Couldn't parse")
 
     for i in range(5120):
-        if i in data_lines.keys():
-            hex_file.write(data_lines[i] + '\n')
+        if unmap(i) in data_lines.keys():
+            hex_file.write(data_lines[unmap(i)] + '\n')
         else:
             hex_file.write('00\n')
 
@@ -207,8 +207,8 @@ def asm_to_hex(asm_dir, hex_dir):
 
 
     for i in range(8192 - (line_count + 5120)):
-        if (i + line_count + 5120) in data_lines.keys():
-            hex_file.write(data_lines[i] + '\n')
+        if unmap(i + line_count + 5120) in data_lines.keys():
+            hex_file.write(data_lines[unmap(i + line_count + 5120)] + '\n')
         else:
             hex_file.write('00\n')
 
