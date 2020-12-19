@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+sll6
+sll
+large number of shifts 2
+0x00000005
+
+addiu $3, $3, -1
+sll $2, $3, 33
+addiu $2, $2, 5
+jr $0
