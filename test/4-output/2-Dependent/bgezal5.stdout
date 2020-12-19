@@ -1,0 +1,11 @@
+Loading test/2-binary/2-Dependent/bgezal5.hex.txt into RAM
+VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
+TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x06110005
+TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x24420001
+TB : INFO : RAM_ACCESS: Read from 0xbfc00018, data: 0x03e0f808
+TB : INFO : RAM_ACCESS: Read from 0xbfc0001c, data: 0x00000000
+TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x0000f808
+TB : INFO : RAM_ACCESS: Read from 0xbfc0000c, data: 0x24420005
+TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000
+TB : INFO : register_v0=00000006
+TB : Finished : active=0

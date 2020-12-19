@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lwl4
+lwl
+Load a full word
+0x07040201
+
+lwl $2, 15($0)
+
+jr $31
+
+DATA 0x0000000c, 117703169
