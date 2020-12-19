@@ -1,2 +1,5 @@
-TB : INFO : register_v0=ffff9a05
 TB : Finished : active=0
+TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x26949a05
+TB : INFO : RAM_ACCESS: Write to 0x00000bb8, data: 0x9a050000
+TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000
+TB : INFO : register_v0=ffff9a05
