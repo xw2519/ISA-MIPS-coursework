@@ -4,14 +4,14 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-subu1
+subu2
 subu
-normal case
-0x00000005
+pos and neg
+0x0000874b
 
 
-addiu $3, $7, 10
-addiu $5, $6, 5
+addiu $3, $7, 24112
+addiu $5, $6, -10223
 subu $2, $3, $5
 jr $0
 
