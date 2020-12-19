@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+mthi3
+mthi
+moving 0
+0x00000007
+
+addiu $21, $20, 0
+mthi $21
+mfhi $2
+addiu $2, $2, 7
+jr $0
+
