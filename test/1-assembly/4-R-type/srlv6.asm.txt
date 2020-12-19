@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+srlv5
+srlv
+shifting into same register
+0x00000f2a
+
+addiu $2, $2, 62122
+addiu $4, $4, 4
+srlv $2, $2, $4
+jr $0
