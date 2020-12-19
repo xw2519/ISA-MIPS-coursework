@@ -89,6 +89,21 @@ br_z_codes = {
 
 def to_bin(n,l): return bin(n & 2**l - 1)[2:].zfill(l)
 
+def map(address):
+    assert(address >= 0 and address < 4294967296)
+    if address < 1024: return address
+    elif address < 2147485696: return (address + 1024) % 8192
+    elif address < 3217033216: return (address + 5120) % 8192
+    else: return address % 8192
+
+def unmap(mapped_addr):
+    assert(mapped_addr >= 0 and mapped_addr < 8192)
+    if mapped_addr < 1024: return mapped_addr
+    elif mapped_addr < 3072: return mapped_addr + 2147482624
+    elif mapped_addr < 7168: return mapped_addr + 3217026048
+    else: return mapped_addr + 4294959104
+
+
 def asm_to_hex(asm_dir, hex_dir):
     try: v = (sys.argv[3] == '-v')
     except: v = False
@@ -97,6 +112,7 @@ def asm_to_hex(asm_dir, hex_dir):
     asm_in = asm_file.readlines()
 
     instr_lines = []
+    data_lines = {}
     line_count = 0
 
     comment = False
@@ -110,11 +126,17 @@ def asm_to_hex(asm_dir, hex_dir):
         if len(split) == 0: continue
         if split[0].upper() in opcodes:
             instr_lines.append(split)
+        elif split[0].upper() == "DATA":
+            data_lines[int(split[1][2:],16)] = hex(int(to_bin(int(split[2]),8),2))[2:].zfill(2)
         elif line[0] not in ['#', '\n', '-']:
             print(line)
             raise Exception("Couldn't parse")
 
-    for i in range(5120): hex_file.write('00\n')
+    for i in range(5120):
+        if i in data_lines.keys():
+            hex_file.write(data_lines[i] + '\n')
+        else:
+            hex_file.write('00\n')
 
     for line in instr_lines:
         opcode = opcodes[line[0].upper()]
@@ -184,7 +206,13 @@ def asm_to_hex(asm_dir, hex_dir):
             line_count += 1
 
 
-    for i in range(8192 - (line_count + 5120)): hex_file.write('00\n')
+    for i in range(8192 - (line_count + 5120)):
+        if (i + line_count + 5120) in data_lines.keys():
+            hex_file.write(data_lines[i] + '\n')
+        else:
+            hex_file.write('00\n')
+
+    for line in data_lines.items(): print("ADDRESS: 0x" + hex(line[0])[2:].zfill(8) + ", DATA: 0x" + line[1].zfill(2))
 
 for filename in os.listdir(sys.argv[1]):
     if filename.endswith(".asm.txt"):
