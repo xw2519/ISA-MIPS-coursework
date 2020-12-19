@@ -284,7 +284,7 @@ module mips_cpu_harvard_mod
 
         // I-type and J-type instructions
         else begin
-            data_write = (ir_reg[31:26] == SB) || (ir_reg[31:26] == SH) || (ir_reg[31:26] == SW) && active;
+            data_write = ((ir_reg[31:26] == SB) || (ir_reg[31:26] == SH) || (ir_reg[31:26] == SW)) && active;
             data_read  = ((ir_reg[31:26] == LB) || (ir_reg[31:26] == LBU) || (ir_reg[31:26] == LWL)  || (ir_reg[31:26] == LW) ||
                           (ir_reg[31:26] == LH) || (ir_reg[31:26] == LHU) || (ir_reg[31:26] == LWR)) && active;
 
