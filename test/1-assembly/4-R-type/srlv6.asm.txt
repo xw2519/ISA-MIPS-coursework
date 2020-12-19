@@ -7,7 +7,7 @@
 srlv6
 srlv
 shifting into same register
-0x00000f2a
+0x0fffff2a
 
 addiu $2, $2, 62122
 addiu $4, $4, 4
