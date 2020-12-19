@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+ori3
+ori
+ori edge case all high
+0x0000ffff
+
+addiu $3, $3, 80
+ori $2, $3, -1
+jr $0

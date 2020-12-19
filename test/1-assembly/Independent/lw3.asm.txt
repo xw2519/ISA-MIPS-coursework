@@ -9,9 +9,7 @@ lw
 load word with a value output
 0x00000028
 
-addiu $3 $3 8
-addiu $31 $31 40
-addiu $30 $30 12
-sw $31 4($3)
-lw $2 0($30)
+lw $2 12($0)
 jr $0
+
+DATA 0x0000000c, 40

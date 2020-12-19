@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+xori2
+xori
+edge case
+0xffff0000
+
+
+addiu $3, $3, -1
+xori $2, $3, -1
+jr $0
+

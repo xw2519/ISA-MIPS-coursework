@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lwr3
+lwr
+Load 2 most significant bytes
+0x00000704
+
+lwr $2, 14($0)
+
+jr $31
+
+DATA 0x0000000c, 117703169
