@@ -4,14 +4,12 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-srlv2
+srlv4
 srlv
-shift right logical variable & shift by 0
-0x00000005
+edge cases for bit shift count 
+0x00000001
 
-
-addiu $3, $3, 80
-addiu $4, $4, 4
-srlv $8, $3, $4
-srlv $2, $8, $9
+addiu $3, $3, -1
+addiu $4, $4, 31
+srlv $2, $3, $4
 jr $0
