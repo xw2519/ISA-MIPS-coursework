@@ -4,12 +4,13 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-xor1
+xor2
 xor
-normal case
-00000054
+ones and zeros except lsb
+0xfffffffe
 
-addiu $3, $3, 80
-addiu $4, $4, 4
+addiu $3, $3, -1
+addiu $4, $4, 1
 xor $2, $3, $4
 jr $0
+
