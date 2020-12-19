@@ -4,7 +4,7 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-srlv5
+srlv6
 srlv
 shifting into same register
 0x00000f2a
