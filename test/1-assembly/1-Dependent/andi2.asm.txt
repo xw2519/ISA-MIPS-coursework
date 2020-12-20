@@ -7,8 +7,9 @@
 andi2
 andi
 sign extension
-0x00000000
+0x00000005
 
 addiu $8, $9, 65535
 andi $2, $8, 0
+addiu $2, $2, 5
 jr $0

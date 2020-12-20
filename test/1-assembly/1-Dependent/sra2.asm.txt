@@ -7,7 +7,7 @@
 sra2
 sra
 edge case testing sra
-0xFFFFFFFF
+0xffffffff
 
 addiu $3, $3, 65535
 sra $2, $3, 31
