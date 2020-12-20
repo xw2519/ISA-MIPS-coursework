@@ -2,8 +2,8 @@ Loading test/2-binary/1-Dependent/sllv6.hex.txt into RAM
 VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
 TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x2463ffff
 TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x24840021
-TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x00831004
-TB : INFO : RAM_ACCESS: Read from 0xbfc0000c, data: 0x24420009
+TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x00832804
+TB : INFO : RAM_ACCESS: Read from 0xbfc0000c, data: 0x24a20009
 TB : INFO : RAM_ACCESS: Read from 0xbfc00010, data: 0x0000f808
 TB : INFO : RAM_ACCESS: Read from 0xbfc00014, data: 0x00000000
 TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000

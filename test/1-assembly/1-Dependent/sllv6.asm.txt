@@ -6,11 +6,11 @@
 ---------------------------------------------------
 sllv6
 sllv
-large numbers of shifts 1
-0x00000009
+test shamt size
+0x00000007
 
 addiu $3, $3, -1
 addiu $4, $4, 33
-sllv $2, $3, $4
-addiu $2, $2, 9
+sllv $5, $3, $4
+addiu $2, $5, 9
 jr $0

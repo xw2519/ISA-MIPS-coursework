@@ -6,10 +6,11 @@
 ---------------------------------------------------
 srlv6
 srlv
-shifting into same register
-0x0fffff2a
+Write to shamt register
+0x00010006
 
-addiu $2, $2, 62122
-addiu $4, $4, 4
-srlv $2, $2, $4
-jr $0
+lui $3, -3
+addiu $4, $4, 16
+srlv $4, $3, $4
+addiu $2, $4, 9
+jr $31

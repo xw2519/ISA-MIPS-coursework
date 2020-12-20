@@ -4,12 +4,13 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-sll6
-sll
-large number of shifts 2
-0x00000005
+srav5
+srav
+write to shamt register
+0x00000004
 
-addiu $3, $3, -1
-sll $2, $3, 33
-addiu $2, $2, 5
+lui $3, -3
+addiu $4, $4, 16
+srav $4, $3, $4
+addiu $2, $4, 7
 jr $0

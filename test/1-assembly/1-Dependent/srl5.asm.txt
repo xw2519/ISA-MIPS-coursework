@@ -6,10 +6,10 @@
 ---------------------------------------------------
 srl5
 srl
-large number of shifts 1
-0x00000005
+test shamt size
+0x7fffffd8
 
-addiu $3, $3, -1
-srl $2, $3, 32
-addiu $2, $2, 5
-jr $0
+addiu $16, $16, -80
+srl $17, $16, 1
+addu $2, $2, $17
+jr $31

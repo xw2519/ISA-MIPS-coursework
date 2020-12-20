@@ -4,12 +4,13 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-sra5
-sra
-large number of shifts 2
-0x00000005
+srlv7
+srlv
+Write to Rt
+0x00008007
 
-addiu $3, $3, -1
-sra $2, $3, 33
-addiu $2, $2, 5
-jr $0
+lui $3, -3
+addiu $4, $4, 17
+srlv $3, $3, $4
+addiu $2, $3, 9
+jr $31

@@ -6,11 +6,11 @@
 ---------------------------------------------------
 sllv5
 sllv
-large numbers of shifts 1
-0x00000009
+write to shamt register
+0xffff0009
 
 addiu $3, $3, -1
-addiu $4, $4, 32
-sllv $2, $3, $4
-addiu $2, $2, 9
+addiu $4, $4, 16
+sllv $4, $3, $4
+addiu $2, $4, 9
 jr $0
