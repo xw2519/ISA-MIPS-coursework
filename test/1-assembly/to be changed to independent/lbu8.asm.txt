@@ -4,11 +4,10 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-lb8
-lb
+lbu8
+lbu
 loading pre existing value 
 0x0000000
 
-addiu $20, $20, 20
-lb $2, 3($20)
+lbu $2, 23($20)
 jr $0

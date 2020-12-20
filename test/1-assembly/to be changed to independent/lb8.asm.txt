@@ -9,6 +9,5 @@ lb
 loading pre existing value 
 0x0000000
 
-addiu $20, $20, 20
-lb $2, 3($20)
+lb $2, 23($20)
 jr $0

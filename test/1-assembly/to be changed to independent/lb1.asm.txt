@@ -4,11 +4,12 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-lb8
+lb1
 lb
-loading pre existing value 
-0x0000000
+normal operation loading LSB byte 
+0x0000005f
 
-addiu $20, $20, 20
-lb $2, 3($20)
+lb $2, 20($0)
 jr $0
+
+DATA 0x00000014, 25439

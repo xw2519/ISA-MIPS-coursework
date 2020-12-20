@@ -4,11 +4,13 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-lb8
-lb
-loading pre existing value 
-0x0000000
+lh5
+lh
+offsetting to following word
+0x00000d5d
 
-addiu $20, $20, 20
-lb $2, 3($20)
+addiu $16, $16, 3000
+lh $2, 4($16)
 jr $0
+
+DATA 0x0000003ec, 3421

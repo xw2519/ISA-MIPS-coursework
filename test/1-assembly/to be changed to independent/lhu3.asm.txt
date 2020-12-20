@@ -4,11 +4,12 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-lb8
-lb
-loading pre existing value 
-0x0000000
+lhu3
+lhu
+sign extention
+0x00009a05
 
-addiu $20, $20, 20
-lb $2, 3($20)
+lhu $2, 3002($16)
 jr $0
+
+DATA 0x0000003e8, 2584018944

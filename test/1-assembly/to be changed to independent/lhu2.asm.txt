@@ -4,11 +4,12 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-lb8
-lb
-loading pre existing value 
-0x0000000
+lhu2
+lhu
+normal operation loading upper half word 
+0x0000579d
 
-addiu $20, $20, 20
-lb $2, 3($20)
+lhu $2, 3002($0)
 jr $0
+
+DATA 0x0000003e8, 1469906944

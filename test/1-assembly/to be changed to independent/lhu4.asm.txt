@@ -4,11 +4,13 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-lb8
-lb
-loading pre existing value 
-0x0000000
+lhu4
+lhu
+negative offset
+0x00005660
 
-addiu $20, $20, 20
-lb $2, 3($20)
+addiu $17, $17, 3004
+lhu $2, -4($17)
 jr $0
+
+DATA 0x0000003e8, 22112
