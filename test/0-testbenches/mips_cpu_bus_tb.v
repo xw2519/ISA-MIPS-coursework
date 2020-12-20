@@ -48,8 +48,8 @@ module mips_cpu_bus_tb;
 
     /* Generate clock */
     initial begin
-        $dumpfile("mips_cpu_bus_tb.vcd");
-        $dumpvars(0, mips_cpu_bus_tb);
+        // $dumpfile("mips_cpu_bus_tb.vcd");
+        // $dumpvars(0, mips_cpu_bus_tb);
 
         clk = 0;
 
