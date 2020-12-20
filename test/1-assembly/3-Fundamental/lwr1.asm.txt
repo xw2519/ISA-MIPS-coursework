@@ -11,7 +11,8 @@ Load the full word
 
 lui $16, 1796
 addiu $16, $16, 513
+sw $16, 12($0)
+
 lwr $2, 12($0)
 
 jr $31
-
