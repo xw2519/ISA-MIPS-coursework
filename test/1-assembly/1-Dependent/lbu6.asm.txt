@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lbu6
+lbu
+negative offsets
+0x00000014
+
+addiu $16, $16, 1000
+lbu $2, -3($16)
+jr $0
+
+DATA 0x000003e8, 4123
+DATA 0x000003e4, 5232

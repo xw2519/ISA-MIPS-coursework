@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lb5
+lb
+sign extention of bits 
+0xfffffff7
+
+lb $2, 1000($16)
+jr $0
+
+DATA 0x000003e8, -7
