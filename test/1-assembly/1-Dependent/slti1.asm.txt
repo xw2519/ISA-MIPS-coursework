@@ -1,0 +1,13 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+slti1
+slti
+regular test
+0x00000001
+
+slti $2, $16, 1
+jr $0

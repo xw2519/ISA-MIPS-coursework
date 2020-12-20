@@ -7,7 +7,8 @@
 jr3
 jr
 DT special
-0
+0x00000005
 
+addiu $2, $2, 5
 jr $31
 addiu $0, $0, 0
