@@ -45,17 +45,22 @@ ${SIMUL_DIR}/${TEST_TYPE}/mips_cpu_bus_tb_${TEST_CASE} > ${OUT_DIR}/${TEST_TYPE}
 
 # >&2 echo "3 - Extracting ouputs from CPU"
 Reg_output="TB : INFO : register_v0="
-Active_flag="TB : finished; active=" 
-RAM_accesses="TB : INFO : RAM_ACCESS:"
+Active_flag="TB : Finished : active=" 
+RAM_write="TB : INFO : RAM_ACCESS: Write to"
+RAM_read="TB : INFO : RAM_ACCESS: Read from 0xbfc00000"
+RAM_halt="TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000"
 Nothing=""
 
-# Check if contents in reference files are available in .stdout file
+set +e 
+grep "${Reg_output}\|${Active_flag}\|${RAM_write}\|${RAM_read}\|${RAM_halt}" \
+${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out
+set -e 
+
+
+# Check if contents in reference files are available in .out file
 # >&2 echo "4 - Comparing output with reference"
 set +e 
-diff -q <(sort -u ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt) \
-        <(grep -Fxf ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout | sort -u) \
-        > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}_diff_out
-
+diff -w <(sort ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt) <(sort ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out) > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.diff_out
 RESULT=$?
 set -e
 
