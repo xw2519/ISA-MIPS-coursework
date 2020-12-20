@@ -127,7 +127,11 @@ def asm_to_hex(asm_dir, hex_dir):
         if split[0].upper() in opcodes:
             instr_lines.append(split)
         elif split[0].upper() == "DATA":
-            data_lines[int(split[1][2:],16)] = hex(int(to_bin(int(split[2]),8),2))[2:].zfill(2)
+            data = hex(int(to_bin(int(split[2]),32),2))[2:].zfill(8)
+            data_lines[int(split[1][2:],16)]   = data[-2:]
+            data_lines[int(split[1][2:],16)+1] = data[4:6]
+            data_lines[int(split[1][2:],16)+2] = data[2:4]
+            data_lines[int(split[1][2:],16)+3] = data[:2]
         elif line[0] not in ['#', '\n', '-']:
             print(line)
             raise Exception("Couldn't parse")
