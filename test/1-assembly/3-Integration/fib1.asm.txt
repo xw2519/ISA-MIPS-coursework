@@ -1,0 +1,27 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+fib1
+fib
+fibonacci(20)
+0x00000037
+
+addiu $2 $2 1
+addiu $28 $28 25
+addiu $29 $29 4
+sw $2 4($29)
+addiu $5 $5 1
+sw $2 8($29)
+addiu $5 $5 1
+lw $3 4($29)
+lw $4 8($29)
+addu $2 $3 $4
+sw $2 12($29)
+addiu $29 $29 4
+addiu $5 $5 1
+bne $5 $28 -7
+addiu $30 $30 0
+jr $0

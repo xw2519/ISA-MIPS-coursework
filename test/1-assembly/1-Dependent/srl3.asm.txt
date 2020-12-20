@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+srl3
+srl
+insert zero to negative value
+0x00ffff97
+
+addiu $3, $3, -26728
+srl $2, $3, 8
+jr $0

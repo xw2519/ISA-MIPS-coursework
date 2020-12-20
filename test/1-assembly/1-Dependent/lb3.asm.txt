@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lb3
+lb
+normal operation loading 3rd byte 
+0x0000001e
+
+lb $2, 22($16)
+jr $0
+
+DATA 0x00000014, 2020096

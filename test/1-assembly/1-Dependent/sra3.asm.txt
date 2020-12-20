@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+sra3
+sra
+edge case testing sra
+0xfffffff2
+
+addiu $3, $3, -3536
+sra $2, $3, 8
+jr $0

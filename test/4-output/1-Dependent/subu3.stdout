@@ -1,0 +1,10 @@
+Loading test/2-binary/1-Dependent/subu3.hex.txt into RAM
+VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
+TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x24e3ff22
+TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x24c5007b
+TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x00651023
+TB : INFO : RAM_ACCESS: Read from 0xbfc0000c, data: 0x0000f808
+TB : INFO : RAM_ACCESS: Read from 0xbfc00010, data: 0x00000000
+TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000
+TB : INFO : register_v0=fffffea7
+TB : Finished : active=0

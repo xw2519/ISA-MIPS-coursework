@@ -128,7 +128,7 @@ def asm_to_hex(asm_dir, hex_dir):
             instr_lines.append(split)
         elif split[0].upper() == "DATA":
             data = hex(int(to_bin(int(split[2]),32),2))[2:].zfill(8)
-            data_lines[int(split[1][2:],16)]   = data[-2:]
+            data_lines[int(split[1][2:],16)] = data[-2:]
             data_lines[int(split[1][2:],16)+1] = data[4:6]
             data_lines[int(split[1][2:],16)+2] = data[2:4]
             data_lines[int(split[1][2:],16)+3] = data[:2]

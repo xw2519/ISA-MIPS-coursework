@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lh2
+lh
+normal operation loading upper half word 
+0x0000579d
+
+lh $2, 1002($0)
+jr $0
+
+DATA 0x0000003e8, 1469906944

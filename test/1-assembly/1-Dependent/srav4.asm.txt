@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+srav4
+srav
+test shamt size
+0x00000005
+
+addiu $3, $3, -3
+addiu $4, $4, 33
+srav $5, $3, $4
+addiu $2, $5, 7
+jr $0

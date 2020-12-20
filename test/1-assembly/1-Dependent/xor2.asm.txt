@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+xor2
+xor
+ones and zeros except lsb
+0xfffffffe
+
+addiu $3, $3, -1
+addiu $4, $4, 1
+xor $2, $3, $4
+jr $0
+

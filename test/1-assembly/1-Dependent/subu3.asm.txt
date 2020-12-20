@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+subu3
+subu
+neg and pos
+0xfffffea7
+
+
+addiu $3, $7, -222
+addiu $5, $6, 123
+subu $2, $3, $5
+jr $0
+

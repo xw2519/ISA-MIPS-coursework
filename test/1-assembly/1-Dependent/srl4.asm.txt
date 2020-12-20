@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+srl4
+srl
+no shift
+0x00005CA0
+
+addiu $3, $3, 23712
+srl $2, $3, 0
+jr $0
