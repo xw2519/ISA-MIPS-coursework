@@ -65,7 +65,7 @@ module mips_cpu_bus_tb;
     initial begin
         reset <= 0;
         waitrequest <= 0;
-        @(posedge clk);     
+        @(posedge clk);
         reset <= 1;
 
         @(posedge clk);
@@ -76,6 +76,8 @@ module mips_cpu_bus_tb;
         else $display("TB : CPU did not set active=1 after reset.");
 
         while (active) begin
+            assert(~(read && write));
+            else $display("TB : CPU asserted read and write in the same cycle.");
             @(posedge clk);
         end
 

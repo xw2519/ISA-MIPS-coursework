@@ -52,7 +52,7 @@ RAM_read_instr="TB : INFO : RAM_ACCESS: Read from 0xbfc00000"
 RAM_halt="TB : INFO : RAM_ACCESS: Read from 0x00000000"
 Nothing=""
 
-set +e 
+set +e
 
 grep "${Reg_output}\|${Active_flag}\|${RAM_write}\|${RAM_read_instr}\|${RAM_halt}" \
 ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out
@@ -76,15 +76,15 @@ RAM_READS=$(grep -c "${RAM_read}" ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt )
 if [ $RAM_READS -gt 2 ]; then
 	diff -w <(sort <(grep "${Reg_output}\|${Active_flag}\|${RAM_write}\|${RAM_read}" ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt)) <(sort <(grep "${Reg_output}\|${Active_flag}\|${RAM_write}\|${RAM_read}" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout)) 1>/dev/null
 	RESULT=$?
-else 
+else
 	diff -w <(sort ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt) <(sort ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out) > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.diff_out
 #diff -q <(sort -u ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt)  <(grep -Fxf ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout | sort -u) > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}_diff_out
 	RESULT=$?
-	set -e
 #echo $RESULT
 fi
+set -e
 #echo $RESULT
-set +e 
+set +e
 
 LAST_LINE=$(tail -n -1 "${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout")
 # >&2 echo "${LAST_LINE}"
