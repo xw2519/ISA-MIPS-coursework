@@ -3,7 +3,7 @@ TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x26100064
 TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x06000002
 TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x2610ff6a
 TB : INFO : RAM_ACCESS: Read from 0xbfc0000c, data: 0x00501021
-TB : INFO : RAM_ACCESS: Read from 0xbfc00010, data: 0x0000f808
+TB : INFO : RAM_ACCESS: Read from 0xbfc00010, data: 0x00000008
 TB : INFO : RAM_ACCESS: Read from 0xbfc00014, data: 0x00000000
 TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000
 TB : INFO : register_v0=ffffffce

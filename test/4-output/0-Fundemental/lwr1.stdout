@@ -1,6 +1,6 @@
 Loading test/2-binary/0-Fundemental/lwr1.hex.txt into RAM
 TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x9802000c
-TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x03e0f808
+TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x03e00008
 TB : INFO : RAM_ACCESS: Read from 0x0000000c, data: 0x07040201
 TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x00000000
 TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000

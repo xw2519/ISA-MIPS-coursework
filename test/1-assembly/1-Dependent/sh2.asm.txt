@@ -11,6 +11,6 @@ Testing the maximum limit of bytes
 
 addiu $16, $16, 8
 addiu $2, $2, 10001
-sh $2, -5($16)
-lh $2, -5($16)
+sh $2, -6($16)
+lh $2, -6($16)
 jr $0

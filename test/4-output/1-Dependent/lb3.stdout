@@ -1,6 +1,6 @@
 Loading test/2-binary/1-Dependent/lb3.hex.txt into RAM
 TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x82020016
-TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x0000f808
+TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x00000008
 TB : INFO : RAM_ACCESS: Read from 0x00000014, data: 0x001ed300
 TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x00000000
 TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000

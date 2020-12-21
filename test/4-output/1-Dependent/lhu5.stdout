@@ -1,7 +1,7 @@
 Loading test/2-binary/1-Dependent/lhu5.hex.txt into RAM
 TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x261003e8
 TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x96020004
-TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x0000f808
+TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x00000008
 TB : INFO : RAM_ACCESS: Read from 0x000003ec, data: 0x00000d5d
 TB : INFO : RAM_ACCESS: Read from 0xbfc0000c, data: 0x00000000
 TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000

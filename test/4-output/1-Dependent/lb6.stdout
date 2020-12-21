@@ -1,7 +1,7 @@
 Loading test/2-binary/1-Dependent/lb6.hex.txt into RAM
 TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x261003e8
 TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x8202fffd
-TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x0000f808
+TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x00000008
 TB : INFO : RAM_ACCESS: Read from 0x000003e4, data: 0x00001470
 TB : INFO : RAM_ACCESS: Read from 0xbfc0000c, data: 0x00000000
 TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000
