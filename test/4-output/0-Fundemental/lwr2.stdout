@@ -1,5 +1,4 @@
 Loading test/2-binary/0-Fundemental/lwr2.hex.txt into RAM
-VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
 TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x9802000d
 TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x03e0f808
 TB : INFO : RAM_ACCESS: Read from 0x0000000c, data: 0x07040201

@@ -1,5 +1,4 @@
 Loading test/2-binary/2-Dependent/multu1.hex.txt into RAM
-VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
 TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x26940005
 TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x26b50006
 TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x02950019

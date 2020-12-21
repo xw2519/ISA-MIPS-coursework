@@ -1,5 +1,4 @@
 Loading test/2-binary/1-Dependent/ori2.hex.txt into RAM
-VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
 TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x24630050
 TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x34620000
 TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x0000f808

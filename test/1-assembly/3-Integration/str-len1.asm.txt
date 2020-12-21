@@ -4,8 +4,8 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-str.len1
-str.len
+str-len1
+addiu
 string length
 0x0000000a
 

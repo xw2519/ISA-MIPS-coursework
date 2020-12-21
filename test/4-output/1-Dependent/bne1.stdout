@@ -1,5 +1,4 @@
 Loading test/2-binary/1-Dependent/bne1.hex.txt into RAM
-VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
 TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x25ef09b3
 TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x261004d2
 TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x15f00003

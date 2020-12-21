@@ -1,5 +1,4 @@
 Loading test/2-binary/2-Dependent/beq3.hex.txt into RAM
-VCD info: dumpfile mips_cpu_bus_tb.vcd opened for output.
 TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x24630001
 TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x26100014
 TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x26520014

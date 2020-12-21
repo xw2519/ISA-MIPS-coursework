@@ -4,13 +4,12 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-mthi2
-mthi
-regular move to hi
+mtlo2
+mtlo
+regular move to lo
 0xfffffffe
 
 addiu $21, $20, -2
 mtlo $21
 mflo $2
 jr $0
-
