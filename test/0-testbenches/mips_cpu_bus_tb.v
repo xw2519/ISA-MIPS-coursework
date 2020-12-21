@@ -14,6 +14,7 @@ module mips_cpu_bus_tb;
 
     logic        write;
     logic        read;
+    logic [1:0]  waitrequest_counter;
     logic [3:0]  byteenable;
     logic [31:0] readdata;
     logic [31:0] writedata;
