@@ -55,7 +55,6 @@ Nothing=""
 set +e 
 
 grep "${Reg_output}\|${Active_flag}\|${RAM_write}\|${RAM_read_instr}\|${RAM_halt}" \
-
 ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out
 set -e
 
