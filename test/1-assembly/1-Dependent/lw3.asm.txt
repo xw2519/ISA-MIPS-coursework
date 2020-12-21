@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lw3
+lw
+load word with a value output
+0x00000028
+
+lw $2 12($0)
+jr $0
+
+DATA 0x0000000c, 40

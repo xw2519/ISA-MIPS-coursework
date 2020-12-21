@@ -7,10 +7,11 @@
 and2
 and
 and with 0
-0x00000000
+0x00000005
 
 
 addiu $11, $11, 65535
 addiu $14, $14, 0
 and $2, $11, $14
+addiu $2, $2, 5
 jr $0

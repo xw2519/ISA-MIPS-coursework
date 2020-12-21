@@ -7,8 +7,8 @@
 jalr1
 jalr
 jalr halt
-00000000
+0x00000005
 
-
+addiu $2, $2, 5
 jalr $0 $1
 

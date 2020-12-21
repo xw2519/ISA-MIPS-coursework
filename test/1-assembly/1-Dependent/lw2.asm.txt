@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lw2
+lw
+testing a regular load word
+0x00000005
+
+lw $2 4($2)
+addiu $2, $2, 5
+jr $0

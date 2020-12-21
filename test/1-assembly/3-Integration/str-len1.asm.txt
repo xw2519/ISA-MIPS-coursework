@@ -1,0 +1,31 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+str-len1
+addiu
+string length
+0x0000000a
+
+addiu $28 $28 4
+lw $3 0($28)
+blez $3 4
+addiu $28 $28 4
+addiu $2 $2 1
+bgez $3 -5
+addiu $30 $30 0
+jr $0
+
+DATA 0x00000004, 68
+DATA 0x00000008, 84
+DATA 0x0000000c, 32
+DATA 0x00000010, 49
+DATA 0x00000014, 48
+DATA 0x00000018, 48
+DATA 0x0000001c, 32
+DATA 0x00000020, 80
+DATA 0x00000024, 76
+DATA 0x00000028, 83
+DATA 0x0000002c, 0

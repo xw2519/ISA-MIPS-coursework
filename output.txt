@@ -37,7 +37,7 @@ andi2 andi Pass sign extension
 andi3 andi Pass sign extension test 2
 bne1 bne Pass Normal branch operation
 bne2 bne Pass Normal dont branch operation
-bne3 bne Pass negative branch
+bne3 bne Fail negative branch
 bne4 bne Pass not loading values into registers
 j1 j Pass jump halt
 j2 j Pass jump to skip an instruction
@@ -72,6 +72,9 @@ lhu2 lhu Pass normal operation loading upper half word
 lhu3 lhu Pass sign extention
 lhu4 lhu Pass negative offset
 lhu5 lhu Pass offsetting to following word
+lw1 lw Pass basic
+lw2 lw Pass testing a regular load word
+lw3 lw Pass load word with a value output
 or1 or Pass normal or
 or2 or Pass all 1s
 or3 or Pass all 0s
@@ -98,6 +101,12 @@ slt2 slt Pass Slt opposite
 slt3 slt Pass Slt negative
 slt4 slt Pass Slt edge case 1
 slt5 slt Pass Slt same number
+slti1 slti Pass regular test
+slti2 slti Pass both numbers equal
+slti3 slti Pass negative numbers
+sltiu1 sltiu Pass regular test
+sltiu2 sltiu Pass both numbers equal
+sltiu3 sltiu Pass negative numbers unsigned 
 sltu1 sltu Pass Set if less than unsigned
 sltu2 sltu Pass Edge case
 sltu3 sltu Pass opposite
@@ -202,3 +211,4 @@ multu5 multu Pass multiply unsigned -1 by 6 hi reg check
 sb1 sb Fail Negative store
 sb2 sb Pass Testing the maximum limit of bytes
 fib1 fib Pass fibonacci(20)
+str.len1 str.len Pass string length
