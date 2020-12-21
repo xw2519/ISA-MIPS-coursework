@@ -18,6 +18,7 @@ module mips_cpu_bus_tb;
     logic [31:0] readdata;
     logic [31:0] writedata;
     logic [31:0] address;
+    logic [1:0]  waitrequest_counter;
 
     /* Connections to Memory */
     RAM_8x8192_avalon_mapped #(RAM_INIT_FILE) ramInst(
@@ -52,6 +53,7 @@ module mips_cpu_bus_tb;
         $dumpvars(0, mips_cpu_bus_tb);
 
         clk = 0;
+        waitrequest_counter = 0;
 
         repeat (TIMEOUT_CYCLES) begin
             #10;
@@ -84,5 +86,27 @@ module mips_cpu_bus_tb;
         $display("TB : INFO : register_v0=%h", register_v0);
         $display("TB : Finished : active=0");
         $finish;
+    end
+
+    always @(address or posedge read) // Uses waitrequest to cause fetch to take 3 cycles
+    begin
+        if (read)
+        begin
+            //if (waitrequest_counter == 0) begin
+                //waitrequest = 1;
+                //#25;
+                //waitrequest = 0;
+            //end
+            waitrequest_counter = waitrequest_counter +1;
+        end
+    end
+
+    always @(address or posedge write)   // Uses waitrequest to make writes take 4 cycles
+    begin
+        if (write) begin
+            waitrequest = 1;
+            #35;
+            waitrequest = 0;
+        end
     end
 endmodule

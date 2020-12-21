@@ -54,7 +54,7 @@ module mips_cpu_bus(
             next_state = DATA_FETCH;
         end
 
-        else if (data_write) begin
+        else if (data_write && state != DATA_WRITE) begin
             next_state = DATA_WRITE;
         end
 
@@ -69,7 +69,10 @@ module mips_cpu_bus(
         write   = (next_state == DATA_WRITE);
         read    = ((next_state == INSTR_FETCH) || (next_state == DATA_FETCH));
 
-        if (waitrequest || delayed) begin
+        instr_read = (((waitrequest || delayed) && (next_state==INSTR_FETCH)) || (~(waitrequest || delayed) && (state==INSTR_FETCH))) ? readdata : instr_reg;
+        data_read  = (((waitrequest || delayed) && (next_state==DATA_FETCH))  || (~(waitrequest || delayed) && (state==DATA_FETCH)))  ? readdata : data_reg;
+
+        /*if (waitrequest || delayed) begin
             instr_read = (next_state==INSTR_FETCH) ? readdata : instr_reg;
             data_read  = (next_state==DATA_FETCH)  ? readdata : data_reg;
         end
@@ -77,7 +80,7 @@ module mips_cpu_bus(
         else begin
             instr_read = (state==INSTR_FETCH) ? readdata : instr_reg;
             data_read  = (state==DATA_FETCH)  ? readdata : data_reg;
-        end
+        end*/
     end
 
     always_ff @(posedge clk) begin
@@ -94,7 +97,10 @@ module mips_cpu_bus(
 
             instr_addr_reg <= (next_state==INSTR_FETCH) ? instr_addr : instr_addr_reg;
 
-            if (delayed) begin
+            data_reg   <= ((delayed && (next_state==DATA_FETCH))  || (~delayed && (state==DATA_FETCH)))  ? readdata : data_reg;
+            instr_reg  <= ((delayed && (next_state==INSTR_FETCH)) || (~delayed && (state==INSTR_FETCH))) ? readdata : instr_reg;
+
+            /*if (delayed) begin
                 data_reg   <= (next_state==DATA_FETCH)  ? readdata : data_reg;
                 instr_reg  <= (next_state==INSTR_FETCH) ? readdata : instr_reg;
             end
@@ -102,7 +108,7 @@ module mips_cpu_bus(
             else begin
                 data_reg   <= (state==DATA_FETCH)  ? readdata : data_reg;
                 instr_reg  <= (state==INSTR_FETCH) ? readdata : instr_reg;
-            end
+            end*/
         end
 
         else begin
