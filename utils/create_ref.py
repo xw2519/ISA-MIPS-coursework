@@ -12,9 +12,8 @@ def create_ref(self_dir, ref_dir):
         elif "Write to" in line: ref_lines.append(line)
         elif "Read from 0xbfc00000" in line:
             flag = False
-            for i,element in enumerate(ref_lines):
+            for element in ref_lines:
                 if "Read from 0xbfc00000" in element:
-                    ref_lines[i] = line
                     flag = True
             if not flag: ref_lines.append(line)
         elif "Read from 0x00000000" in line:

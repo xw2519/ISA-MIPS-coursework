@@ -5,7 +5,7 @@
 # expected ouput
 ---------------------------------------------------
 str-len1
-str-len
+addiu
 string length
 0x0000000a
 
