@@ -21,29 +21,29 @@ module mips_cpu_bus_tb;
 
     /* Connections to Memory */
     RAM_8x8192_avalon_mapped #(RAM_INIT_FILE) ramInst(
-        .clk(clk),
-    		.address(address),
-    		.write(write),
-    		.read(read),
-    		.waitrequest(waitrequest),
-    		.writedata(writedata),
-    		.byteenable(byteenable),
-    		.readdata(readdata)
+            .clk            (clk),
+    		.address        (address),
+    		.write          (write),
+    		.read           (read),
+    		.waitrequest    (waitrequest),
+    		.writedata      (writedata),
+    		.byteenable     (byteenable),
+    		.readdata       (readdata)
     );
 
     /* Connections to Design Under Test */
     mips_cpu_bus cpuInst(
-        .clk(clk),
-        .reset(reset),
-        .active(active),
-        .register_v0(register_v0),
-        .waitrequest(waitrequest),
-        .readdata(readdata),
-        .write(write),
-        .read(read),
-        .byteenable(byteenable),
-        .writedata(writedata),
-        .address(address)
+        .clk            (clk),
+        .reset          (reset),
+        .active         (active),
+        .register_v0    (register_v0),
+        .waitrequest    (waitrequest),
+        .readdata       (readdata),
+        .write          (write),
+        .read           (read),
+        .byteenable     (byteenable),
+        .writedata      (writedata),
+        .address        (address)
     );
 
     /* Generate clock */
