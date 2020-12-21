@@ -37,7 +37,7 @@ andi2 andi Pass sign extension
 andi3 andi Pass sign extension test 2
 bne1 bne Pass Normal branch operation
 bne2 bne Pass Normal dont branch operation
-bne3 bne Fail negative branch
+bne3 bne Pass negative branch
 bne4 bne Pass not loading values into registers
 j1 j Pass jump halt
 j2 j Pass jump to skip an instruction
@@ -81,9 +81,9 @@ or3 or Pass all 0s
 ori1 ori Pass normal ori
 ori2 ori Pass ori edge case 0
 ori3 ori Pass ori edge case all high
-sh1 sh Fail Negative store
-sh2 sh Fail Testing the maximum limit of bytes
-sh2 sh Fail Testing the maximum limit of bytes
+sh1 sh Pass Negative store
+sh2 sh Pass Testing the maximum limit of bytes
+sh3 sh Pass Testing the maximum limit of bytes
 sll1 sll Pass shift left logical
 sll2 sll Pass shift left logical
 sll3 sll Pass edge case shift
@@ -159,7 +159,7 @@ bgez4 bgez Pass loop using delay slot
 bgez5 bgez Pass big branch
 bgezal1 bgezal Pass branch greater and link
 bgezal2 bgezal Pass branching and link equal to 0
-bgezal2 bgezal Pass dont branch and link
+bgezal3 bgezal Pass dont branch and link
 bgezal4 bgezal Pass dont branch and link
 bgezal5 bgezal Pass branch and link register test
 bgtz1 bgtz Pass branch greater than 0
@@ -196,8 +196,8 @@ mthi1 mthi Pass regular move to hi
 mthi2 mthi Pass regular move to hi
 mthi3 mthi Pass moving 0
 mtlo1 mtlo Pass normal move to lo
-mthi2 mthi Pass regular move to hi
-mthi2 mthi Pass regular move to hi
+mtlo2 mtlo Pass regular move to lo
+mtlo3 mtlo Pass regular move to lo
 mult1 mult Pass normal 4 multiply 5 
 mult2 mult Pass normal 4 multiply 5 hi reg check
 mult3 mult Pass multiply by 0
@@ -208,7 +208,7 @@ multu2 multu Pass normal 4 multiply unsigned 5 hi reg check
 multu3 multu Pass multiply by 0
 multu4 multu Pass multiply unsigned -1 by 6 lo reg check
 multu5 multu Pass multiply unsigned -1 by 6 hi reg check
-sb1 sb Fail Negative store
+sb1 sb Pass Negative store
 sb2 sb Pass Testing the maximum limit of bytes
-fib1 fib Pass fibonacci(20)
-str.len1 str.len Pass string length
+fib1 sw Pass fibonacci(20)
+str-len1 addiu Pass string length

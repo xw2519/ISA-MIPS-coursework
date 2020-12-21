@@ -92,11 +92,11 @@ module mips_cpu_bus_tb;
     begin
         if (read)
         begin
-            //if (waitrequest_counter == 0) begin
-                //waitrequest = 1;
-                //#25;
-                //waitrequest = 0;
-            //end
+            if (waitrequest_counter == 0) begin
+                waitrequest = 1;
+                #25;
+                waitrequest = 0;
+            end
             waitrequest_counter = waitrequest_counter +1;
         end
     end
