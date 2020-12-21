@@ -71,16 +71,6 @@ module mips_cpu_bus(
 
         instr_read = (((waitrequest || delayed) && (next_state==INSTR_FETCH)) || (~(waitrequest || delayed) && (state==INSTR_FETCH))) ? readdata : instr_reg;
         data_read  = (((waitrequest || delayed) && (next_state==DATA_FETCH))  || (~(waitrequest || delayed) && (state==DATA_FETCH)))  ? readdata : data_reg;
-
-        /*if (waitrequest || delayed) begin
-            instr_read = (next_state==INSTR_FETCH) ? readdata : instr_reg;
-            data_read  = (next_state==DATA_FETCH)  ? readdata : data_reg;
-        end
-
-        else begin
-            instr_read = (state==INSTR_FETCH) ? readdata : instr_reg;
-            data_read  = (state==DATA_FETCH)  ? readdata : data_reg;
-        end*/
     end
 
     always_ff @(posedge clk) begin
@@ -101,16 +91,6 @@ module mips_cpu_bus(
 
             data_reg   <= ((delayed && (next_state==DATA_FETCH))  || (~delayed && (state==DATA_FETCH)))  ? readdata : data_reg;
             instr_reg  <= ((delayed && (next_state==INSTR_FETCH)) || (~delayed && (state==INSTR_FETCH))) ? readdata : instr_reg;
-
-            /*if (delayed) begin
-                data_reg   <= (next_state==DATA_FETCH)  ? readdata : data_reg;
-                instr_reg  <= (next_state==INSTR_FETCH) ? readdata : instr_reg;
-            end
-
-            else begin
-                data_reg   <= (state==DATA_FETCH)  ? readdata : data_reg;
-                instr_reg  <= (state==INSTR_FETCH) ? readdata : instr_reg;
-            end*/
         end
 
         else begin
