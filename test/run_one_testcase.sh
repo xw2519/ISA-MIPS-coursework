@@ -19,7 +19,7 @@ TEST_CASE="${2:-all}"
 TEST_TYPE="$3"
 
 # Remove all previous output of specific testcase and discard warnings
-rm -rf test/4-output/${TEST_TYPE}/${TEST_CASE}* 
+rm -rf test/4-output/${TEST_TYPE}/${TEST_CASE}*
 
 # Assembling all testcase files in test/1-assembly with the file extention .asm.txt
 #./test/assembler.sh
@@ -40,37 +40,37 @@ iverilog -Wall -g 2012 \
 
 # >&2 echo "2 - Running test-bench"
 # "set +e" disable automatic script failure if command fails
-set +e 
+set +e
 ${SIMUL_DIR}/${TEST_TYPE}/mips_cpu_bus_tb_${TEST_CASE} > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout
 
 # >&2 echo "3 - Extracting ouputs from CPU"
 Reg_output="TB : INFO : register_v0="
-Active_flag="TB : Finished : active=" 
+Active_flag="TB : Finished : active="
 RAM_write="TB : INFO : RAM_ACCESS: Write to"
 RAM_read="TB : INFO : RAM_ACCESS: Read from 0xbfc00000"
-RAM_halt="TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000"
+RAM_halt="TB : INFO : RAM_ACCESS: Read from 0x00000000"
 Nothing=""
 
-set +e 
+set +e
 grep "${Reg_output}\|${Active_flag}\|${RAM_write}\|${RAM_read}\|${RAM_halt}" \
 ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out
-set -e 
+set -e
 
 
 # Check if contents in reference files are available in .out file
 # >&2 echo "4 - Comparing output with reference"
-set +e 
-diff -w <(sort ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt) <(sort ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out) > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.diff_out
+set +e
+diff -w <(sort ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt) <(sort -u ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out) > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.diff_out
 RESULT=$?
 set -e
 
-set +e 
+set +e
 LAST_LINE=$(tail -n -1 "${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout")
 # >&2 echo "${LAST_LINE}"
 set -e
 
 # Output formatting
-if [ "${RESULT}" -ne 0 ] || [ "${LAST_LINE}" != "TB : Finished : active=0" ]; then 
+if [ "${RESULT}" -ne 0 ] || [ "${LAST_LINE}" != "TB : Finished : active=0" ]; then
     echo "${Case_ID} ${Case_Instr} Fail ${Case_Comment}"
 else
     echo "${Case_ID} ${Case_Instr} Pass ${Case_Comment}"
