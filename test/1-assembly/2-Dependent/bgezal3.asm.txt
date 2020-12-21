@@ -4,7 +4,7 @@
 # comments
 # expected ouput
 ---------------------------------------------------
-bgezal2
+bgezal3
 bgezal
 dont branch and link
 0xffffffce
