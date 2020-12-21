@@ -6,13 +6,13 @@ module mips_cpu_bus(
     output logic [31:0]  register_v0,
 
     /* Avalon memory mapped bus controller*/
-    input  logic         waitrequest,
-    input  logic [31:0]  readdata,
+    output logic [31:0]  address,
     output logic         write,
     output logic         read,
-    output logic [3:0]   byteenable,
+    input  logic         waitrequest,
     output logic [31:0]  writedata,
-    output logic [31:0]  address
+    output logic [3:0]   byteenable,
+    input  logic [31:0]  readdata
 );
       // 4 possible states, clock enable is low when entering the fetch states
     typedef enum logic[1:0] {
