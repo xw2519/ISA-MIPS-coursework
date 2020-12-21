@@ -262,7 +262,7 @@ TB : INFO : RAM_ACCESS: Write to 0x00000068, data: 0x00012511
 TB : INFO : RAM_ACCESS: Read from 0xbfc00030, data: 0x24a50001
 TB : INFO : RAM_ACCESS: Read from 0xbfc00034, data: 0x14bcfff9
 TB : INFO : RAM_ACCESS: Read from 0xbfc00038, data: 0x27de0000
-TB : INFO : RAM_ACCESS: Read from 0xbfc0003c, data: 0x0000f808
+TB : INFO : RAM_ACCESS: Read from 0xbfc0003c, data: 0x00000008
 TB : INFO : RAM_ACCESS: Read from 0xbfc00040, data: 0x00000000
 TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000
 TB : INFO : register_v0=00012511
