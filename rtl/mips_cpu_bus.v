@@ -46,7 +46,7 @@ module mips_cpu_bus(
 
     always @(*) begin
         // Determines next state - state only changes if 'waitrequest' is low
-        if (instr_addr_reg != instr_addr) begin
+        if ((instr_addr_reg != instr_addr) && state != DATA_WRITE) begin
             next_state = INSTR_FETCH;
         end
 
@@ -54,7 +54,7 @@ module mips_cpu_bus(
             next_state = DATA_FETCH;
         end
 
-        else if (data_write) begin
+        else if (data_write && state != DATA_WRITE) begin
             next_state = DATA_WRITE;
         end
 
@@ -63,21 +63,14 @@ module mips_cpu_bus(
         end
 
         // Harvard cpu will be stalled when 'waitrequest' is high or if fetch is required
-        clk_enable = (~waitrequest && (next_state[0] != 0));
+        clk_enable = (~waitrequest && (next_state == WAITING));
 
         address = (next_state == INSTR_FETCH) ? instr_addr : data_addr;
-        write   = (next_state == DATA_WRITE);
+        write   = (state == DATA_WRITE);
         read    = ((next_state == INSTR_FETCH) || (next_state == DATA_FETCH));
 
-        if (waitrequest || delayed) begin
-            instr_read = (next_state==INSTR_FETCH) ? readdata : instr_reg;
-            data_read  = (next_state==DATA_FETCH)  ? readdata : data_reg;
-        end
-
-        else begin
-            instr_read = (state==INSTR_FETCH) ? readdata : instr_reg;
-            data_read  = (state==DATA_FETCH)  ? readdata : data_reg;
-        end
+        instr_read = (((waitrequest || delayed) && (next_state==INSTR_FETCH)) || (~(waitrequest || delayed) && (state==INSTR_FETCH))) ? readdata : instr_reg;
+        data_read  = (((waitrequest || delayed) && (next_state==DATA_FETCH))  || (~(waitrequest || delayed) && (state==DATA_FETCH)))  ? readdata : data_reg;
     end
 
     always_ff @(posedge clk) begin
@@ -92,17 +85,12 @@ module mips_cpu_bus(
         else if (~waitrequest) begin
             state          <= next_state;
 
+            delayed        <= waitrequest;
+
             instr_addr_reg <= (next_state==INSTR_FETCH) ? instr_addr : instr_addr_reg;
 
-            if (delayed) begin
-                data_reg   <= (next_state==DATA_FETCH)  ? readdata : data_reg;
-                instr_reg  <= (next_state==INSTR_FETCH) ? readdata : instr_reg;
-            end
-
-            else begin
-                data_reg   <= (state==DATA_FETCH)  ? readdata : data_reg;
-                instr_reg  <= (state==INSTR_FETCH) ? readdata : instr_reg;
-            end
+            data_reg   <= ((delayed && (next_state==DATA_FETCH))  || (~delayed && (state==DATA_FETCH)))  ? readdata : data_reg;
+            instr_reg  <= ((delayed && (next_state==INSTR_FETCH)) || (~delayed && (state==INSTR_FETCH))) ? readdata : instr_reg;
         end
 
         else begin
