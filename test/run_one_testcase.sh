@@ -47,23 +47,43 @@ ${SIMUL_DIR}/${TEST_TYPE}/mips_cpu_bus_tb_${TEST_CASE} > ${OUT_DIR}/${TEST_TYPE}
 Reg_output="TB : INFO : register_v0="
 Active_flag="TB : Finished : active=" 
 RAM_write="TB : INFO : RAM_ACCESS: Write to"
-RAM_read="TB : INFO : RAM_ACCESS: Read from 0xbfc00000"
-RAM_halt="TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000"
+RAM_read="TB : INFO : RAM_ACCESS: Read from"
+RAM_read_instr="TB : INFO : RAM_ACCESS: Read from 0xbfc00000"
+RAM_halt="TB : INFO : RAM_ACCESS: Read from 0x00000000"
 Nothing=""
 
 set +e 
-grep "${Reg_output}\|${Active_flag}\|${RAM_write}\|${RAM_read}\|${RAM_halt}" \
+
+grep "${Reg_output}\|${Active_flag}\|${RAM_write}\|${RAM_read_instr}\|${RAM_halt}" \
 ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out
 set -e 
 
+if [ $(grep -c "${RAM_read_instr}" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out) -gt 1 ]; then
+	DUP_LINE=$(grep -m 1 "${RAM_read_instr}" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out)
+	sed -i "/$RAM_read_instr/d" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out
+	echo $DUP_LINE >> ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out
+fi
+if [ $(grep -c "${RAM_halt}" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out) -gt 1 ]; then
+	DUP_LINE=$(grep -m 1 "${RAM_halt}" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out)
+	sed -i "/$RAM_halt/d" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out
+	echo $DUP_LINE >> ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out
+fi
 
 # Check if contents in reference files are available in .out file
 # >&2 echo "4 - Comparing output with reference"
-set +e 
-diff -w <(sort ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt) <(sort ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out) > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.diff_out
-RESULT=$?
-set -e
-
+set +e
+RAM_READS=$(grep -c "${RAM_read}" ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt )
+if [ $RAM_READS -gt 2 ]; then
+	diff -w <(sort <(grep "${Reg_output}\|${Active_flag}\|${RAM_write}\|${RAM_read}" ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt)) <(sort <(grep "${Reg_output}\|${Active_flag}\|${RAM_write}\|${RAM_read}" ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout)) 1>/dev/null
+	RESULT=$?
+else 
+	diff -w <(sort ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt) <(sort ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.out) > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.diff_out
+#diff -q <(sort -u ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt)  <(grep -Fxf ${REF_DIR}/${TEST_TYPE}/${TEST_CASE}.txt ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout | sort -u) > ${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}_diff_out
+	RESULT=$?
+	set -e
+#echo $RESULT
+fi
+#echo $RESULT
 set +e 
 LAST_LINE=$(tail -n -1 "${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout")
 # >&2 echo "${LAST_LINE}"
