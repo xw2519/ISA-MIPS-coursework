@@ -1,6 +1,5 @@
 TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x26100008
 TB : INFO : RAM_ACCESS: Write to 0x00000000, data: 0x2711xxxx
-TB : INFO : RAM_ACCESS: Write to 0x00000000, data: 0x2711xxxx
-TB : INFO : register_v0=00000000
+TB : INFO : register_v0=00002711
 TB : Finished : active=0
 TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x27110000

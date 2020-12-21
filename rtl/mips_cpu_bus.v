@@ -46,7 +46,7 @@ module mips_cpu_bus(
 
     always @(*) begin
         // Determines next state - state only changes if 'waitrequest' is low
-        if (instr_addr_reg != instr_addr) begin
+        if ((instr_addr_reg != instr_addr) && state != DATA_WRITE) begin
             next_state = INSTR_FETCH;
         end
 
@@ -63,10 +63,10 @@ module mips_cpu_bus(
         end
 
         // Harvard cpu will be stalled when 'waitrequest' is high or if fetch is required
-        clk_enable = (~waitrequest && (next_state[0] != 0));
+        clk_enable = (~waitrequest && (next_state == WAITING));
 
         address = (next_state == INSTR_FETCH) ? instr_addr : data_addr;
-        write   = (next_state == DATA_WRITE);
+        write   = (state == DATA_WRITE);
         read    = ((next_state == INSTR_FETCH) || (next_state == DATA_FETCH));
 
         instr_read = (((waitrequest || delayed) && (next_state==INSTR_FETCH)) || (~(waitrequest || delayed) && (state==INSTR_FETCH))) ? readdata : instr_reg;
@@ -94,6 +94,8 @@ module mips_cpu_bus(
 
         else if (~waitrequest) begin
             state          <= next_state;
+
+            delayed        <= waitrequest;
 
             instr_addr_reg <= (next_state==INSTR_FETCH) ? instr_addr : instr_addr_reg;
 

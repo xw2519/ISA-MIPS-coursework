@@ -1,5 +1,0 @@
-5c5,6
-< TB : INFO : register_v0=00001100
----
-> TB : INFO : RAM_ACCESS: Write to 0x00000000, data: 0x1100xxxx
-> TB : INFO : register_v0=00000000
