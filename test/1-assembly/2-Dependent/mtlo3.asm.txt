@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+mtlo3
+mtlo
+regular move to lo
+0x00000007
+
+addiu $21, $20, 0
+mtlo $21
+mflo $2
+addiu $2, $2, 7
+jr $0

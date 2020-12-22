@@ -65,7 +65,7 @@ LAST_LINE=$(tail -n -1 "${OUT_DIR}/${TEST_TYPE}/${TEST_CASE}.stdout")
 set -e
 
 # Output formatting
-if [ "${RESULT}" -ne 0 ] || [ "${LAST_LINE}" != "TB : Finished : active=0" ]; then 
+if [ "${RESULT}" -ne 0 ]; then 
     echo "${Case_ID} ${Case_Instr} Fail ${Case_Comment}"
 else
     echo "${Case_ID} ${Case_Instr} Pass ${Case_Comment}"

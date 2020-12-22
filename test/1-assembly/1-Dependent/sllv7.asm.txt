@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+sllv7
+sllv
+write to Rt
+0xfffe0009
+
+addiu $3, $3, -1
+addiu $4, $4, 17
+sllv $3, $3, $4
+addiu $2, $3, 9
+jr $0

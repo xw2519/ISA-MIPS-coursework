@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lbu8
+lbu
+loading pre existing value 
+0x0000005
+
+lbu $2, 23($20)
+addiu $2, $2, 5
+jr $0

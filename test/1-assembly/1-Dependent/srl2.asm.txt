@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+srl2
+srl
+duo shift right logical
+0x00000012
+
+addiu $3, $3, 600
+srl $4, $3, 2
+srl $2, $4, 3
+jr $0

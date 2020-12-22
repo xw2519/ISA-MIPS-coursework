@@ -1,0 +1,8 @@
+Loading test/2-binary/1-Dependent/sra2.hex.txt into RAM
+TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x2463ffff
+TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x000317c3
+TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x00000008
+TB : INFO : RAM_ACCESS: Read from 0xbfc0000c, data: 0x00000000
+TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000
+TB : INFO : register_v0=ffffffff
+TB : Finished : active=0

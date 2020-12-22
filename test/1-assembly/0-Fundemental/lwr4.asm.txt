@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lwr4
+lwr
+Load the msB as the lsB
+0x00000007
+
+lwr $2, 15($0)
+
+jr $31
+
+DATA 0x0000000c, 117703169

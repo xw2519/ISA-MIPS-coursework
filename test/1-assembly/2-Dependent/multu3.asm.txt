@@ -1,0 +1,18 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+multu3
+multu
+multiply by 0
+0x00000005
+
+addiu $20, $20, -1
+addiu $21, $21, 0
+multu $20, $21
+mflo $2
+addiu $2, $2, 5
+jr $0
+

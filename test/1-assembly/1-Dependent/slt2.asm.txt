@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+slt2
+slt
+Slt opposite
+0x00000005
+
+addiu $16, $16, 999
+addiu $17, $17, 1000
+slt $2, $17, $16
+addiu $2, $2, 5
+jr $0

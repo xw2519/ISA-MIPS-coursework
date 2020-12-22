@@ -1,0 +1,11 @@
+Loading test/2-binary/1-Dependent/sllv2.hex.txt into RAM
+TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x24630002
+TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x24840004
+TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x00831004
+TB : INFO : RAM_ACCESS: Read from 0xbfc0000c, data: 0x24840001
+TB : INFO : RAM_ACCESS: Read from 0xbfc00010, data: 0x00831004
+TB : INFO : RAM_ACCESS: Read from 0xbfc00014, data: 0x00000008
+TB : INFO : RAM_ACCESS: Read from 0xbfc00018, data: 0x00000000
+TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000
+TB : INFO : register_v0=00000040
+TB : Finished : active=0

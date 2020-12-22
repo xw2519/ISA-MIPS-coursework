@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lh1
+lh
+normal operation loading lower half word  
+0x00005601
+
+lh $2, 20($16)
+jr $0
+
+DATA 0x00000014, 22017

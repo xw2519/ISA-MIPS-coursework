@@ -1,0 +1,13 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+jalr3
+jalr
+jalr delay slot
+0xbfc0000c
+
+jalr $12 $2
+addiu $2 $2 4

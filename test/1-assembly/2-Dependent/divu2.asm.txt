@@ -1,0 +1,18 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+divu2
+divu
+normal 16 divide unsigned 4, remainder 
+0x00000005
+
+addiu $20, $20, 16
+addiu $21, $21, 4
+divu $20, $21
+mfhi $2
+addiu $2, $2, 5
+jr $0
+

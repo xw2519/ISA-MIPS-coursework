@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lb1
+lb
+normal operation loading LSB byte 
+0x0000005f
+
+lb $2, 20($0)
+jr $0
+
+DATA 0x00000014, 25439

@@ -206,7 +206,7 @@ module mips_cpu_harvard_mod
             // No memory accesses occur
             data_write      = 0;
             data_read       = 0;
-            data_byteenable = 4'h0;
+            data_byteenable = 4'hf;
             data_writedata  = 0;
 
             // ALU input B is always Rt
@@ -267,7 +267,7 @@ module mips_cpu_harvard_mod
         else if (ir_reg[31:26] == BR_Z) begin
             data_write      = 0;
             data_read       = 0;
-            data_byteenable = 4'h0;
+            data_byteenable = 4'hf;
             data_writedata  = 0;
 
             alu_control = ADDU;

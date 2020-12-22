@@ -1,0 +1,10 @@
+Loading test/2-binary/2-Dependent/bltz1.hex.txt into RAM
+TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x2631ffff
+TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x06200002
+TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0x26100023
+TB : INFO : RAM_ACCESS: Read from 0xbfc00010, data: 0x00101021
+TB : INFO : RAM_ACCESS: Read from 0xbfc00014, data: 0x00000008
+TB : INFO : RAM_ACCESS: Read from 0xbfc00018, data: 0x00000000
+TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000
+TB : INFO : register_v0=00000023
+TB : Finished : active=0

@@ -1,0 +1,6 @@
+Loading test/2-binary/1-Dependent/jalr2.hex.txt into RAM
+TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x01801009
+TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x00000000
+TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000
+TB : INFO : register_v0=bfc00008
+TB : Finished : active=0

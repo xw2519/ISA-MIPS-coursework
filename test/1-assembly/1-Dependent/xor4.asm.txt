@@ -1,0 +1,17 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+xor4
+xor
+all zeros bar 1
+0x00000007
+
+addiu $3, $3, 8
+addiu $4, $4, 8
+xor $2, $3, $4
+addiu $2, $2, 7
+jr $0
+

@@ -1,0 +1,18 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+mult2
+mult
+normal 4 multiply 5 hi reg check
+0x00000005
+
+addiu $20, $20, 5
+addiu $21, $21, 4
+mult $20, $21
+mfhi $2
+addiu $2, $2, 5
+jr $0
+

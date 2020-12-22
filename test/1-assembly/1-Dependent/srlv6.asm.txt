@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+srlv6
+srlv
+Write to shamt register
+0x00010006
+
+lui $3, -3
+addiu $4, $4, 16
+srlv $4, $3, $4
+addiu $2, $4, 9
+jr $31

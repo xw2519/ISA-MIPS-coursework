@@ -1,0 +1,13 @@
+Loading test/2-binary/1-Dependent/sw1.hex.txt into RAM
+TB : INFO : RAM_ACCESS: Read from 0xbfc00000, data: 0x24840002
+TB : INFO : RAM_ACCESS: Read from 0xbfc00004, data: 0x24630004
+TB : INFO : RAM_ACCESS: Read from 0xbfc00008, data: 0xac640004
+TB : INFO : RAM_ACCESS: Read from 0xbfc0000c, data: 0x8c620004
+TB : INFO : RAM_ACCESS: Write to 0x00000008, data: 0x00000002
+TB : INFO : RAM_ACCESS: Write to 0x00000008, data: 0x00000002
+TB : INFO : RAM_ACCESS: Read from 0xbfc00010, data: 0x00000008
+TB : INFO : RAM_ACCESS: Read from 0x00000008, data: 0x00000002
+TB : INFO : RAM_ACCESS: Read from 0xbfc00014, data: 0x00000000
+TB : INFO : RAM_ACCESS: Read from 0x00000000, data: 0x00000000
+TB : INFO : register_v0=00000002
+TB : Finished : active=0

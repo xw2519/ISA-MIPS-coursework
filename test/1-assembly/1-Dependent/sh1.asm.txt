@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+sh1
+sh
+Negative store
+0x00000014
+
+addiu $16, $16, 8
+addiu $2, $2, 20
+sh $2, -4($16)
+lh $2, -4($16)
+jr $0

@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+jr1
+jr
+HALT
+0x00000007
+
+addiu $2, $2, 5
+jr $0
+addiu $2, $2, 2
+addiu $2, $2, 10
+jr $0

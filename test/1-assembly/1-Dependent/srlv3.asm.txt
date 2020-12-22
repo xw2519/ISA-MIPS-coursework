@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+srlv3
+srlv
+insert zero to negative value
+0x00ffff97
+
+addiu $3, $3, -26728
+addiu $4, $4, 8
+srlv $2, $3, $4
+jr $0

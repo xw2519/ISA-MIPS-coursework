@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+sllv3
+sllv
+shift of 0
+0xffffffff
+
+addiu $3, $3, -1
+addiu $4, $4, 0
+sllv $2, $3, $4
+jr $0

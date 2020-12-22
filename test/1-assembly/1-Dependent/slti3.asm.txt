@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+slti3
+slti
+negative numbers
+0x00000005
+
+slti $2, $16, -1
+addiu $2, $2, 5
+jr $0

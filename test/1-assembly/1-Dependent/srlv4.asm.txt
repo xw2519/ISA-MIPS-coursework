@@ -1,0 +1,15 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+srlv4
+srlv
+edge cases for bit shift count 
+0x00000001
+
+addiu $3, $3, -1
+addiu $4, $4, 31
+srlv $2, $3, $4
+jr $0

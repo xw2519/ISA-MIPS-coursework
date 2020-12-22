@@ -1,0 +1,16 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+lh5
+lh
+offsetting to following word
+0x00000d5d
+
+addiu $16, $16, 1000
+lh $2, 4($16)
+jr $0
+
+DATA 0x0000003ec, 3421

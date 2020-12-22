@@ -1,0 +1,14 @@
+---------------------------------------------------
+# test-case ID
+# instruction tested
+# comments
+# expected ouput
+---------------------------------------------------
+jalr1
+jalr
+jalr halt
+0x00000005
+
+addiu $2, $2, 5
+jalr $0 $1
+
