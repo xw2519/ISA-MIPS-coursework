@@ -2,6 +2,7 @@
 # Table of contents
 - [Table of contents](#table-of-contents)
 - [Contributors](#contributors)
+- [Quick Links](#quick-links)
 - [Overview](#overview)
 - [Deliverables](#deliverables)
 - [Instruction Set](#instruction-set)
@@ -16,6 +17,13 @@ Contributors
 - Igor Silin: <igor.silin19@imperial.ac.uk>
 - Khayle Torres: <khayle.torres19@imperial.ac.uk>
 - Xin Wang: xin.wang19@imperial.ac.uk
+
+Quick Links
+=======================
+
+- **[Data sheet](docs/mips_data_sheet.pdf)**
+- **[Supported instructions guide](test/Instruction%20guide.pdf)**
+
 
 Overview
 =============
