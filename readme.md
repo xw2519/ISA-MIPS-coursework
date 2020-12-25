@@ -49,7 +49,7 @@ Instruction Set
 The target instruction-set is 32-bit little-endian MIPS1, as defined by
 the MIPS ISA Specification (Revision 3.2).
 
-The instructions to be tested are:
+The instructions supported are:
 
 Code    |   Meaning                                   
 --------|---------------------------------------------
@@ -102,14 +102,11 @@ SW      |  Store word
 XOR     |  Bitwise exclusive or                       
 XORI    |  Bitwise exclusive or immediate             
 
-It is strongly suggested that you implement the following
-instructions first: `JR, ADDIU, LW, SW`. This will match
-the instructions considered in the formative assessment.
 
 Memory Map
 ==========
 
-Your CPU should not make any explicit assumptions about the location
+The CPU should not make any explicit assumptions about the location
 of instructions, data, or peripherals within the address space. It should
 simply execute the instructions it is given, and perform reads and writes
 at the addresses implied by the instructions.
@@ -119,15 +116,6 @@ There are only two special memory locations:
 - `0x00000000` : Attempting to execute address 0 causes the CPU to halt.
 - `0xBFC00000` : This is the location at which execution should start after reset.
 
-Whether a particular address maps to RAM, ROM, or something else is entirely
-down to the top-level circuit outside your CPU. It may be that the top-level
-is a test-bench which contains small simulated memories, and simply maps
-transactions to reads and writes of a verilog array. Or the test-bench
-could emulate only the specific addresses that it expects to be read or written,
-without tracking the actual memory contents. Alternatively your CPU may have
-been synthesised into an FPGA, in which case the memories may correspond
-to a large set of block RAMs, DDR, network adaptors, and anything else
-your customer decided to attach the CPU to.
 
 
 CPU design diagram
