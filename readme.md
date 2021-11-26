@@ -130,3 +130,4 @@ CPU design diagram
 ==========
 
 ![](docs/Diagram.png)
+
